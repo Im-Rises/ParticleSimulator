@@ -5,6 +5,7 @@ Techniques for particle emission in OpenGL.
 - Use a single VAO and VBO for all particles
 - Use a single shader program for all particles
 - Use Instanced Arrays to render multiple particles at once
+- Use a SSBO to store particle data and have access to it in the shader and in the CPU
 
 Physics:  
 - Attract particles to the mouse using the laws of physics (Newton's second law, F = ma) where m = 1 and F is the force of attraction
