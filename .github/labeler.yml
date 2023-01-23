@@ -1,0 +1,20 @@
+repo:
+  - '*'
+
+CMakeLists:
+  - 'ParticleEngine/CMakeLists.txt'
+
+readme:
+  - 'README.md'
+
+github-actions:
+  - '.github/**/*.yml'
+
+src:
+  - 'ParticleEngine/**/*.{cpp,hpp}'
+
+main:
+  - 'ParticleEngine/main.*'
+
+test:
+  - 'test/**/*.{cpp,hpp}'
