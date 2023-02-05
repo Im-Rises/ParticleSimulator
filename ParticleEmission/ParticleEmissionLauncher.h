@@ -1,7 +1,13 @@
 #ifndef PARTICLE_EMISSION_H
 #define PARTICLE_EMISSION_H
 
+#include <string_view>
 struct GLFWwindow;
+
+constexpr const std::string_view PROJECT_NAME = "Particle Emission 3D";
+constexpr const std::string_view PROJECT_VERSION = "1.0.0";
+constexpr const std::string_view PROJECT_GITHUB = "https://github.com/Im-Rises/ParticleSystem";
+constexpr const std::string_view PROJECT_AUTHOR = "Im-Rises (Quentin Morel)";
 
 class ParticleEmissionLauncher {
 private:
