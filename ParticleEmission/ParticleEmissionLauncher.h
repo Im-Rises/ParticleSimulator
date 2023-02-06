@@ -28,18 +28,13 @@ private:
 
 public:
     explicit ParticleEmissionLauncher();
-
     ~ParticleEmissionLauncher();
-
     void start();
 
 private:
     void handleInputs();
-
     void handleUi(float deltaTime);
-
     void updateGame(float deltaTime);
-
     void updateScreen();
 };
 

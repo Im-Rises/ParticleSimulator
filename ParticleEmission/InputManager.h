@@ -12,22 +12,15 @@ public:
 
 public:
     static bool isForwardKeyPressed(GLFWwindow* window);
-
     static bool isBackwardKeyPressed(GLFWwindow* window);
-
     static bool isLeftKeyPressed(GLFWwindow* window);
-
     static bool isRightKeyPressed(GLFWwindow* window);
-
     static bool isUpKeyPressed(GLFWwindow* window);
-
     static bool isDownKeyPressed(GLFWwindow* window);
-
     static bool isPauseKeyPressed(GLFWwindow* window);
 
 public:
     static void getMouseMovement(GLFWwindow* window, double& xMovement, double& yMovement, bool isMovementEnable);
-
     static bool isKeyMouseMovementPressed(GLFWwindow* window);
 };
 
