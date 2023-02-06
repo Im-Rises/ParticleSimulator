@@ -1,5 +1,10 @@
 #include "ParticleEmissionLauncher.h"
 
+#include <glad/glad.h>
+
+#include "Scene/Scene.h"
+#include "InputManager.h"
+
 #include <imgui/imgui.h>
 #include <imgui/imgui_impl_glfw.h>
 #include <imgui/imgui_impl_opengl3.h>
@@ -58,6 +63,20 @@ ParticleEmissionLauncher::ParticleEmissionLauncher() {
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1); // Enable vsync
 
+    // Callbacks
+    glfwSetKeyCallback(window, InputManager::key_callback);
+
+    // Center window
+    GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+    const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+    auto xPos = (mode->width - display_w) / 2;
+    auto yPos = (mode->height - display_h) / 2;
+    glfwSetWindowPos(window, xPos, yPos);
+
+    // Initialize OpenGL loader
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+        exit(1);
+
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -85,6 +104,8 @@ ParticleEmissionLauncher::ParticleEmissionLauncher() {
     // Setup Platform/Renderer backends
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init(glsl_version);
+
+    glEnable(GL_DEPTH_TEST);
 }
 
 ParticleEmissionLauncher::~ParticleEmissionLauncher() {
@@ -97,12 +118,12 @@ ParticleEmissionLauncher::~ParticleEmissionLauncher() {
 }
 
 void ParticleEmissionLauncher::start() {
-    // Our state
-    bool show_demo_window = true;
-    bool show_another_window = false;
-    //    ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+    // Create the scene
+    scene = std::make_unique<Scene>(display_w, display_h);
 
-    // Main loop
+    // Variables for the main loop
+    float deltaTime;
+
 #ifdef __EMSCRIPTEN__
     // For an Emscripten build we are disabling file-system access, so let's not attempt to do a fopen() of the imgui.ini file.
     // You may manually call LoadIniSettingsFromMemory() to load settings from your own storage.
@@ -112,80 +133,138 @@ void ParticleEmissionLauncher::start() {
     while (!glfwWindowShouldClose(window))
 #endif
     {
-        // Poll and handle events (inputs, window resize, etc.)
-        // You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your inputs.
-        // - When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application, or clear/overwrite your copy of the mouse data.
-        // - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application, or clear/overwrite your copy of the keyboard data.
-        // Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
-        glfwPollEvents();
+        deltaTime = ImGui::GetIO().DeltaTime;
 
-        // Start the Dear ImGui frame
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplGlfw_NewFrame();
-        ImGui::NewFrame();
+        handleInputs();
 
-        // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
-        if (show_demo_window)
-            ImGui::ShowDemoWindow(&show_demo_window);
+        handleUi(deltaTime);
 
-        // 2. Show a simple window that we create ourselves. We use a Begin/End pair to create a named window.
-        {
-            static float f = 0.0f;
-            static int counter = 0;
+        updateGame(deltaTime);
 
-            ImGui::Begin("Hello, world!"); // Create a window called "Hello, world!" and append into it.
-
-            ImGui::Text("This is some useful text.");          // Display some text (you can use a format strings too)
-            ImGui::Checkbox("Demo Window", &show_demo_window); // Edit bools storing our window open/close state
-            ImGui::Checkbox("Another Window", &show_another_window);
-
-            ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-            ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
-
-            if (ImGui::Button("Button")) // Buttons return true when clicked (most widgets return true when edited/activated)
-                counter++;
-            ImGui::SameLine();
-            ImGui::Text("counter = %d", counter);
-
-            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-            ImGui::End();
-        }
-
-        // 3. Show another simple window.
-        if (show_another_window)
-        {
-            ImGui::Begin("Another Window", &show_another_window); // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
-            ImGui::Text("Hello from another window!");
-            if (ImGui::Button("Close Me"))
-                show_another_window = false;
-            ImGui::End();
-        }
-
-        // Rendering
-        ImGui::Render();
-        int display_w, display_h;
-        glfwGetFramebufferSize(window, &display_w, &display_h);
-        glViewport(0, 0, display_w, display_h);
-        glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
-        glClear(GL_COLOR_BUFFER_BIT);
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-        // Update and Render additional Platform Windows
-        // (Platform functions may change the current OpenGL context, so we save/restore it to make it easier to paste this code elsewhere.
-        //  For this specific demo app we could also call glfwMakeContextCurrent(window) directly)
-        ImGuiIO& io = ImGui::GetIO();
-        (void)io;
-        if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-        {
-            GLFWwindow* backup_current_context = glfwGetCurrentContext();
-            ImGui::UpdatePlatformWindows();
-            ImGui::RenderPlatformWindowsDefault();
-            glfwMakeContextCurrent(backup_current_context);
-        }
-
-        glfwSwapBuffers(window);
+        updateScreen();
     }
 #ifdef __EMSCRIPTEN__
     EMSCRIPTEN_MAINLOOP_END;
 #endif
+}
+
+void ParticleEmissionLauncher::handleInputs() {
+    glfwPollEvents();
+
+    /* Read inputs and update states (buffers) */
+    if (InputManager::isLeftKeyPressed(window))
+        scene->camera.moveLeft();
+
+    if (InputManager::isRightKeyPressed(window))
+        scene->camera.moveRight();
+
+    if (InputManager::isForwardKeyPressed(window))
+        scene->camera.moveForward();
+
+    if (InputManager::isBackwardKeyPressed(window))
+        scene->camera.moveBackward();
+
+    if (InputManager::isUpKeyPressed(window))
+        scene->camera.moveUp();
+
+    if (InputManager::isDownKeyPressed(window))
+        scene->camera.moveDown();
+
+    if (InputManager::isPauseKeyPressed(window))
+        scene->togglePause();
+
+    double x = 0, y = 0;
+    InputManager::getMouseMovement(window, x, y, InputManager::isKeyMouseMovementPressed(window));
+    scene->camera.processMouseMovement((float)x, (float)y);
+}
+
+void ParticleEmissionLauncher::handleUi(float deltaTime) {
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplGlfw_NewFrame();
+    ImGui::NewFrame();
+
+    {
+        ImGui::Begin("Window info");
+        ImGui::Text("%.3f ms/frame (%.1f FPS)", deltaTime, 1.0f / deltaTime);
+        ImGui::Text("Window width: %d", display_w);
+        ImGui::Text("Window height: %d", display_h);
+        ImGui::End();
+    }
+
+    {
+        ImGui::Begin("Camera settings");
+
+        static bool wireframe = false;
+        ImGui::TextColored(ImVec4(1.0F, 0.0F, 1.0F, 1.0F), "View settings");
+        ImGui::Checkbox("Wireframe", &wireframe);
+        if (wireframe)
+        {
+            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        }
+        else
+        {
+            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        }
+        ImGui::NewLine();
+
+        ImGui::TextColored(ImVec4(1.0F, 0.0F, 1.0F, 1.0F), "Camera settings");
+
+        ImGui::Text("Position:");
+        ImGui::DragFloat3("##position", (float*)&scene->camera.position);
+
+        ImGui::NewLine();
+        ImGui::Text("Pitch:");
+        ImGui::Checkbox("Pitch constrained", &scene->camera.constrainPitch);
+        ImGui::DragFloat("##pitch", &scene->camera.pitch);
+
+        ImGui::Text("Yaw:");
+        ImGui::DragFloat("##yaw", &scene->camera.yaw);
+
+        ImGui::NewLine();
+        ImGui::Text("FOV:");
+        ImGui::DragFloat("##fov", &scene->camera.fov);
+
+        ImGui::NewLine();
+        ImGui::Text("Near plane:");
+        ImGui::DragFloat("##near", &scene->camera.nearPlane);
+
+        ImGui::Text("Far plane:");
+        ImGui::DragFloat("##far", &scene->camera.farPlane);
+
+        ImGui::NewLine();
+        ImGui::Text("Speed:");
+        ImGui::DragFloat("##speed", &scene->camera.movementSpeed);
+
+        ImGui::Text("Sensitivity: ");
+        ImGui::DragFloat("##sensitivity", &scene->camera.rotationSpeed, 0.1f);
+
+        ImGui::End();
+    }
+}
+
+void ParticleEmissionLauncher::updateGame(float deltaTime) {
+    scene->update(deltaTime);
+}
+
+void ParticleEmissionLauncher::updateScreen() {
+    ImGui::Render();
+    int display_w, display_h;
+    glfwGetFramebufferSize(window, &display_w, &display_h);
+    glViewport(0, 0, display_w, display_h);
+    glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    scene->render();
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+    ImGuiIO& io = ImGui::GetIO();
+    (void)io;
+    if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+    {
+        GLFWwindow* backup_current_context = glfwGetCurrentContext();
+        ImGui::UpdatePlatformWindows();
+        ImGui::RenderPlatformWindowsDefault();
+        glfwMakeContextCurrent(backup_current_context);
+    }
+
+    glfwSwapBuffers(window);
 }
