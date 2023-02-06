@@ -1,10 +1,10 @@
 # ParticleEmission
 
 Techniques for particle emission in OpenGL.
+[//]: # (- ~~Use a single VAO and VBO for all particles~~ &#40;no need to do this because there is no need to change the vertex data&#41;)
+- ~~Use Instanced Arrays to render multiple particles at once~~ (no need to do this because there is no need to change the vertex data)
 - Use GL_POINTS to render particles
-- Use a single VAO and VBO for all particles
-- Use a single shader program for all particles
-- Use Instanced Arrays to render multiple particles at once
+- Use a single shader program for all particles in which we pass the position and color of each particle
 - Use a SSBO to store particle data and have access to it in the shader and in the CPU
 
 Physics:  
@@ -16,5 +16,3 @@ Physics:
 
 Features:
 - Modify size of particles with glPointSize or gl_PointSize in the vertex shader (it nees glEnable(GL_PROGRAM_POINT_SIZE) to work)
-- Move camera with WASD and mouse
-- Pause simulation with spacebar and still allow to move camera
