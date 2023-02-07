@@ -1,4 +1,4 @@
-#include "ParticleEmissionLauncher.h"
+#include "ParticleSimulatorLauncher.h"
 
 #include <glad/glad.h>
 
@@ -28,7 +28,7 @@ static void glfw_error_callback(int error, const char* description) {
     fprintf(stderr, "GLFW Error %d: %s\n", error, description);
 }
 
-ParticleEmissionLauncher::ParticleEmissionLauncher() {
+ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
     glfwSetErrorCallback(glfw_error_callback);
     if (!glfwInit())
         exit(1);
@@ -108,7 +108,7 @@ ParticleEmissionLauncher::ParticleEmissionLauncher() {
     glEnable(GL_DEPTH_TEST);
 }
 
-ParticleEmissionLauncher::~ParticleEmissionLauncher() {
+ParticleSimulatorLauncher::~ParticleSimulatorLauncher() {
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
@@ -117,7 +117,7 @@ ParticleEmissionLauncher::~ParticleEmissionLauncher() {
     glfwTerminate();
 }
 
-void ParticleEmissionLauncher::start() {
+void ParticleSimulatorLauncher::start() {
     // Create the scene
     scene = std::make_unique<Scene>(display_w, display_h);
 
@@ -148,7 +148,7 @@ void ParticleEmissionLauncher::start() {
 #endif
 }
 
-void ParticleEmissionLauncher::handleInputs() {
+void ParticleSimulatorLauncher::handleInputs() {
     glfwPollEvents();
 
     /* Read inputs and update states (buffers) */
@@ -178,7 +178,7 @@ void ParticleEmissionLauncher::handleInputs() {
     scene->camera.processMouseMovement((float)x, (float)y);
 }
 
-void ParticleEmissionLauncher::handleUi(float deltaTime) {
+void ParticleSimulatorLauncher::handleUi(float deltaTime) {
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
@@ -242,11 +242,11 @@ void ParticleEmissionLauncher::handleUi(float deltaTime) {
     }
 }
 
-void ParticleEmissionLauncher::updateGame(float deltaTime) {
+void ParticleSimulatorLauncher::updateGame(float deltaTime) {
     scene->update(deltaTime);
 }
 
-void ParticleEmissionLauncher::updateScreen() {
+void ParticleSimulatorLauncher::updateScreen() {
     ImGui::Render();
     int display_w, display_h;
     glfwGetFramebufferSize(window, &display_w, &display_h);

@@ -3,14 +3,14 @@
 
 #include "../Entity.h"
 
-class ParticleEmission : public Entity {
+class ParticleSimulator : public Entity {
 private:
     int particleCount = 1000;
     unsigned int VAO, VBO;
 
 public:
-    ParticleEmission();
-    ~ParticleEmission();
+    ParticleSimulator();
+    ~ParticleSimulator();
 
 public:
     void update(float deltaTime) override;

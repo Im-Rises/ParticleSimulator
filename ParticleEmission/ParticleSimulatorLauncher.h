@@ -7,12 +7,12 @@
 
 struct GLFWwindow;
 
-constexpr const std::string_view PROJECT_NAME = "Particle Emission 3D";
+constexpr const std::string_view PROJECT_NAME = "Particle Simulator 3D";
 constexpr const std::string_view PROJECT_VERSION = "1.0.0";
-constexpr const std::string_view PROJECT_GITHUB = "https://github.com/Im-Rises/ParticleEmission";
+constexpr const std::string_view PROJECT_GITHUB = "https://github.com/Im-Rises/ParticleSimulator";
 constexpr const std::string_view PROJECT_AUTHOR = "Im-Rises (Quentin Morel)";
 
-class ParticleEmissionLauncher {
+class ParticleSimulatorLauncher {
 private:
     GLFWwindow* window;
     int display_w = 1280, display_h = 720;
@@ -27,8 +27,8 @@ private:
     } clear_color;
 
 public:
-    explicit ParticleEmissionLauncher();
-    ~ParticleEmissionLauncher();
+    explicit ParticleSimulatorLauncher();
+    ~ParticleSimulatorLauncher();
     void start();
 
 private:

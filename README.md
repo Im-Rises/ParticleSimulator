@@ -1,4 +1,4 @@
-# ParticleEmission
+# ParticleSimulator
 
 Techniques for particle emission in OpenGL.
 - Use GL_POINTS to render particles
