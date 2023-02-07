@@ -1,15 +1,15 @@
 #include "ParticleSimulator.h"
 
-ParticleSimulator::ParticleSimulator(int particleCount) : Entity("ParticleEmission/Shader/ParticlesSimulator.vert", "ParticleEmission/Shader/ParticlesSimulator.frag") {
+ParticleSimulator::ParticleSimulator(int particleCount) : Entity("ParticleSimulator/Shader/ParticlesSimulator.vert", "ParticleSimulator/Shader/ParticlesSimulator.frag") {
     particles.resize(particleCount);
 
     // Init the particles as a cube
-    for (int i = 0; i < particles.size(); i++) {
+    for (int i = 0; i < particles.size(); i++)
+    {
         particles[i].position = glm::vec3(
             (float)(rand() % 100) / 100.0f * 2.0f - 1.0f,
             (float)(rand() % 100) / 100.0f * 2.0f - 1.0f,
-            (float)(rand() % 100) / 100.0f * 2.0f - 1.0f
-        );
+            0);
     }
 
     // Init the SSBO
@@ -87,6 +87,6 @@ void ParticleSimulator::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProje
     // Unbind the VAO
     glBindVertexArray(0);
 
-//    // Unbind the shader
-//    shader->unuse();
+    //    // Unbind the shader
+    //    shader->unuse();
 }

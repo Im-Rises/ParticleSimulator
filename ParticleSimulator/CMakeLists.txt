@@ -10,7 +10,7 @@ file(GLOB_RECURSE HEADERS "${CMAKE_SOURCE_DIR}/${PROJECT_NAME}/*.h")
 
 add_executable(${PROJECT_NAME} ${SRCS} ${HEADERS} ${SRCS_HEADERS_IMGUI} ${SRCS_HEADERS_GLAD})
 
-find_package(OpenGL REQUIRED)
+find_package(OpenGL 4.3 REQUIRED)
 target_link_libraries(${PROJECT_NAME} OpenGL::GL)
 
 if (WIN32)

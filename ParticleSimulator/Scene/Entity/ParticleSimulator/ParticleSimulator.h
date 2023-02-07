@@ -1,5 +1,5 @@
-#ifndef PARTICLE_EMISSION_H
-#define PARTICLE_EMISSION_H
+#ifndef PARTICLE_SIMULATOR_H
+#define PARTICLE_SIMULATOR_H
 
 #include <vector>
 #include <glm/glm.hpp>
@@ -19,11 +19,9 @@ private:
     };
 
     std::vector<Particle> particles;
-
-
-
+    
 public:
-    ParticleSimulator(int particleCount = 1000);
+    ParticleSimulator(int particleCount = 100000);
     ~ParticleSimulator();
 
 public:
@@ -31,6 +29,4 @@ public:
     void render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProjectionMatrix) override;
 };
 
-
-
-#endif // PARTICLE_EMISSION_H
+#endif // PARTICLE_SIMULATOR_H
