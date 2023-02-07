@@ -1,6 +1,6 @@
 #include "ParticleSimulator.h"
 
-ParticleSimulator::ParticleSimulator(int particleCount) : Entity("ParticleSimulator/Shader/ParticlesSimulator.vert", "ParticleSimulator/Shader/ParticlesSimulator.frag") {
+ParticleSimulator::ParticleSimulator(int particleCount) : Entity("shaders/ParticlesSimulator.vert", "shaders/ParticlesSimulator.frag") {
     particles.resize(particleCount);
 
     // Init the particles as a cube

@@ -19,7 +19,7 @@ private:
     };
 
     std::vector<Particle> particles;
-    
+
 public:
     ParticleSimulator(int particleCount = 100000);
     ~ParticleSimulator();
