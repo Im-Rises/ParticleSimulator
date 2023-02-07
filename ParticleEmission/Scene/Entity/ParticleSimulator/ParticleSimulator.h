@@ -1,15 +1,29 @@
 #ifndef PARTICLE_EMISSION_H
 #define PARTICLE_EMISSION_H
 
+#include <vector>
+#include <glm/glm.hpp>
+#include <glad/glad.h>
 #include "../Entity.h"
 
 class ParticleSimulator : public Entity {
 private:
-    int particleCount = 1000;
-    unsigned int VAO, VBO;
+    GLuint ssbo;
+    GLuint vao;
+    GLuint vbo;
+
+    struct Particle {
+        glm::vec3 position;
+        glm::vec3 velocity;
+        Particle() : position(glm::vec3(0.0f)), velocity(glm::vec3(0.0f)) {}
+    };
+
+    std::vector<Particle> particles;
+
+
 
 public:
-    ParticleSimulator();
+    ParticleSimulator(int particleCount = 1000);
     ~ParticleSimulator();
 
 public:

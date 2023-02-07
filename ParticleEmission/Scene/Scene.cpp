@@ -13,10 +13,12 @@ void Scene::update(float deltaTime) {
         return;
     }
     cube.update(deltaTime);
+    particleSimulator.update(deltaTime);
 }
 
 void Scene::render() {
     cube.render(camera.getViewMatrix(), camera.getProjectionMatrix());
+    particleSimulator.render(camera.getViewMatrix(), camera.getProjectionMatrix());
 }
 
 void Scene::updateProjectionMatrix(int display_w, int display_h) {
