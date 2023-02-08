@@ -9,8 +9,8 @@
 class ParticleSimulator : public Entity {
 private:
     GLuint ssbo;
-    GLuint vao;
-    GLuint vbo;
+    //    GLuint vao;
+    //    GLuint vbo;
 
     struct Particle {
         glm::vec3 position;
@@ -19,6 +19,9 @@ private:
     };
 
     std::vector<Particle> particles;
+
+    float deltaTime;
+    glm::vec3 pointOfGravity;
 
 public:
     ParticleSimulator(int particleCount = 100000);

@@ -5,15 +5,14 @@ struct Particle {
     vec3 velocity;
 };
 
-layout (std430, binding = 0) buffer Particles {
+layout (std430, binding = 0) buffer ParticlesSsbo {
     Particle particles[];
 } particlesSsboData;
 
-layout(location = 0) in float a_deltaTime;
-layout(location = 1) in vec3 a_pointOfGravity;
-
 uniform mat4 u_view;
 uniform mat4 u_projection;
+uniform float u_deltaTime;
+uniform vec3 u_pointOfGravity;
 
 out vec3 v_color;
 
@@ -25,25 +24,24 @@ void main()
     const float G = 1.0f;// Gravitational constant
     const float m1 = 1.0f;// Mass of the particle
     const float m2 = 1.0f;// Mass of the point of gravity
-    vec3 r = a_pointOfGravity - particle.position;
-    float rSquared = dot(r, r);// (dot(toMass, toMass)) gives the square of the magnitude (length) of the vector
 
-    // F = G * m1 * m2 / r^2 or F = G * m1 * m2 * r / r^2 (to get the direction of the force)
-    vec3 force = G * m1 * m2 * r / rSquared;
+    vec3 r = u_pointOfGravity - particle.position;
+    float rSquared = dot(r, r);// (dot(toMass, toMass)) gives the square of the magnitude (length) of the vector
+    vec3 force = G * m1 * m2 * normalize(r) / rSquared;// normalize(r) gives the direction of the vector
 
     // F = ma
     vec3 acceleration = force / m1;// a = F / m
 
     // v = v0 + at
-    particle.velocity += acceleration * a_deltaTime;
+    particle.velocity += acceleration * u_deltaTime;
 
     // p = p0 + v * t
-    particle.position += particle.velocity * a_deltaTime;
+    particle.position += particle.velocity * u_deltaTime;
 
     // Set the new particle data
     particlesSsboData.particles[gl_VertexID] = particle;
 
     // Set the output
     gl_Position = u_projection * u_view * vec4(particle.position, 1.0);
-    v_color = vec3(1.0, 0.0, 0.0);
+    v_color = vec3(0.0, 0.0, 0.0);
 }

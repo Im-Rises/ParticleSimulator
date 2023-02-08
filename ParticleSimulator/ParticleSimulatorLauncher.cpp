@@ -106,6 +106,8 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
     ImGui_ImplOpenGL3_Init(glsl_version);
 
     glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
+    glPointSize(5.0f); // Set the point size to 5.0f
 }
 
 ParticleSimulatorLauncher::~ParticleSimulatorLauncher() {
