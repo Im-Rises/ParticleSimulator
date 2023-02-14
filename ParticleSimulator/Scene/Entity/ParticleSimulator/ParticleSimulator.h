@@ -30,6 +30,9 @@ public:
 public:
     void update(float deltaTime) override;
     void render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProjectionMatrix) override;
+    //    void setPointOfGravity(glm::vec3 cameraPos, glm::vec3 cameraFront) {
+    //        pointOfGravity = cameraPos + cameraFront * 10.0f;
+    //    }
 };
 
 #endif // PARTICLE_SIMULATOR_H

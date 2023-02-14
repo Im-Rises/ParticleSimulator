@@ -44,15 +44,19 @@ void ParticleSimulator::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProje
 
     // Draw the particles
     glDrawArrays(GL_POINTS, 0, particles.size());
+    
+
+//    // Draw the particles
+//    glDrawArrays(GL_POINTS, 0, particles.size());
 
     // Unbind the SSBO
-    glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+//    glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+//
+//    // Unbind the VBO
+//    glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-    // Unbind the VBO
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-    // Unbind the VAO
-    glBindVertexArray(0);
+//    // Unbind the VAO
+//    glBindVertexArray(0);
 
     //    // Unbind the shader
     //    shader->unuse();
