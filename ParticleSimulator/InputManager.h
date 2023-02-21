@@ -20,8 +20,9 @@ public:
     static bool isPauseKeyPressed(GLFWwindow* window);
 
 public:
-    static void getMouseMovement(GLFWwindow* window, double& xMovement, double& yMovement, bool isMovementEnable);
+    static void getMouseMovement(GLFWwindow* window, double& xMovement, double& yMovement);
     static bool isKeyMouseMovementPressed(GLFWwindow* window);
+    static bool isKeyMouseSetTargetPressed(GLFWwindow* window);
 };
 
 #endif // INPUT_MANAGER_H

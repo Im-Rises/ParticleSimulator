@@ -55,5 +55,7 @@ void main()
 
     // Set the output
     gl_Position = u_projection * u_view * vec4(particle.position, 1.0);
+
+    // Set the color
     v_color = vec3(0.0, 1.0, 1.0);
 }

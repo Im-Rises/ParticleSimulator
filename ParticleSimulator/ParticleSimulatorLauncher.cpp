@@ -159,7 +159,7 @@ void ParticleSimulatorLauncher::start() {
 void ParticleSimulatorLauncher::handleInputs() {
     glfwPollEvents();
 
-    /* Read inputs and update states (buffers) */
+    /* Read keyboard inputs and update states (buffers) */
     if (InputManager::isLeftKeyPressed(window))
         scene->camera.moveLeft();
 
@@ -181,9 +181,21 @@ void ParticleSimulatorLauncher::handleInputs() {
     if (InputManager::isPauseKeyPressed(window))
         scene->togglePause();
 
+    /* Get mouse position*/
     double x = 0, y = 0;
-    InputManager::getMouseMovement(window, x, y, InputManager::isKeyMouseMovementPressed(window));
-    scene->camera.processMouseMovement((float)x, (float)y);
+    InputManager::getMouseMovement(window, x, y);
+
+    // Read mouse inputs and update camera
+    if (InputManager::isKeyMouseMovementPressed(window))
+    {
+        scene->camera.processMouseMovement((float)x, (float)y);
+    }
+
+    // Read mouse inputs and update simulator target
+    if (InputManager::isKeyMouseSetTargetPressed(window))
+    {
+//        scene->particleSimulator->setTarget(scene->camera.getPosition(), scene->camera.getFront(), InputManager::isKeyMouseSetTargetPressed(window));
+    }
 }
 
 void ParticleSimulatorLauncher::handleUi(float deltaTime) {

@@ -49,17 +49,21 @@ bool InputManager::isPauseKeyPressed(GLFWwindow* window) {
     return false;
 }
 
-void InputManager::getMouseMovement(GLFWwindow* window, double& xMovement, double& yMovement, bool isMovementEnable) {
+void InputManager::getMouseMovement(GLFWwindow* window, double& xMovement, double& yMovement) {
     double x, y;
     glfwGetCursorPos(window, &x, &y);
-    if (isMovementEnable)
-    {
-        xMovement = x - lastMouseX;
-        yMovement = lastMouseY - y;
-    }
+
+    xMovement = x - lastMouseX;
+    yMovement = lastMouseY - y;
+
     lastMouseX = x;
     lastMouseY = y;
 }
+
 bool InputManager::isKeyMouseMovementPressed(GLFWwindow* window) {
     return glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS;
+}
+
+bool InputManager::isKeyMouseSetTargetPressed(GLFWwindow* window) {
+    return glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS;
 }
