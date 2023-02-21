@@ -36,6 +36,9 @@ void Cube::update(float deltaTime) {
 }
 
 void Cube::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProjectionMatrix) {
+    // Bind the VAO
+    glBindVertexArray(VAO);
+
     // Shader
     shader.use();
     shader.setMat4("u_view", cameraViewMatrix);
@@ -43,6 +46,8 @@ void Cube::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProjectionMatrix) 
     shader.setMat4("u_model", modelMatrix);
 
     // Draw
-    glBindVertexArray(VAO);
     glDrawArrays(GL_TRIANGLES, 0, (GLsizei)vertices.size());
+
+    // Unbind the VAO
+    glBindVertexArray(0);
 }

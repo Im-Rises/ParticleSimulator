@@ -13,9 +13,8 @@ public:
     Camera camera;
 
 private:
-    Cube cube;
+//    Cube cube;
     ParticleSimulator particleSimulator;
-
 
 public:
     Scene(int display_w, int display_h);

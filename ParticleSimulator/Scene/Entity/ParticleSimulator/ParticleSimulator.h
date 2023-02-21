@@ -8,6 +8,7 @@
 
 class ParticleSimulator : public Entity {
 private:
+    GLuint VAO; //,VBO;
     GLuint ssbo;
 
     struct Particle {

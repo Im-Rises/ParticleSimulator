@@ -57,7 +57,7 @@ void main()
     /* TEST HERE*/
 
     Particle particle = particlesSsboData.particles[gl_VertexID];// Get the particle data
-    particle.position = vec3(gl_VertexID, 0.0, 0.0);
+//    particle.position = vec3(gl_VertexID, 0.0, 0.0);
     gl_Position = u_projection * u_view * vec4(particle.position, 1.0);
     v_color = vec3(0.0, 0.0, 0.0);
 }

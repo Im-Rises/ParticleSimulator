@@ -14,17 +14,24 @@ ParticleSimulator::ParticleSimulator(int particleCount) : Entity("shaders/Partic
     std::uniform_real_distribution<float> randomFloats(-1.0f, 1.0f);
 
     // Init the particles as a cube
-//    for (auto & particle : particles)
-//    {
-//        particle.position = glm::vec3(randomFloats(randomEngine),
-//                                      randomFloats(randomEngine),
-//                                      randomFloats(randomEngine)) +position;
-//        particle.velocity = glm::vec3(0.0f);
+    for (auto & particle : particles)
+    {
+        particle.position = glm::vec3(randomFloats(randomEngine),
+                                      randomFloats(randomEngine),
+                                      randomFloats(randomEngine)) +position;
+        particle.velocity = glm::vec3(0.0f);
+    }
+
+//    for (int i = 0; i < particles.size(); i++) {
+//        particles[i].position = glm::vec3(i);
 //    }
 
-    for (int i = 0; i < particles.size(); i++) {
-        particles[i].position = glm::vec3(i);
-    }
+    // Init the VAO and VBO
+    glGenVertexArrays(1, &VAO);
+//    glGenBuffers(1, &VBO);
+
+    // Bind the VAO
+    glBindVertexArray(VAO);
 
     // Generate the SSBO
     glGenBuffers(1, &ssbo);
@@ -32,6 +39,9 @@ ParticleSimulator::ParticleSimulator(int particleCount) : Entity("shaders/Partic
     glBufferData(GL_SHADER_STORAGE_BUFFER, particles.size() * sizeof(Particle), particles.data(), GL_DYNAMIC_DRAW);
     glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, ssbo);
     glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+
+    // Unbind the VAO
+    glBindVertexArray(0);
 }
 
 ParticleSimulator::~ParticleSimulator() {
@@ -43,12 +53,15 @@ void ParticleSimulator::update(float deltaTime) {
 }
 
 void ParticleSimulator::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProjectionMatrix) {
-    // Bind the shader
-    shader.use();
+    // Bind the VAO
+    glBindVertexArray(VAO);
 
     // Bind the SSBO
     glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssbo);
     glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, ssbo);
+
+    // Bind the shader
+    shader.use();
 
     // Set the uniforms
     shader.setMat4("u_view", cameraViewMatrix);
@@ -62,6 +75,9 @@ void ParticleSimulator::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProje
 
     // Barrier
     glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT);
+
+    // Unbind the VAO
+    glBindVertexArray(0);
 
     // Unbind the SSBO
     glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
