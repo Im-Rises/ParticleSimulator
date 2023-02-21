@@ -20,10 +20,10 @@ private:
     std::unique_ptr<Scene> scene;
 
     struct {
-        float x = 0.45f;
-        float y = 0.55f;
-        float z = 0.60f;
-        float w = 1.0f;
+        float x = 0.0f;
+        float y = 0.0f;
+        float z = 0.0f;
+        float w = 0.0f;
     } clear_color;
 
 public:
