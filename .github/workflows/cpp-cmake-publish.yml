@@ -30,8 +30,8 @@ jobs:
           path: |
             ./ParticleSimulator.exe
             ./imgui.ini
-            ./shaders/BillboardParticle.vert
-            ./shaders/BillboardParticle.frag
+            ./shaders/ParticleSimulator.vert
+            ./shaders/ParticleSimulator.frag
   build-ubuntu:
     name: Build ubuntu
     runs-on: ubuntu-latest
@@ -53,8 +53,8 @@ jobs:
           path: |
             ./ParticleSimulatorLauncher
             ./imgui.ini
-            ./shaders/BillboardParticle.vert
-            ./shaders/BillboardParticle.frag
+            ./shaders/ParticleSimulator.vert
+            ./shaders/ParticleSimulator.frag
   build-macos:
     name: Build macos
     runs-on: macos-latest
@@ -75,8 +75,8 @@ jobs:
           path: |
             ./ParticleSimulatorLauncher
             ./imgui.ini
-            ./shaders/BillboardParticle.vert
-            ./shaders/BillboardParticle.frag
+            ./shaders/ParticleSimulator.vert
+            ./shaders/ParticleSimulator.frag
   release-project:
     name: Release project
     runs-on: ubuntu-latest
