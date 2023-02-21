@@ -114,7 +114,7 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     //    glEnable(GL_POINT_SMOOTH); // Deprecated
-    glPointSize(3.1f);//1.1f
+    glPointSize(1.1f);//1.1f
 }
 
 ParticleSimulatorLauncher::~ParticleSimulatorLauncher() {

@@ -4,8 +4,6 @@
 #include <iostream>
 
 ParticleSimulator::ParticleSimulator(int particleCount) : Entity("shaders/ParticleSimulator.vert", "shaders/ParticleSimulator.frag") {
-    position = glm::vec3(5.0f, 0.0f, 0.0f);
-
     // Resize the particles vector
     particles.resize(particleCount);
 
@@ -22,13 +20,8 @@ ParticleSimulator::ParticleSimulator(int particleCount) : Entity("shaders/Partic
         particle.velocity = glm::vec3(0.0f);
     }
 
-//    for (int i = 0; i < particles.size(); i++) {
-//        particles[i].position = glm::vec3(i);
-//    }
-
     // Init the VAO and VBO
     glGenVertexArrays(1, &VAO);
-//    glGenBuffers(1, &VBO);
 
     // Bind the VAO
     glBindVertexArray(VAO);
