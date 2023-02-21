@@ -13,7 +13,9 @@ private:
 
     struct Particle {
         glm::vec3 position;
+        float offset;
         glm::vec3 velocity;
+        float offset2;
         Particle() : position(glm::vec3(0.0f)), velocity(glm::vec3(0.0f)) {}
     };
 

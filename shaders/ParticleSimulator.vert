@@ -2,7 +2,9 @@
 
 struct Particle {
     vec3 position;
+    float offset;
     vec3 velocity;
+    float offset2;
 };
 
 layout (std430, binding = 0) buffer ParticlesSsbo {

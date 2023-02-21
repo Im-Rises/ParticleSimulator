@@ -27,37 +27,27 @@ void Camera::updateProjectionMatrix(int display_w, int display_h) {
 }
 
 void Camera::moveForward() {
-    //    movementBuffer.z -= 1.0F; // Move independently from camera rotation
-    movementBuffer += cameraFrontBuffer; // Move in the direction the camera is facing
+    movementBuffer += cameraFrontBuffer;
 }
 
 void Camera::moveBackward() {
-    //    movementBuffer.z += 1.0F;
     movementBuffer -= cameraFrontBuffer;
 }
 
 void Camera::moveLeft() {
-    //    movementBuffer.x -= 1.0F;
     movementBuffer -= glm::normalize(glm::cross(cameraFrontBuffer, cameraUp));
 }
 
 void Camera::moveRight() {
-    //    movementBuffer.x += 1.0F;
     movementBuffer += glm::normalize(glm::cross(cameraFrontBuffer, cameraUp));
 }
 
 void Camera::moveUp() {
-    //    movementBuffer.y += 1.0F;
     movementBuffer += cameraUp;
-    // Move up in the direction of the camera's up vector
-    //    movementBuffer = glm::normalize(glm::cross(glm::cross(cameraFrontBuffer, cameraUp), cameraFrontBuffer));
 }
 
 void Camera::moveDown() {
-    //    movementBuffer.y -= 1.0F;
     movementBuffer -= cameraUp;
-    // Move down in the direction of the camera's up vector
-    //    movementBuffer = glm::normalize(glm::cross(glm::cross(cameraFrontBuffer, cameraUp), cameraFrontBuffer));
 }
 
 void Camera::processMouseMovement(float xMovement, float yMovement) {
@@ -71,6 +61,18 @@ void Camera::processMouseMovement(float xMovement, float yMovement) {
         if (pitch < -89.0f)
             pitch = -89.0f;
     }
+    else
+    {
+        if (pitch > 360.0f)
+            pitch -= 360.0f;
+        if (pitch < -360.0f)
+            pitch += 360.0f;
+    }
+
+    if (yaw > 360.0f)
+        yaw -= 360.0f;
+    if (yaw < -360.0f)
+        yaw += 360.0f;
 
     cameraFrontBuffer.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
     cameraFrontBuffer.y = sin(glm::radians(pitch));
