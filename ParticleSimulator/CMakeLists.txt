@@ -8,9 +8,10 @@ file(GLOB_RECURSE SRCS_HEADERS_GLAD "${CMAKE_SOURCE_DIR}/dependencies/glad/*.c" 
 file(GLOB_RECURSE SRCS "${CMAKE_SOURCE_DIR}/${PROJECT_NAME}/*.cpp")
 file(GLOB_RECURSE HEADERS "${CMAKE_SOURCE_DIR}/${PROJECT_NAME}/*.h")
 
+find_package(OpenGL 4.3 REQUIRED)
+
 add_executable(${PROJECT_NAME} ${SRCS} ${HEADERS} ${SRCS_HEADERS_IMGUI} ${SRCS_HEADERS_GLAD})
 
-find_package(OpenGL 4.3 REQUIRED)
 target_link_libraries(${PROJECT_NAME} OpenGL::GL)
 
 if (WIN32)

@@ -22,13 +22,13 @@ jobs:
         run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
       - name: Copy exe to root
         run: |
-          cp ./build/ParticleEmission/Release/ParticleEmission.exe .
+          cp ./build/ParticleSimulator/Release/ParticleSimulator.exe .
       - name: Upload artifact release
         uses: actions/upload-artifact@v2
         with:
           name: artifact-windows
           path: |
-            ./ParticleEmission.exe
+            ./ParticleSimulator.exe
             ./imgui.ini
             ./shaders/BillboardParticle.vert
             ./shaders/BillboardParticle.frag
@@ -45,13 +45,13 @@ jobs:
       - name: Build
         run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
       - name: Copy exe to root
-        run: cp ./build/ParticleEmission/ParticleEmission ./ParticleEmissionLauncher
+        run: cp ./build/ParticleSimulator/ParticleSimulator ./ParticleSimulatorLauncher
       - name: Upload artifact release
         uses: actions/upload-artifact@v2
         with:
           name: artifact-ubuntu
           path: |
-            ./ParticleEmissionLauncher
+            ./ParticleSimulatorLauncher
             ./imgui.ini
             ./shaders/BillboardParticle.vert
             ./shaders/BillboardParticle.frag
@@ -67,13 +67,13 @@ jobs:
       - name: Build
         run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
       - name: Copy exe to root
-        run: cp ./build/ParticleEmission/ParticleEmission ./ParticleEmissionLauncher
+        run: cp ./build/ParticleSimulator/ParticleSimulator ./ParticleSimulatorLauncher
       - name: Upload artifact release
         uses: actions/upload-artifact@v2
         with:
           name: artifact-macos
           path: |
-            ./ParticleEmissionLauncher
+            ./ParticleSimulatorLauncher
             ./imgui.ini
             ./shaders/BillboardParticle.vert
             ./shaders/BillboardParticle.frag
@@ -107,12 +107,12 @@ jobs:
         with:
           upload_url: ${{ steps.create-new-release.outputs.upload_url }}
           asset_path: release-windows.zip
-          asset_name: ParticleEmission-windows-v${{ github.run_number }}.zip
+          asset_name: ParticleSimulator-windows-v${{ github.run_number }}.zip
           asset_content_type: application/zip
       - name: Delete windows release files
         run: |
           rm release-windows.zip
-          rm ParticleEmission.exe
+          rm ParticleSimulator.exe
       - name: Download ubuntu artifact content
         uses: actions/download-artifact@v2
         with:
@@ -130,12 +130,12 @@ jobs:
         with:
           upload_url: ${{ steps.create-new-release.outputs.upload_url }}
           asset_path: release-linux.tar.gz
-          asset_name: ParticleEmission-linux-v${{ github.run_number }}.tar.gz
+          asset_name: ParticleSimulator-linux-v${{ github.run_number }}.tar.gz
           asset_content_type: application/zip
       - name: Delete ubuntu release files
         run: |
           rm release-linux.tar.gz
-          rm ParticleEmissionLauncher
+          rm ParticleSimulatorLauncher
       - name: Download macos artifact content
         uses: actions/download-artifact@v2
         with:
@@ -153,5 +153,5 @@ jobs:
         with:
           upload_url: ${{ steps.create-new-release.outputs.upload_url }}
           asset_path: release-macos.tar.gz
-          asset_name: ParticleEmission-macos-v${{ github.run_number }}.tar.gz
+          asset_name: ParticleSimulator-macos-v${{ github.run_number }}.tar.gz
           asset_content_type: application/zip
