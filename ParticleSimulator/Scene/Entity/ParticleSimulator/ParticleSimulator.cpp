@@ -40,10 +40,12 @@ ParticleSimulator::ParticleSimulator(int particleCount) : Entity("shaders/Partic
     glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssbo);
     glBufferData(GL_SHADER_STORAGE_BUFFER, particles.size() * sizeof(Particle), particles.data(), GL_DYNAMIC_DRAW);
     glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, ssbo);
-    glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 
     // Unbind the VAO
     glBindVertexArray(0);
+
+    // Unbind the SSBO
+    glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
 ParticleSimulator::~ParticleSimulator() {
