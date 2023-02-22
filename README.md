@@ -9,7 +9,12 @@
 
 ## Description
 
-This is a simple particle simulator made with OpenGL and C++.
+This is a simple particle simulator made with OpenGL and C++ with the help of the ImGui library for the UI.
+
+You can also test the app using the WebGL version  [here](https://im-rises.github.io/particle-simulator-webgl/).
+
+The source code of the WebGL can be found at the following link:  
+<https://github.com/Im-Rises/particle-simulator-webgl>
 
 > **Note:**   
 > This project is still in development.
@@ -23,6 +28,15 @@ This is a simple particle simulator made with OpenGL and C++.
 ## Video
 
 PLACEHOLDER
+
+## Features
+
+- [x] ImGui UI
+- [x] Camera movement
+- [x] Camera settings
+- [x] Mouse drag of the particles
+- [x] Fullscreen toggle
+- [x] Pause simulation
 
 ## Todo
 
@@ -129,7 +143,9 @@ The speed and some parameters can be modified directly in the ImGui windows.
 | Pause/Resume        | P                                   |
 | Move up/down camera | SPACE/SHIFT                         |
 | Rotate camera       | Right Mouse Button + Mouse movement |
+| Fullscreen          | F11                                 |
 | Exit app            | ESC                                 |
+| Drag particles      | Left Mouse Button + Mouse movement  |
 
 > **Note**
 > You can the inputs by changing their attribution in the `InputManager.cpp` file,
@@ -256,6 +272,9 @@ learnopengl (OpenGL tutorial):
 
 unrealistic.dev (Change CMake working directory):  
 <https://unrealistic.dev/posts/setting-debug-parameters-with-cmake-tools-for-visual-studio>
+
+BobBaykiller (Newtonian Particle Simulator):  
+<https://github.com/BoyBaykiller/Newtonian-Particle-Simulator>
 
 ## Contributors
 
