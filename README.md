@@ -29,7 +29,6 @@ This is a simple particle simulator made with OpenGL and C++.
 
 ## Dependencies
 
-- OpenGL vendor: NVIDIA GeForce RTX 2070/PCIe/SSE2
 - OpenGL version: 4.6.0 NVIDIA 528.49
 - GLSL version: 4.60 NVIDIA
 - GLFW version: 3.3.8
