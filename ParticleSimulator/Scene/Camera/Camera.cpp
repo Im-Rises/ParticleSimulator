@@ -1,3 +1,4 @@
+#include <iostream>
 #include "Camera.h"
 
 Camera::Camera(int display_w, int display_h) {

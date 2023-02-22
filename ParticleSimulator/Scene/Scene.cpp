@@ -1,6 +1,6 @@
 #include "Scene.h"
 
-Scene::Scene(int display_w, int display_h) : camera(display_w, display_h), particleSimulator(100000){
+Scene::Scene(int display_w, int display_h) : camera(display_w, display_h), particleSimulator(10000000) {
 }
 
 Scene::~Scene() {
@@ -12,19 +12,17 @@ void Scene::update(float deltaTime) {
     {
         return;
     }
-//    cube.update(deltaTime);
     particleSimulator.update(deltaTime);
 }
 
 void Scene::render() {
-//    cube.render(camera.getViewMatrix(), camera.getProjectionMatrix());
     particleSimulator.render(camera.getViewMatrix(), camera.getProjectionMatrix());
 }
 
 void Scene::updateProjectionMatrix(int display_w, int display_h) {
     camera.updateProjectionMatrix(display_w, display_h);
 }
-
 void Scene::togglePause() {
     isPaused = !isPaused;
+    particleSimulator.setIsPaused(isPaused);
 }

@@ -20,46 +20,37 @@ uniform bool u_isPaused;
 
 out vec3 v_color;
 
+const float G = 1000.0f;// Gravitational constant
+const float m1 = 1000.0f;// Mass of the particle
+const float m2 = 1.0f;// Mass of the point of gravity
+const float distanceOffset = 1000.0f;
+
 void main()
 {
     Particle particle = particlesSsboData.particles[gl_VertexID-1];// Get the particle data
 
-    if (u_isPaused) {
-        // Set the output
-        gl_Position = u_projection * u_view * vec4(particle.position, 1.0);
-        v_color = vec3(0.0, 0.0, 0.0);
-        return;
+    if (!u_isPaused) {
+        // Newton's law of gravity F = G * m1 * m2 / r^2 (F = force, G = gravitational constant, m1 = mass of the particle, m2 = mass of the point of gravity, r = distance between the particle and the point of gravity)
+        vec3 r = u_pointOfGravity - particle.position;
+        float rSquared = dot(r, r) + distanceOffset;// (dot(toMass, toMass)) gives the square of the magnitude (length) of the vector
+        vec3 force = G * m1 * m2 * normalize(r) / rSquared;// normalize(r) gives the direction of the vector
+
+        // F = ma
+        vec3 acceleration = force / m1;// a = F / m
+
+        // v = v0 + at
+        particle.velocity += acceleration * u_deltaTime;
+
+        // p = p0 + v * t
+        particle.position += particle.velocity * u_deltaTime;
+
+        // Set the new particle data
+        particlesSsboData.particles[gl_VertexID-1] = particle;
     }
-
-    // Newton's law of gravity F = G * m1 * m2 / r^2 (F = force, G = gravitational constant, m1 = mass of the particle, m2 = mass of the point of gravity, r = distance between the particle and the point of gravity)
-    const float G = 1.0f;// Gravitational constant
-    const float m1 = 1.0f;// Mass of the particle
-    const float m2 = 1.0f;// Mass of the point of gravity
-
-    vec3 r = u_pointOfGravity - particle.position;
-    float rSquared = dot(r, r);// (dot(toMass, toMass)) gives the square of the magnitude (length) of the vector
-    vec3 force = G * m1 * m2 * normalize(r) / rSquared;// normalize(r) gives the direction of the vector
-
-    // F = ma
-    vec3 acceleration = force / m1;// a = F / m
-
-    // v = v0 + at
-    particle.velocity += acceleration * u_deltaTime;
-
-    // p = p0 + v * t
-    particle.position += particle.velocity * u_deltaTime;
-
-    // Set the new particle data
-    particlesSsboData.particles[gl_VertexID-1] = particle;
 
     // Set the output
     gl_Position = u_projection * u_view * vec4(particle.position, 1.0);
-    v_color = vec3(0.0, 0.0, 0.0);
 
-
-//    /* TEST HERE*/
-//
-//    Particle particle = particlesSsboData.particles[gl_VertexID];
-//    gl_Position = u_projection * u_view * vec4(particle.position, 1.0);
-//    v_color = vec3(0.0, 0.0, 0.0);
+    // Set the color
+    v_color = vec3(0.0, 1.0, 1.0);
 }

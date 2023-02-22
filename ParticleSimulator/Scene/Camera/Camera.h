@@ -13,10 +13,6 @@ private:
     glm::mat4 viewMatrix;
     glm::mat4 projectionMatrix;
 
-
-    glm::vec3 cameraFrontBuffer = glm::vec3(0.0f, 0.0f, 0.0f);
-
-
 public:
     // Camera attributes
     float movementSpeed = 3.0F;
@@ -33,6 +29,7 @@ public:
 
     // Movement buffer to take into account the deltaTime
     glm::vec3 movementBuffer;
+    glm::vec3 cameraFrontBuffer = glm::vec3(0.0f, 0.0f, -1.0f);
 
 public:
     Camera(int display_w, int display_h);
