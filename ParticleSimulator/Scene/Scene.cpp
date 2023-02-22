@@ -15,6 +15,14 @@ void Scene::update(float deltaTime) {
     particleSimulator.update(deltaTime);
 }
 
+// void Scene::fixedUpdate(float fixedDeltaTime) {
+//     if (isPaused)
+//     {
+//         return;
+//     }
+//     particleSimulator.fixedUpdate(fixedDeltaTime);
+//}
+
 void Scene::render() {
     particleSimulator.render(camera.getViewMatrix(), camera.getProjectionMatrix());
 }
@@ -22,7 +30,7 @@ void Scene::render() {
 void Scene::updateProjectionMatrix(int display_w, int display_h) {
     camera.updateProjectionMatrix(display_w, display_h);
 }
-
 void Scene::togglePause() {
     isPaused = !isPaused;
+    particleSimulator.setIsPaused(isPaused);
 }

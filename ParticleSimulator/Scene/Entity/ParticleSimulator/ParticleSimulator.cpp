@@ -72,7 +72,7 @@ void ParticleSimulator::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProje
     shader.setMat4("u_projection", cameraProjectionMatrix);
     shader.setFloat("u_deltaTime", deltaTime);
     shader.setVec3("u_pointOfGravity", pointOfGravity);
-    shader.setBool("u_isPaused", false);
+    shader.setBool("u_isPaused", isPaused);
 
     // Draw the particles
     glDrawArrays(GL_POINTS, 0, particles.size());
@@ -85,4 +85,8 @@ void ParticleSimulator::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProje
 
     // Unbind the SSBO
     glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+}
+
+void ParticleSimulator::setPointOfGravity(glm::vec3 cameraPos, glm::vec3 cameraFront) {
+    pointOfGravity = cameraPos + cameraFront * 10.0f;
 }

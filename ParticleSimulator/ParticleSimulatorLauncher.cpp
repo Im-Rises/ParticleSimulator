@@ -113,7 +113,7 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     //    glEnable(GL_POINT_SMOOTH); // Deprecated
-    glPointSize(1.1f); // 1.1f
+    //    glPointSize(1.1f); // 1.1f
 }
 
 ParticleSimulatorLauncher::~ParticleSimulatorLauncher() {
@@ -194,7 +194,7 @@ void ParticleSimulatorLauncher::handleInputs() {
     // Read mouse inputs and update simulator target
     if (InputManager::isKeyMouseSetTargetPressed(window))
     {
-//        scene->particleSimulator->setTarget(scene->camera.getPosition(), scene->camera.getFront(), InputManager::isKeyMouseSetTargetPressed(window));
+        scene->particleSimulator.setPointOfGravity(scene->camera.position, scene->camera.cameraFrontBuffer);
     }
 }
 
@@ -260,10 +260,21 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
 
         ImGui::End();
     }
+
+    {
+        ImGui::Begin("Particle simulator settings");
+
+        ImGui::TextColored(ImVec4(1.0F, 0.0F, 1.0F, 1.0F), "Particle settings");
+
+        ImGui::Text("Fixed update frequency:");
+        ImGui::DragFloat("##fixedUpdate", &fixedUpdate, 1.0f, 1.0f, 100.0f);
+
+        ImGui::End();
+    }
 }
 
 void ParticleSimulatorLauncher::updateGame(float deltaTime) {
-    const float fixedDeltaTime = 1.0f / 60.0f;
+    const float fixedDeltaTime = 1.0f / fixedUpdate;
     static float accumulator = 0.0f;
     accumulator += deltaTime;
     while (accumulator >= fixedDeltaTime)

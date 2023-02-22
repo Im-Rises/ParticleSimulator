@@ -26,6 +26,8 @@ private:
         float w = 0.0f;
     } clear_color;
 
+    float fixedUpdate = 50.0f;
+
 public:
     explicit ParticleSimulatorLauncher();
     ~ParticleSimulatorLauncher();

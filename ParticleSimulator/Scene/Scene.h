@@ -12,13 +12,14 @@ private:
 public:
     Camera camera;
 
-private:
+    // private:
     ParticleSimulator particleSimulator;
 
 public:
     Scene(int display_w, int display_h);
     ~Scene();
     void update(float deltaTime);
+    //    void fixedUpdate(float fixedDeltaTime);
     void render();
 
 public:
