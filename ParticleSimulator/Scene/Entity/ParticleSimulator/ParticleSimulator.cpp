@@ -1,33 +1,13 @@
 #include "ParticleSimulator.h"
 
 #include <random>
-#include <iostream>
 
 ParticleSimulator::ParticleSimulator(int particleCount) : Entity("shaders/ParticleSimulator.vert", "shaders/ParticleSimulator.frag") {
     // Resize the particles vector
     particles.resize(particleCount);
 
-    // Init the random engine
-    std::mt19937 randomEngine;
-    std::uniform_real_distribution<float> randomFloats(-1.0f, 1.0f);
-
-    // Init the particles as a cube
-    for (auto& particle : particles)
-    {
-        particle.position = glm::vec3(randomFloats(randomEngine),
-                                randomFloats(randomEngine),
-                                randomFloats(randomEngine)) +
-                            position;
-    }
-
-    //    // Init the particles as a sphere
-    //    for (auto & particle : particles)
-    //    {
-    //        particle.position = glm::vec3(randomFloats(randomEngine),
-    //                                      randomFloats(randomEngine),
-    //                                      randomFloats(randomEngine));
-    //        particle.position = glm::normalize(particle.position) * 0.5f;
-    //    }
+    // Init the particles
+    randomizeParticles();
 
     // Init the VAO and VBO
     glGenVertexArrays(1, &VAO);
@@ -84,6 +64,41 @@ void ParticleSimulator::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProje
     glBindVertexArray(0);
 
     // Unbind the SSBO
+    glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+}
+
+void ParticleSimulator::randomizeParticles() {
+    // Init the random engine
+    std::mt19937 randomEngine;
+    std::uniform_real_distribution<float> randomFloats(-1.0f, 1.0f);
+
+    // Init the particles as a cube
+    for (auto& particle : particles)
+    {
+        particle.position = glm::vec3(randomFloats(randomEngine),
+                                randomFloats(randomEngine),
+                                randomFloats(randomEngine)) +
+                            position;
+        particle.velocity = glm::vec3(0.0f, 0.0f, 0.0f);
+    }
+
+    //    // Init the particles as a sphere
+    //    for (auto & particle : particles)
+    //    {
+    //        particle.position = glm::vec3(randomFloats(randomEngine),
+    //                                      randomFloats(randomEngine),
+    //                                      randomFloats(randomEngine));
+    //        particle.position = glm::normalize(particle.position) * 0.5f;
+    //    }
+}
+
+void ParticleSimulator::reset() {
+    // Reset the particles positions and velocities
+    randomizeParticles();
+
+    // Resend to the GPU
+    glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssbo);
+    glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, particles.size() * sizeof(Particle), particles.data()); // We use glBufferSubData because the buffer is already allocated, and we want to update it
     glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 

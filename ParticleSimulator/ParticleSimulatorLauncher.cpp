@@ -166,6 +166,7 @@ void ParticleSimulatorLauncher::start() {
 void ParticleSimulatorLauncher::handleInputs() {
     glfwPollEvents();
 
+    //TODO: move this to a callback
     if (InputManager::isFullscreenKeyPressed(window))
         toggleFullscreen();
 
@@ -190,6 +191,9 @@ void ParticleSimulatorLauncher::handleInputs() {
 
     if (InputManager::isPauseKeyPressed(window))
         scene->togglePause();
+
+    if (InputManager::isResetKeyPressed(window))
+        scene->reset();
 
     /* Get mouse position*/
     double x = 0, y = 0;
@@ -306,10 +310,10 @@ void ParticleSimulatorLauncher::updateGame(float deltaTime) {
 }
 
 void ParticleSimulatorLauncher::updateScreen() {
-    int display_w, display_h;
-    glfwGetFramebufferSize(window, &display_w, &display_h);
-    scene->updateProjectionMatrix(display_w, display_h);
-    glViewport(0, 0, display_w, display_h);
+    int screenWidth, screenHeight;
+    glfwGetFramebufferSize(window, &screenWidth, &screenHeight);
+    scene->updateProjectionMatrix(screenWidth, screenHeight);
+    glViewport(0, 0, screenWidth, screenHeight);
     glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     scene->render();

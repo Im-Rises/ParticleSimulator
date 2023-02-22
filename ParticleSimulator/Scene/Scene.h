@@ -19,12 +19,12 @@ public:
     Scene(int display_w, int display_h);
     ~Scene();
     void update(float deltaTime);
-    //    void fixedUpdate(float fixedDeltaTime);
     void render();
 
 public:
     void updateProjectionMatrix(int display_w, int display_h);
     void togglePause();
+    void reset();
 };
 
 #endif // SCENE_H

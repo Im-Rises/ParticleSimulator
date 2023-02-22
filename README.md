@@ -20,12 +20,28 @@ This is a simple particle simulator made with OpenGL and C++.
 ![screenshot (2)](https://user-images.githubusercontent.com/59691442/220508256-11312315-eb2d-4101-8086-cda5ede960fe.png)
 ![screenshot (3)](https://user-images.githubusercontent.com/59691442/220508258-c45c4877-e884-4ad7-b544-3a22945e0e0e.png)
 
+## Video
+
+PLACEHOLDER
+
 ## Todo
 
-- Change particle color based on velocity or age or the distance to the mouse
-- Correct fixed updated linked to the render function in the ParticleSimulator
-- Add a way to reset the simulation
-- Correct mouse drag of the particles
+Necessary:
+
+- [ ] Correct the debug Visual Studio build (it doesn't work, it's not displaying anything)
+
+Major:
+
+- [ ] Correct fixed updated linked to the render function in the ParticleSimulator
+- [ ] Set point of gravity only on the left click
+- [ ] Set point of gravity on the mouse position
+- [ ] Correct mouse drag of the particles
+
+Minor:
+
+- [ ] Move fullscreen toggle to a callback function
+- [ ] Change particle color based on velocity or age or the distance to the mouse
+- [ ] Add friction to the particles
 
 ## Dependencies
 

@@ -1,4 +1,3 @@
-#include <iostream>
 #include "InputManager.h"
 
 double InputManager::lastMouseX = 0.0;
@@ -71,6 +70,23 @@ bool InputManager::isFullscreenKeyPressed(GLFWwindow* window) {
     else
     {
         isFullscreenKeyPressed = false;
+    }
+    return false;
+}
+
+bool InputManager::isResetKeyPressed(GLFWwindow* window) {
+    static bool isResetKeyPressed = false;
+    if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)
+    {
+        if (!isResetKeyPressed)
+        {
+            isResetKeyPressed = true;
+            return true;
+        }
+    }
+    else
+    {
+        isResetKeyPressed = false;
     }
     return false;
 }

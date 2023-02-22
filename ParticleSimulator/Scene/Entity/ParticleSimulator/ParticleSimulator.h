@@ -36,13 +36,17 @@ public:
     void render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProjectionMatrix) override;
 
 public:
+    void randomizeParticles();
+    void reset();
+
+public:
     void setPointOfGravity(glm::vec3 cameraPos, glm::vec3 cameraFront);
 
 public:
-    bool getIsPaused() const { return isPaused; }
+    [[nodiscard]] bool getIsPaused() const { return isPaused; }
     void setIsPaused(bool isPaused) { this->isPaused = isPaused; }
 
-    size_t getParticleCount() const { return particles.size(); }
+    [[nodiscard]] size_t getParticleCount() const { return particles.size(); }
 };
 
 #endif // PARTICLE_SIMULATOR_H
