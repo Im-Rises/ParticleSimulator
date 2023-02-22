@@ -38,6 +38,14 @@ private:
     void handleUi(float deltaTime);
     void updateGame(float deltaTime);
     void updateScreen();
+
+private:
+    char* getOpenGLVersion();
+    char* getGLSLVersion();
+    char* getGLFWVersion();
+    char* getGladVersion();
+    char* getImGuiVersion();
+    char* getGLMVersion();
 };
 
 #endif // PARTICLE_EMISSION_H

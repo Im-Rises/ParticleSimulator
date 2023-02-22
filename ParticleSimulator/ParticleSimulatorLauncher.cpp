@@ -15,6 +15,7 @@
 #include <GLES2/gl2.h>
 #endif
 #include <GLFW/glfw3.h> // Will drag system OpenGL headers
+#include <iostream>
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1900) && !defined(IMGUI_DISABLE_WIN32_FUNCTIONS)
 #pragma comment(lib, "legacy_stdio_definitions")
@@ -105,6 +106,15 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init(glsl_version);
 
+    // Print OpenGL version
+    printf("OpenGL version: %s\n", getOpenGLVersion());
+    printf("GLSL version: %s\n", getGLSLVersion());
+    printf("GLFW version: %s\n", getGLFWVersion());
+    printf("Glad version: %s\n", getGladVersion());
+    printf("ImGui version: %s\n", getImGuiVersion());
+    printf("GLM version: %s\n", getGLMVersion());
+
+
     // Setup OpenGL state
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
@@ -113,7 +123,7 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     //    glEnable(GL_POINT_SMOOTH); // Deprecated
-    //    glPointSize(1.1f); // 1.1f
+    glPointSize(1.0f);
 }
 
 ParticleSimulatorLauncher::~ParticleSimulatorLauncher() {
@@ -308,4 +318,32 @@ void ParticleSimulatorLauncher::updateScreen() {
     }
 
     glfwSwapBuffers(window);
+}
+
+char* ParticleSimulatorLauncher::getOpenGLVersion() {
+    return (char*)glGetString(GL_VERSION);
+}
+
+char* ParticleSimulatorLauncher::getGLSLVersion() {
+    return (char*)glGetString(GL_SHADING_LANGUAGE_VERSION);
+}
+
+char* ParticleSimulatorLauncher::getGLFWVersion() {
+    char version[10];
+    sprintf(version, "%d.%d.%d", GLFW_VERSION_MAJOR, GLFW_VERSION_MINOR, GLFW_VERSION_REVISION);
+    return version;
+}
+
+char* ParticleSimulatorLauncher::getGladVersion() {
+    return "0.1.36";
+}
+
+char* ParticleSimulatorLauncher::getImGuiVersion() {
+    return IMGUI_VERSION;
+}
+
+char* ParticleSimulatorLauncher::getGLMVersion() {
+    char version[10];
+    sprintf(version, "%d.%d.%d", GLM_VERSION_MAJOR, GLM_VERSION_MINOR, GLM_VERSION_PATCH);
+    return version;
 }
