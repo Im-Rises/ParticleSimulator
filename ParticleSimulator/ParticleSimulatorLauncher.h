@@ -8,7 +8,7 @@
 struct GLFWwindow;
 
 constexpr const std::string_view PROJECT_NAME = "Particle Simulator 3D";
-constexpr const std::string_view PROJECT_VERSION = "0.0.1";
+constexpr const std::string_view PROJECT_VERSION = "0.1.0";
 constexpr const std::string_view PROJECT_GITHUB = "https://github.com/Im-Rises/ParticleSimulator";
 constexpr const std::string_view PROJECT_AUTHOR = "Im-Rises (Quentin Morel)";
 
@@ -44,13 +44,13 @@ private:
     void toggleFullscreen();
 
 private:
-    char* getOpenGLVendor();
-    char* getOpenGLVersion();
-    char* getGLSLVersion();
-    char* getGLFWVersion();
-    char* getGladVersion();
-    char* getImGuiVersion();
-    char* getGLMVersion();
+    std::string_view getOpenGLVendor();
+    std::string_view getOpenGLVersion();
+    std::string_view getGLSLVersion();
+    std::string getGLFWVersion();
+    std::string_view getGladVersion();
+    std::string getImGuiVersion();
+    std::string getGLMVersion();
 };
 
 #endif // PARTICLE_EMISSION_H

@@ -104,13 +104,13 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
 
     // Print OpenGL version
     printf("OpenGL vendor: %s\nOpenGL version: %s\nGLSL version: %s\nGLFW version: %s\nGlad version: %s\nImGui version: %s\nGLM version: %s\n",
-        getOpenGLVendor(),
-        getOpenGLVersion(),
-        getGLSLVersion(),
-        getGLFWVersion(),
-        getGladVersion(),
-        getImGuiVersion(),
-        getGLMVersion());
+        getOpenGLVendor().data(),
+        getOpenGLVersion().data(),
+        getGLSLVersion().data(),
+        getGLFWVersion().data(),
+        getGladVersion().data(),
+        getImGuiVersion().data(),
+        getGLMVersion().data());
 
     // Setup OpenGL state
     glEnable(GL_DEPTH_TEST);
@@ -221,9 +221,9 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
         ImGui::Text("%.3f ms/frame (%.1f FPS)", deltaTime, 1.0f / deltaTime);
         ImGui::Text("Window width: %d", display_w);
         ImGui::Text("Window height: %d", display_h);
-        ImGui::Text("GPU: %s", getOpenGLVendor());
-        ImGui::Text("OpenGL version: %s", getOpenGLVersion());
-        ImGui::Text("GLSL version: %s", getGLSLVersion());
+        ImGui::Text("GPU: %s", getOpenGLVendor().data());
+        ImGui::Text("OpenGL version: %s", getOpenGLVersion().data());
+        ImGui::Text("GLSL version: %s", getGLSLVersion().data());
         ImGui::End();
     }
 
@@ -352,34 +352,34 @@ void ParticleSimulatorLauncher::toggleFullscreen() {
     }
 }
 
-char* ParticleSimulatorLauncher::getOpenGLVendor() {
-    return (char*)glGetString(GL_RENDERER);
+std::string_view ParticleSimulatorLauncher::getOpenGLVendor() {
+    return reinterpret_cast<const char*>(glGetString(GL_RENDERER));
 }
 
-char* ParticleSimulatorLauncher::getOpenGLVersion() {
-    return (char*)glGetString(GL_VERSION);
+std::string_view ParticleSimulatorLauncher::getOpenGLVersion() {
+    return reinterpret_cast<const char*>(glGetString(GL_VERSION));
 }
 
-char* ParticleSimulatorLauncher::getGLSLVersion() {
-    return (char*)glGetString(GL_SHADING_LANGUAGE_VERSION);
+std::string_view ParticleSimulatorLauncher::getGLSLVersion() {
+    return reinterpret_cast<const char*>(glGetString(GL_SHADING_LANGUAGE_VERSION));
 }
 
-char* ParticleSimulatorLauncher::getGLFWVersion() {
+std::string ParticleSimulatorLauncher::getGLFWVersion() {
     char version[10];
     sprintf(version, "%d.%d.%d", GLFW_VERSION_MAJOR, GLFW_VERSION_MINOR, GLFW_VERSION_REVISION);
-    return version;
+    return std::string(version);
 }
 
-char* ParticleSimulatorLauncher::getGladVersion() {
+std::string_view ParticleSimulatorLauncher::getGladVersion() {
     return "0.1.36";
 }
 
-char* ParticleSimulatorLauncher::getImGuiVersion() {
+std::string ParticleSimulatorLauncher::getImGuiVersion() {
     return IMGUI_VERSION;
 }
 
-char* ParticleSimulatorLauncher::getGLMVersion() {
+std::string ParticleSimulatorLauncher::getGLMVersion() {
     char version[10];
     sprintf(version, "%d.%d.%d", GLM_VERSION_MAJOR, GLM_VERSION_MINOR, GLM_VERSION_PATCH);
-    return version;
+    return std::string(version);
 }

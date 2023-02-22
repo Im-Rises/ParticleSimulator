@@ -15,14 +15,6 @@ void Scene::update(float deltaTime) {
     particleSimulator.update(deltaTime);
 }
 
-// void Scene::fixedUpdate(float fixedDeltaTime) {
-//     if (isPaused)
-//     {
-//         return;
-//     }
-//     particleSimulator.fixedUpdate(fixedDeltaTime);
-//}
-
 void Scene::render() {
     particleSimulator.render(camera.getViewMatrix(), camera.getProjectionMatrix());
 }
