@@ -18,6 +18,7 @@ public:
     static bool isUpKeyPressed(GLFWwindow* window);
     static bool isDownKeyPressed(GLFWwindow* window);
     static bool isPauseKeyPressed(GLFWwindow* window);
+    static bool isFullscreenKeyPressed(GLFWwindow* window);
 
 public:
     static void getMouseMovement(GLFWwindow* window, double& xMovement, double& yMovement);

@@ -1,3 +1,4 @@
+#include <iostream>
 #include "InputManager.h"
 
 double InputManager::lastMouseX = 0.0;
@@ -49,6 +50,31 @@ bool InputManager::isPauseKeyPressed(GLFWwindow* window) {
     return false;
 }
 
+bool InputManager::isKeyMouseMovementPressed(GLFWwindow* window) {
+    return glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS;
+}
+
+bool InputManager::isKeyMouseSetTargetPressed(GLFWwindow* window) {
+    return glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS;
+}
+
+bool InputManager::isFullscreenKeyPressed(GLFWwindow* window) {
+    static bool isFullscreenKeyPressed = false;
+    if (glfwGetKey(window, GLFW_KEY_F11) == GLFW_PRESS)
+    {
+        if (!isFullscreenKeyPressed)
+        {
+            isFullscreenKeyPressed = true;
+            return true;
+        }
+    }
+    else
+    {
+        isFullscreenKeyPressed = false;
+    }
+    return false;
+}
+
 void InputManager::getMouseMovement(GLFWwindow* window, double& xMovement, double& yMovement) {
     double x, y;
     glfwGetCursorPos(window, &x, &y);
@@ -58,12 +84,4 @@ void InputManager::getMouseMovement(GLFWwindow* window, double& xMovement, doubl
 
     lastMouseX = x;
     lastMouseY = y;
-}
-
-bool InputManager::isKeyMouseMovementPressed(GLFWwindow* window) {
-    return glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS;
-}
-
-bool InputManager::isKeyMouseSetTargetPressed(GLFWwindow* window) {
-    return glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS;
 }

@@ -68,11 +68,7 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
     glfwSetKeyCallback(window, InputManager::key_callback);
 
     // Center window
-    GLFWmonitor* monitor = glfwGetPrimaryMonitor();
-    const GLFWvidmode* mode = glfwGetVideoMode(monitor);
-    auto xPos = (mode->width - display_w) / 2;
-    auto yPos = (mode->height - display_h) / 2;
-    glfwSetWindowPos(window, xPos, yPos);
+    centerWindow();
 
     // Initialize OpenGL loader
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
@@ -107,13 +103,14 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
     ImGui_ImplOpenGL3_Init(glsl_version);
 
     // Print OpenGL version
-    printf("OpenGL version: %s\n", getOpenGLVersion());
-    printf("GLSL version: %s\n", getGLSLVersion());
-    printf("GLFW version: %s\n", getGLFWVersion());
-    printf("Glad version: %s\n", getGladVersion());
-    printf("ImGui version: %s\n", getImGuiVersion());
-    printf("GLM version: %s\n", getGLMVersion());
-
+    printf("OpenGL vendor: %s\nOpenGL version: %s\nGLSL version: %s\nGLFW version: %s\nGlad version: %s\nImGui version: %s\nGLM version: %s\n",
+        getOpenGLVendor(),
+        getOpenGLVersion(),
+        getGLSLVersion(),
+        getGLFWVersion(),
+        getGladVersion(),
+        getImGuiVersion(),
+        getGLMVersion());
 
     // Setup OpenGL state
     glEnable(GL_DEPTH_TEST);
@@ -169,6 +166,9 @@ void ParticleSimulatorLauncher::start() {
 void ParticleSimulatorLauncher::handleInputs() {
     glfwPollEvents();
 
+    if (InputManager::isFullscreenKeyPressed(window))
+        toggleFullscreen();
+
     /* Read keyboard inputs and update states (buffers) */
     if (InputManager::isLeftKeyPressed(window))
         scene->camera.moveLeft();
@@ -209,6 +209,9 @@ void ParticleSimulatorLauncher::handleInputs() {
 }
 
 void ParticleSimulatorLauncher::handleUi(float deltaTime) {
+    if (isFullscreen)
+        return;
+
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
@@ -218,6 +221,9 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
         ImGui::Text("%.3f ms/frame (%.1f FPS)", deltaTime, 1.0f / deltaTime);
         ImGui::Text("Window width: %d", display_w);
         ImGui::Text("Window height: %d", display_h);
+        ImGui::Text("GPU: %s", getOpenGLVendor());
+        ImGui::Text("OpenGL version: %s", getOpenGLVersion());
+        ImGui::Text("GLSL version: %s", getGLSLVersion());
         ImGui::End();
     }
 
@@ -274,13 +280,18 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
     {
         ImGui::Begin("Particle simulator settings");
 
+        ImGui::Text("Particle count: %s", std::to_string(scene->particleSimulator.getParticleCount()).c_str());
+        ImGui::NewLine();
+
         ImGui::TextColored(ImVec4(1.0F, 0.0F, 1.0F, 1.0F), "Particle settings");
 
         ImGui::Text("Fixed update frequency:");
-        ImGui::DragFloat("##fixedUpdate", &fixedUpdate, 1.0f, 1.0f, 100.0f);
+        ImGui::DragFloat("##fixedUpdate", &fixedUpdate, 1.0f, 1.0f, 1000.0f);
 
         ImGui::End();
     }
+
+    ImGui::Render();
 }
 
 void ParticleSimulatorLauncher::updateGame(float deltaTime) {
@@ -292,12 +303,9 @@ void ParticleSimulatorLauncher::updateGame(float deltaTime) {
         scene->update(fixedDeltaTime);
         accumulator -= fixedDeltaTime;
     }
-
-    //    scene->update(deltaTime);
 }
 
 void ParticleSimulatorLauncher::updateScreen() {
-    ImGui::Render();
     int display_w, display_h;
     glfwGetFramebufferSize(window, &display_w, &display_h);
     scene->updateProjectionMatrix(display_w, display_h);
@@ -318,6 +326,34 @@ void ParticleSimulatorLauncher::updateScreen() {
     }
 
     glfwSwapBuffers(window);
+}
+
+void ParticleSimulatorLauncher::centerWindow() {
+    GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+    const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+    auto xPos = (mode->width - display_w) / 2;
+    auto yPos = (mode->height - display_h) / 2;
+    glfwSetWindowPos(window, xPos, yPos);
+}
+
+void ParticleSimulatorLauncher::toggleFullscreen() {
+    if (isFullscreen)
+    {
+        glfwSetWindowMonitor(window, NULL, 0, 0, 1280, 720, 0);
+        centerWindow();
+        isFullscreen = false;
+    }
+    else
+    {
+        GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+        const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+        glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
+        isFullscreen = true;
+    }
+}
+
+char* ParticleSimulatorLauncher::getOpenGLVendor() {
+    return (char*)glGetString(GL_RENDERER);
 }
 
 char* ParticleSimulatorLauncher::getOpenGLVersion() {

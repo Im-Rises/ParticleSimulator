@@ -41,6 +41,8 @@ public:
 public:
     bool getIsPaused() const { return isPaused; }
     void setIsPaused(bool isPaused) { this->isPaused = isPaused; }
+
+    size_t getParticleCount() const { return particles.size(); }
 };
 
 #endif // PARTICLE_SIMULATOR_H

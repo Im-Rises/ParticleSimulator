@@ -16,8 +16,10 @@ class ParticleSimulatorLauncher {
 private:
     GLFWwindow* window;
     int display_w = 1280, display_h = 720;
+    bool isFullscreen = false;
 
     std::unique_ptr<Scene> scene;
+    float fixedUpdate = 50.0f;
 
     struct {
         float x = 0.0f;
@@ -25,8 +27,6 @@ private:
         float z = 0.0f;
         float w = 0.0f;
     } clear_color;
-
-    float fixedUpdate = 50.0f;
 
 public:
     explicit ParticleSimulatorLauncher();
@@ -40,6 +40,11 @@ private:
     void updateScreen();
 
 private:
+    void centerWindow();
+    void toggleFullscreen();
+
+private:
+    char* getOpenGLVendor();
     char* getOpenGLVersion();
     char* getGLSLVersion();
     char* getGLFWVersion();
