@@ -27,7 +27,7 @@ const float distanceOffset = 1000.0f;
 
 void main()
 {
-    Particle particle = particlesSsboData.particles[gl_VertexID-1];// Get the particle data
+    Particle particle = particlesSsboData.particles[gl_VertexID];// Get the particle data
 
     if (!u_isPaused) {
         // Newton's law of gravity F = G * m1 * m2 / r^2 (F = force, G = gravitational constant, m1 = mass of the particle, m2 = mass of the point of gravity, r = distance between the particle and the point of gravity)
@@ -45,7 +45,7 @@ void main()
         particle.position += particle.velocity * u_deltaTime;
 
         // Set the new particle data
-        particlesSsboData.particles[gl_VertexID-1] = particle;
+        particlesSsboData.particles[gl_VertexID] = particle;
     }
 
     // Set the output

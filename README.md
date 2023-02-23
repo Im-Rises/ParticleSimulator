@@ -50,6 +50,7 @@ Major:
 - [ ] Set point of gravity only on the left click
 - [ ] Set point of gravity on the mouse position
 - [ ] Correct mouse drag of the particles
+- [ ] Correct bug of one particle that is not moving
 
 Minor:
 
