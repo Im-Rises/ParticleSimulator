@@ -163,7 +163,6 @@ void ParticleSimulatorLauncher::start() {
 void ParticleSimulatorLauncher::handleInputs() {
     glfwPollEvents();
 
-    // TODO: move this to a callback
     if (InputManager::isFullscreenKeyPressed(window))
         toggleFullscreen();
 
@@ -296,15 +295,15 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
 }
 
 void ParticleSimulatorLauncher::updateGame(float deltaTime) {
-    const float fixedDeltaTime = 1.0f / fixedUpdate;
-    //    const float fixedDeltaTime = 1.0f / 60;
-    static float accumulator = 0.0f;
-    accumulator += deltaTime;
-    while (accumulator >= fixedDeltaTime)
-    {
-        scene->update(fixedDeltaTime);
-        accumulator -= fixedDeltaTime;
-    }
+    //    const float fixedDeltaTime = 1.0f / fixedUpdate;
+    //    static float accumulator = 0.0f;
+    //    accumulator += deltaTime;
+    //    while (accumulator >= fixedDeltaTime)
+    //    {
+    //        scene->update(fixedDeltaTime);
+    //        accumulator -= fixedDeltaTime;
+    //    }
+    scene->update(deltaTime);
 }
 
 void ParticleSimulatorLauncher::updateScreen() {
@@ -315,16 +314,20 @@ void ParticleSimulatorLauncher::updateScreen() {
     glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     scene->render();
-    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-    ImGuiIO& io = ImGui::GetIO();
-    (void)io;
-    if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+    if (!isFullscreen)
     {
-        GLFWwindow* backup_current_context = glfwGetCurrentContext();
-        ImGui::UpdatePlatformWindows();
-        ImGui::RenderPlatformWindowsDefault();
-        glfwMakeContextCurrent(backup_current_context);
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+        ImGuiIO& io = ImGui::GetIO();
+        (void)io;
+        if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+        {
+            GLFWwindow* backup_current_context = glfwGetCurrentContext();
+            ImGui::UpdatePlatformWindows();
+            ImGui::RenderPlatformWindowsDefault();
+            glfwMakeContextCurrent(backup_current_context);
+        }
     }
 
     glfwSwapBuffers(window);
