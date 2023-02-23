@@ -27,6 +27,8 @@ private:
 
     bool isPaused = false;
 
+    float distanceToCamera = 10.0f;
+
 public:
     explicit ParticleSimulator(int particleCount = 100000);
     ~ParticleSimulator();

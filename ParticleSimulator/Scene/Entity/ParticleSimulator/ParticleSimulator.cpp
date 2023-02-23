@@ -102,5 +102,5 @@ void ParticleSimulator::reset() {
 }
 
 void ParticleSimulator::setPointOfGravity(glm::vec3 cameraPos, glm::vec3 cameraFront) {
-    pointOfGravity = cameraPos + cameraFront * 10.0f;
+    pointOfGravity = cameraPos + cameraFront * distanceToCamera;
 }

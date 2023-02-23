@@ -23,6 +23,7 @@ const float G = 1000.0f;// Gravitational constant
 const float m1 = 1000.0f;// Mass of the particle
 const float m2 = 1.0f;// Mass of the point of gravity
 const float distanceOffset = 1000.0f;
+//const float friction = 0.99f;
 
 void main()
 {
@@ -42,6 +43,9 @@ void main()
 
         // p = p0 + v * t
         particle.position += particle.velocity * u_deltaTime;
+
+        // Friction
+        //        particle.velocity *= friction;
 
         // Set the new particle data
         particlesSsboData.particles[gl_VertexID] = particle;
