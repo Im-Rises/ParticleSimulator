@@ -209,7 +209,7 @@ void ParticleSimulatorLauncher::handleInputs() {
 }
 
 void ParticleSimulatorLauncher::handleUi(float deltaTime) {
-    if (isFullscreen)
+    if (isFullscreen || isWindowMinimized())
         return;
 
     ImGui_ImplOpenGL3_NewFrame();
@@ -307,29 +307,32 @@ void ParticleSimulatorLauncher::updateGame(float deltaTime) {
 }
 
 void ParticleSimulatorLauncher::updateScreen() {
-    int screenWidth, screenHeight;
-    glfwGetFramebufferSize(window, &screenWidth, &screenHeight);
-    scene->updateProjectionMatrix(screenWidth, screenHeight);
-    glViewport(0, 0, screenWidth, screenHeight);
-    glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    scene->render();
-
-    if (!isFullscreen)
+    if (!isWindowMinimized())
     {
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+        int screenWidth, screenHeight;
+        glfwGetFramebufferSize(window, &screenWidth, &screenHeight);
+        scene->updateProjectionMatrix(screenWidth, screenHeight);
+        glViewport(0, 0, screenWidth, screenHeight);
 
-        ImGuiIO& io = ImGui::GetIO();
-        (void)io;
-        if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+        glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        scene->render();
+
+        if (!isFullscreen)
         {
-            GLFWwindow* backup_current_context = glfwGetCurrentContext();
-            ImGui::UpdatePlatformWindows();
-            ImGui::RenderPlatformWindowsDefault();
-            glfwMakeContextCurrent(backup_current_context);
+            ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+            ImGuiIO& io = ImGui::GetIO();
+            (void)io;
+            if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+            {
+                GLFWwindow* backup_current_context = glfwGetCurrentContext();
+                ImGui::UpdatePlatformWindows();
+                ImGui::RenderPlatformWindowsDefault();
+                glfwMakeContextCurrent(backup_current_context);
+            }
         }
     }
-
     glfwSwapBuffers(window);
 }
 
@@ -355,6 +358,12 @@ void ParticleSimulatorLauncher::toggleFullscreen() {
         glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
         isFullscreen = true;
     }
+}
+
+bool ParticleSimulatorLauncher::isWindowMinimized() {
+    int width, height;
+    glfwGetWindowSize(window, &width, &height);
+    return width == 0 || height == 0;
 }
 
 std::string_view ParticleSimulatorLauncher::getOpenGLVendor() {

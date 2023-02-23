@@ -17,6 +17,7 @@ private:
     GLFWwindow* window;
     int display_w = 1280, display_h = 720;
     bool isFullscreen = false;
+    //    bool isMinimized = false;
 
     std::unique_ptr<Scene> scene;
     float fixedUpdate = 60.0f;
@@ -42,6 +43,7 @@ private:
 private:
     void centerWindow();
     void toggleFullscreen();
+    bool isWindowMinimized();
 
 private:
     std::string_view getOpenGLVendor();

@@ -18,6 +18,7 @@ The source code of the WebGL can be found at the following link:
 
 > **Note:**   
 > This project is still in development.
+> The tests are done on a Windows 11 machine with an Nvidia RTX 2070 Super 6GB.
 
 ## Images
 
