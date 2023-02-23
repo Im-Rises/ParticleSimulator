@@ -27,6 +27,7 @@ private:
 
     bool isPaused = false;
 
+    bool u_isTargeting = false;
     float distanceToCamera = 10.0f;
 
 public:
@@ -42,13 +43,12 @@ public:
     void reset();
 
 public:
-    void setPointOfGravity(glm::vec3 cameraPos, glm::vec3 cameraFront);
-
-public:
+    void setPointOfGravity(glm::vec3 pointOfGravity);
+    void setIsTargetingPointOfGravity(bool isTargetingPointOfGravity) { this->u_isTargeting = isTargetingPointOfGravity; }
     [[nodiscard]] bool getIsPaused() const { return isPaused; }
-    void setIsPaused(bool isPaused) { this->isPaused = isPaused; }
-
+    void setIsPaused(bool value) { this->isPaused = value; }
     [[nodiscard]] size_t getParticleCount() const { return particles.size(); }
+
 };
 
 #endif // PARTICLE_SIMULATOR_H

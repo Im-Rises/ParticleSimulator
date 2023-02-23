@@ -192,19 +192,21 @@ void ParticleSimulatorLauncher::handleInputs() {
         scene->reset();
 
     /* Get mouse position*/
-    double x = 0, y = 0;
-    InputManager::getMouseMovement(window, x, y);
+    double mouseX = 0, mouseY = 0;
+    InputManager::getMouseMovement(window, mouseX, mouseY);
 
     // Read mouse inputs and update camera
     if (InputManager::isKeyMouseMovementPressed(window))
     {
-        scene->camera.processMouseMovement((float)x, (float)y);
+        scene->camera.processMouseMovement((float)mouseX, (float)mouseY);
     }
 
     // Read mouse inputs and update simulator target
     if (InputManager::isKeyMouseSetTargetPressed(window))
     {
-        scene->particleSimulator.setPointOfGravity(scene->camera.position, scene->camera.cameraFrontBuffer);
+        //        scene->particleSimulator.setPointOfGravity(scene->camera.position, scene->camera.cameraFrontBuffer);
+        float xMouseNDC = 2 * (float)mouseX / (float)display_w - 1;
+        float yMouseNDC = 1 - 2 * (float)mouseY / (float)display_h;
     }
 }
 

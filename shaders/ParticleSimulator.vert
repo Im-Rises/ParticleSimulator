@@ -14,6 +14,7 @@ layout (std430, binding = 0) buffer ParticlesSsbo {
 
 uniform mat4 u_mvp;
 uniform float u_deltaTime;
+uniform bool u_isTargeting;
 uniform vec3 u_pointOfGravity;
 uniform bool u_isPaused;
 
@@ -30,16 +31,19 @@ void main()
     Particle particle = particlesSsboData.particles[gl_VertexID];// Get the particle data
 
     if (!u_isPaused) {
-        // Newton's law of gravity F = G * m1 * m2 / r^2 (F = force, G = gravitational constant, m1 = mass of the particle, m2 = mass of the point of gravity, r = distance between the particle and the point of gravity)
-        vec3 r = u_pointOfGravity - particle.position;
-        float rSquared = dot(r, r) + distanceOffset;// (dot(toMass, toMass)) gives the square of the magnitude (length) of the vector
-        vec3 force = G * m1 * m2 * normalize(r) / rSquared;// normalize(r) gives the direction of the vector
+        if (u_isTargeting)
+        {
+            // Newton's law of gravity F = G * m1 * m2 / r^2 (F = force, G = gravitational constant, m1 = mass of the particle, m2 = mass of the point of gravity, r = distance between the particle and the point of gravity)
+            vec3 r = u_pointOfGravity - particle.position;
+            float rSquared = dot(r, r) + distanceOffset;// (dot(toMass, toMass)) gives the square of the magnitude (length) of the vector
+            vec3 force = G * m1 * m2 * normalize(r) / rSquared;// normalize(r) gives the direction of the vector
 
-        // F = ma
-        vec3 acceleration = force / m1;// a = F / m
+            // F = ma
+            vec3 acceleration = force / m1;// a = F / m
 
-        // v = v0 + at
-        particle.velocity += acceleration * u_deltaTime;
+            // v = v0 + at
+            particle.velocity += acceleration * u_deltaTime;
+        }
 
         // p = p0 + v * t
         particle.position += particle.velocity * u_deltaTime;
