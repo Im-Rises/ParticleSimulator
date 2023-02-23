@@ -8,7 +8,7 @@
 struct GLFWwindow;
 
 constexpr const std::string_view PROJECT_NAME = "Particle Simulator 3D";
-constexpr const std::string_view PROJECT_VERSION = "0.1.2";
+constexpr const std::string_view PROJECT_VERSION = "0.1.3";
 constexpr const std::string_view PROJECT_GITHUB = "https://github.com/Im-Rises/ParticleSimulator";
 constexpr const std::string_view PROJECT_AUTHOR = "Im-Rises (Quentin Morel)";
 
@@ -17,7 +17,6 @@ private:
     GLFWwindow* window;
     int display_w = 1280, display_h = 720;
     bool isFullscreen = false;
-    //    bool isMinimized = false;
 
     std::unique_ptr<Scene> scene;
     float fixedUpdate = 60.0f;

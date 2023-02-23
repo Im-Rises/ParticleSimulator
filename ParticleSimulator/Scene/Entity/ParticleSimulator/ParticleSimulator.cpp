@@ -50,7 +50,7 @@ void ParticleSimulator::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProje
     // Set the uniform variables
     shader.setMat4("u_mvp", cameraProjectionMatrix * cameraViewMatrix);
     shader.setFloat("u_deltaTime", deltaTime);
-    shader.setBool("u_isTargeting", u_isTargeting);
+    shader.setBool("u_isTargeting", isTargeting);
     shader.setVec3("u_pointOfGravity", pointOfGravity);
     shader.setBool("u_isPaused", isPaused);
 
@@ -103,6 +103,5 @@ void ParticleSimulator::reset() {
 }
 
 void ParticleSimulator::setPointOfGravity(glm::vec3 pointOfGravity) {
-    //    pointOfGravity = cameraPos + cameraFront * distanceToCamera;
     this->pointOfGravity = pointOfGravity;
 }

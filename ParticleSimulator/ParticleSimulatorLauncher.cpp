@@ -100,7 +100,8 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
     ImGui_ImplOpenGL3_Init(glsl_version);
 
     // Print OpenGL version
-    printf("OpenGL vendor: %s\nOpenGL version: %s\nGLSL version: %s\nGLFW version: %s\nGlad version: %s\nImGui version: %s\nGLM version: %s\n",
+    printf("OpenGL vendor: %s\nOpenGL version: %s\nGLSL version: %s\nGLFW version: %s\n"
+           "Glad version: %s\nImGui version: %s\nGLM version: %s\n",
         getOpenGLVendor().data(),
         getOpenGLVersion().data(),
         getGLSLVersion().data(),
@@ -201,12 +202,14 @@ void ParticleSimulatorLauncher::handleInputs() {
         scene->camera.processMouseMovement((float)mouseX, (float)mouseY);
     }
 
-    // Read mouse inputs and update simulator target
-    if (InputManager::isKeyMouseSetTargetPressed(window))
+    // Read mouse inputs and update particle simulator target
+    bool isTargeting = InputManager::isKeyMouseSetTargetPressed(window);
+    scene->particleSimulator.setIsTargeting(isTargeting);
+    if (isTargeting)
     {
         //        scene->particleSimulator.setPointOfGravity(scene->camera.position, scene->camera.cameraFrontBuffer);
-        float xMouseNDC = 2 * (float)mouseX / (float)display_w - 1;
-        float yMouseNDC = 1 - 2 * (float)mouseY / (float)display_h;
+        //        float xMouseNDC = 2 * (float)mouseX / (float)display_w - 1;
+        //        float yMouseNDC = 1 - 2 * (float)mouseY / (float)display_h;
     }
 }
 
@@ -383,7 +386,7 @@ std::string_view ParticleSimulatorLauncher::getGLSLVersion() {
 std::string ParticleSimulatorLauncher::getGLFWVersion() {
     char version[10];
     sprintf(version, "%d.%d.%d", GLFW_VERSION_MAJOR, GLFW_VERSION_MINOR, GLFW_VERSION_REVISION);
-    return std::string(version);
+    return { version };
 }
 
 std::string_view ParticleSimulatorLauncher::getGladVersion() {
@@ -397,5 +400,5 @@ std::string ParticleSimulatorLauncher::getImGuiVersion() {
 std::string ParticleSimulatorLauncher::getGLMVersion() {
     char version[10];
     sprintf(version, "%d.%d.%d", GLM_VERSION_MAJOR, GLM_VERSION_MINOR, GLM_VERSION_PATCH);
-    return std::string(version);
+    return { version };
 }
