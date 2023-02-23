@@ -296,7 +296,8 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
 }
 
 void ParticleSimulatorLauncher::updateGame(float deltaTime) {
-    const float fixedDeltaTime = 1.0f / fixedUpdate;
+    //    const float fixedDeltaTime = 1.0f / fixedUpdate;
+    const float fixedDeltaTime = 1.0f / 60;
     static float accumulator = 0.0f;
     accumulator += deltaTime;
     while (accumulator >= fixedDeltaTime)

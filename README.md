@@ -40,10 +40,6 @@ PLACEHOLDER
 
 ## Todo
 
-Necessary:
-
-- [ ] Correct the debug Visual Studio build (it doesn't work, it's not displaying anything)
-
 Major:
 
 - [ ] Correct fixed updated linked to the render function in the ParticleSimulator
