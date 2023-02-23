@@ -19,7 +19,7 @@ private:
     bool isFullscreen = false;
 
     std::unique_ptr<Scene> scene;
-    float fixedUpdate = 50.0f;
+    float fixedUpdate = 60.0f;
 
     struct {
         float x = 0.0f;

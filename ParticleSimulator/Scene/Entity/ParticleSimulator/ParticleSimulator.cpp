@@ -47,9 +47,8 @@ void ParticleSimulator::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProje
     // Bind the shader
     shader.use();
 
-    // Set the uniforms
-    shader.setMat4("u_view", cameraViewMatrix);
-    shader.setMat4("u_projection", cameraProjectionMatrix);
+    // Set the uniform variables
+    shader.setMat4("u_mvp", cameraProjectionMatrix * cameraViewMatrix);
     shader.setFloat("u_deltaTime", deltaTime);
     shader.setVec3("u_pointOfGravity", pointOfGravity);
     shader.setBool("u_isPaused", isPaused);

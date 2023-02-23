@@ -12,8 +12,7 @@ layout (std430, binding = 0) buffer ParticlesSsbo {
     Particle particles[];
 } particlesSsboData;
 
-uniform mat4 u_view;
-uniform mat4 u_projection;
+uniform mat4 u_mvp;
 uniform float u_deltaTime;
 uniform vec3 u_pointOfGravity;
 uniform bool u_isPaused;
@@ -49,7 +48,7 @@ void main()
     }
 
     // Set the output
-    gl_Position = u_projection * u_view * vec4(particle.position, 1.0);
+    gl_Position = u_mvp * vec4(particle.position, 1.0);
 
     // Set the color
     v_color = vec3(0.0, 1.0, 1.0);
