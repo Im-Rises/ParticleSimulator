@@ -15,6 +15,8 @@ layout (std430, binding = 0) buffer ParticlesSsbo {
 uniform mat4 u_mvp;
 uniform float u_deltaTime;
 uniform vec3 u_pointOfGravity;
+// Use float instead of bool as boolean condition in shader can produce unexpected results, the float is 0.0f or 1.0f
+// and used to multiply the force to apply or not
 uniform float u_isTargeting;
 uniform float u_isPaused;
 
