@@ -50,13 +50,13 @@ Major:
 - [ ] Set point of gravity only on the left click
 - [ ] Set point of gravity on the mouse position
 - [ ] Correct mouse drag of the particles
-- [ ] Correct bug of one particle that is not moving
 
 Minor:
 
 - [ ] Move fullscreen toggle to a callback function
 - [ ] Change particle color based on velocity or age or the distance to the mouse
 - [ ] Add friction to the particles
+- [ ] Use rounded particles
 
 ## Dependencies
 

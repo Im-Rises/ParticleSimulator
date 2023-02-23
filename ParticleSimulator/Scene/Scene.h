@@ -1,7 +1,6 @@
 #ifndef SCENE_H
 #define SCENE_H
 
-#include "Entity/Cube/Cube.h"
 #include "Camera/Camera.h"
 #include "Entity/ParticleSimulator/ParticleSimulator.h"
 
@@ -12,7 +11,6 @@ private:
 public:
     Camera camera;
 
-    // private:
     ParticleSimulator particleSimulator;
 
 public:
