@@ -45,6 +45,9 @@ private:
     bool isWindowMinimized();
 
 private:
+    void calculateMouseMovement(float& xMouse, float& yMouse);
+
+private:
     std::string_view getOpenGLVendor();
     std::string_view getOpenGLVersion();
     std::string_view getGLSLVersion();

@@ -207,9 +207,7 @@ void ParticleSimulatorLauncher::handleInputs() {
     scene->particleSimulator.setIsTargeting(isTargeting);
     if (isTargeting)
     {
-        //        scene->particleSimulator.setPointOfGravity(scene->camera.position, scene->camera.cameraFrontBuffer);
-        //        float xMouseNDC = 2 * (float)mouseX / (float)display_w - 1;
-        //        float yMouseNDC = 1 - 2 * (float)mouseY / (float)display_h;
+        //        scene->particleSimulator.mouseProjection((float)mouseX, (float)mouseY, display_w, display_h, scene->camera.getViewMatrix(), scene->camera.getProjectionMatrix());
     }
 }
 
@@ -401,4 +399,7 @@ std::string ParticleSimulatorLauncher::getGLMVersion() {
     char version[10];
     sprintf(version, "%d.%d.%d", GLM_VERSION_MAJOR, GLM_VERSION_MINOR, GLM_VERSION_PATCH);
     return { version };
+}
+
+void ParticleSimulatorLauncher::calculateMouseMovement(float& xMouse, float& yMouse) {
 }

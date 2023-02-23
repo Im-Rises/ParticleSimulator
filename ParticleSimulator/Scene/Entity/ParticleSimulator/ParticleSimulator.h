@@ -25,8 +25,8 @@ private:
     float deltaTime;
     glm::vec3 pointOfGravity;
 
-    bool isPaused = false;
-    bool isTargeting = false;
+    float isPaused = 0.0f;
+    float isTargeting = 0.0f;
     float distanceToCamera = 10.0f;
 
 public:
@@ -34,17 +34,17 @@ public:
     ~ParticleSimulator();
 
 public:
-    void update(float deltaTime) override;
+    void update(const float& deltaTime) override;
     void render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProjectionMatrix) override;
 
 public:
     void randomizeParticles();
     void reset();
+    void mouseProjection(const float& xMouse, const float& yMouse, const int& screenWidth, const int& screenHeight, const glm::mat4& cameraViewMatrix, const glm::mat4& cameraProjectionMatrix);
 
 public:
-    void setPointOfGravity(glm::vec3 pointOfGravity);
-    void setIsTargeting(bool value) { this->isTargeting = value; }
-    void setIsPaused(bool value) { this->isPaused = value; }
+    void setIsTargeting(const bool& value) { this->isTargeting = (float)value; }
+    void setIsPaused(const bool& value) { this->isPaused = (float)value; }
 
     [[nodiscard]] size_t getParticleCount() const { return particles.size(); }
 };

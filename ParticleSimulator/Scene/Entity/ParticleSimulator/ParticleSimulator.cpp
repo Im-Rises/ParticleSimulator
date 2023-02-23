@@ -1,6 +1,7 @@
 #include "ParticleSimulator.h"
 
 #include <random>
+#include <iostream>
 
 ParticleSimulator::ParticleSimulator(int particleCount) : Entity("shaders/ParticleSimulator.vert", "shaders/ParticleSimulator.frag") {
     // Resize the particles vector
@@ -32,7 +33,7 @@ ParticleSimulator::~ParticleSimulator() {
     glDeleteBuffers(1, &ssbo);
 }
 
-void ParticleSimulator::update(float deltaTime) {
+void ParticleSimulator::update(const float& deltaTime) {
     this->deltaTime = deltaTime;
 }
 
@@ -50,9 +51,9 @@ void ParticleSimulator::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProje
     // Set the uniform variables
     shader.setMat4("u_mvp", cameraProjectionMatrix * cameraViewMatrix);
     shader.setFloat("u_deltaTime", deltaTime);
-    shader.setBool("u_isTargeting", isTargeting);
     shader.setVec3("u_pointOfGravity", pointOfGravity);
-    shader.setBool("u_isPaused", isPaused);
+    shader.setFloat("u_isTargeting", isTargeting);
+    shader.setFloat("u_isPaused", isPaused);
 
     // Draw the particles
     glDrawArrays(GL_POINTS, 0, particles.size());
@@ -102,6 +103,18 @@ void ParticleSimulator::reset() {
     glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
-void ParticleSimulator::setPointOfGravity(glm::vec3 pointOfGravity) {
-    this->pointOfGravity = pointOfGravity;
+void ParticleSimulator::mouseProjection(const float& xMouse, const float& yMouse, const int& screenWidth, const int& screenHeight, const glm::mat4& cameraViewMatrix, const glm::mat4& cameraProjectionMatrix) {
+    float x = (2.0f * xMouse) / screenWidth - 1.0f;
+    float y = 1.0f - (2.0f * yMouse) / screenHeight;
+
+    glm::vec4 rayClip = glm::vec4(x, y, -1.0f, 1.0f);
+    glm::vec4 rayEye = glm::inverse(cameraProjectionMatrix) * rayClip;
+    rayEye = glm::vec4(rayEye.x, rayEye.y, -1.0f, 0.0f);
+    glm::vec3 rayWorld = glm::vec3(glm::inverse(cameraViewMatrix) * rayEye);
+    rayWorld = glm::normalize(rayWorld);
+
+    pointOfGravity = rayWorld * distanceToCamera;
+
+    std::cout << "x: " << x << " y: " << y << std::endl;
+    std::cout << "pointOfGravity: " << pointOfGravity.x << " " << pointOfGravity.y << " " << pointOfGravity.z << std::endl;
 }

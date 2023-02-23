@@ -43,10 +43,12 @@ PLACEHOLDER
 
 Major:
 
-- [ ] Correct fixed updated linked to the render function in the ParticleSimulator
+- [ ] Put the mouse coordinate getter in the UpdateInputs function and calculate from here the mouse movement for the
+  camera rotation and the mouse position for the gravity
 - [ ] Set point of gravity only on the left click
 - [ ] Set point of gravity on the mouse position
 - [ ] Correct mouse drag of the particles
+- [ ] Correct fixed updated linked to the render function in the ParticleSimulator
 - [ ] Change particle color based on velocity or age or the distance to the mouse
 
 Minor:
