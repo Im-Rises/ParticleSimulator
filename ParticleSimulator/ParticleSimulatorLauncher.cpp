@@ -209,10 +209,8 @@ void ParticleSimulatorLauncher::handleInputs() {
     // Read mouse inputs and update particle simulator target
     bool isTargeting = InputManager::isKeyMouseSetTargetPressed(window);
     scene->particleSimulator.setIsTargeting(isTargeting);
-    if (isTargeting)
-    {
-        scene->particleSimulator.setTarget(projectMouse(mouseX, mouseY));
-    }
+    mousePositionWorld = projectMouse(mouseX, mouseY);
+    scene->particleSimulator.setTarget(mousePositionWorld);
 }
 
 void ParticleSimulatorLauncher::handleUi(float deltaTime) {
@@ -302,6 +300,20 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
         {
             scene->togglePause();
         }
+        ImGui::End();
+    }
+
+    {
+        ImGui::Begin("Mouse controls");
+
+        ImGui::Text("Is targeting: %s", scene->particleSimulator.getIsTargeting() ? "true" : "false");
+
+        ImGui::Text("Mouse position world:");
+        ImGui::Text("X: %f", mousePositionWorld.x);
+        ImGui::SameLine();
+        ImGui::Text("Y: %f", mousePositionWorld.y);
+        ImGui::SameLine();
+        ImGui::Text("Z: %f", mousePositionWorld.z);
 
         ImGui::Text("Target distance:");
         ImGui::DragFloat("##targetDistance", &targetDistance, 0.1f, 0.0f, 100.0f);

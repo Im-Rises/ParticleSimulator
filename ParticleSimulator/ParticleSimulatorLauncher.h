@@ -29,6 +29,7 @@ private:
     } clear_color;
 
     float targetDistance = 10.0f;
+    glm::vec3 mousePositionWorld;
 
 public:
     explicit ParticleSimulatorLauncher();
