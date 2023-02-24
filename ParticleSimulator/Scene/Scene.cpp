@@ -22,7 +22,12 @@ void Scene::render() {
 void Scene::updateProjectionMatrix(int display_w, int display_h) {
     camera.updateProjectionMatrix(display_w, display_h);
 }
+
 void Scene::togglePause() {
     isPaused = !isPaused;
-    particleSimulator.setIsPaused(isPaused);
+    //    particleSimulator.setIsRunning(!isPaused);
+}
+
+void Scene::reset() {
+    particleSimulator.reset();
 }

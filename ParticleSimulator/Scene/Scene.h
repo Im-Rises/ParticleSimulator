@@ -1,7 +1,6 @@
 #ifndef SCENE_H
 #define SCENE_H
 
-#include "Entity/Cube/Cube.h"
 #include "Camera/Camera.h"
 #include "Entity/ParticleSimulator/ParticleSimulator.h"
 
@@ -11,20 +10,21 @@ private:
 
 public:
     Camera camera;
-
-    // private:
     ParticleSimulator particleSimulator;
 
 public:
     Scene(int display_w, int display_h);
     ~Scene();
     void update(float deltaTime);
-    //    void fixedUpdate(float fixedDeltaTime);
     void render();
 
 public:
     void updateProjectionMatrix(int display_w, int display_h);
     void togglePause();
+    void reset();
+
+public:
+    [[nodiscard]] bool getIsPaused() const { return isPaused; }
 };
 
 #endif // SCENE_H

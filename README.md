@@ -9,10 +9,16 @@
 
 ## Description
 
-This is a simple particle simulator made with OpenGL and C++.
+This is a simple particle simulator made with OpenGL and C++ with the help of the ImGui library for the UI.
+
+You can also test the app using the WebGL version  [here](https://im-rises.github.io/particle-simulator-webgl/).
+
+The source code of the WebGL can be found at the following link:  
+<https://github.com/Im-Rises/particle-simulator-webgl>
 
 > **Note:**   
 > This project is still in development.
+> The tests are done on a Windows 11 machine with an Nvidia RTX 2070 Super 6GB.
 
 ## Images
 
@@ -20,16 +26,37 @@ This is a simple particle simulator made with OpenGL and C++.
 ![screenshot (2)](https://user-images.githubusercontent.com/59691442/220508256-11312315-eb2d-4101-8086-cda5ede960fe.png)
 ![screenshot (3)](https://user-images.githubusercontent.com/59691442/220508258-c45c4877-e884-4ad7-b544-3a22945e0e0e.png)
 
+## Video
+
+PLACEHOLDER
+
+## Features
+
+- [x] ImGui UI
+- [x] Camera movement
+- [x] Camera settings
+- [x] Mouse drag of the particles
+- [x] Fullscreen toggle
+- [x] Pause simulation
+
 ## Todo
 
-- Change particle color based on velocity or age or the distance to the mouse
-- Correct fixed updated linked to the render function in the ParticleSimulator
-- Add a way to reset the simulation
-- Correct mouse drag of the particles
+Major:
+
+- [ ] Correct pause simulation
+- [ ] Adjust the particles settings
+- [ ] Correct mouse drag of the particles (add lerp function ?)
+- [ ] Correct fixed updated linked to the render function in the ParticleSimulator
+- [ ] Change particle color based on velocity or age or the distance to the mouse
+
+Minor:
+
+- [ ] Move fullscreen toggle to a callback function
+- [ ] Change the windows minimized implementation (only call one time isMinimized, at the moment it is called in the
+  UpdateGui (check the Physical Engine Project))
 
 ## Dependencies
 
-- OpenGL vendor: NVIDIA GeForce RTX 2070/PCIe/SSE2
 - OpenGL version: 4.6.0 NVIDIA 528.49
 - GLSL version: 4.60 NVIDIA
 - GLFW version: 3.3.8
@@ -114,7 +141,9 @@ The speed and some parameters can be modified directly in the ImGui windows.
 | Pause/Resume        | P                                   |
 | Move up/down camera | SPACE/SHIFT                         |
 | Rotate camera       | Right Mouse Button + Mouse movement |
+| Fullscreen          | F11                                 |
 | Exit app            | ESC                                 |
+| Drag particles      | Left Mouse Button + Mouse movement  |
 
 > **Note**
 > You can the inputs by changing their attribution in the `InputManager.cpp` file,
@@ -241,6 +270,9 @@ learnopengl (OpenGL tutorial):
 
 unrealistic.dev (Change CMake working directory):  
 <https://unrealistic.dev/posts/setting-debug-parameters-with-cmake-tools-for-visual-studio>
+
+BobBaykiller (Newtonian Particle Simulator):  
+<https://github.com/BoyBaykiller/Newtonian-Particle-Simulator>
 
 ## Contributors
 

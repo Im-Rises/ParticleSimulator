@@ -18,7 +18,7 @@ protected:
 public:
     Entity(const std::string& vertexShaderPath, const std::string& fragmentShaderPath);
     ~Entity();
-    virtual void update(float deltaTime) = 0;
+    virtual void update(const float& deltaTime) = 0;
     //    virtual void fixedUpdate(float fixedDeltaTime) = 0;
     virtual void render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProjectionMatrix) = 0;
     void updateModelMatrix();

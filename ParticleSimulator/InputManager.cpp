@@ -1,8 +1,4 @@
-#include <iostream>
 #include "InputManager.h"
-
-double InputManager::lastMouseX = 0.0;
-double InputManager::lastMouseY = 0.0;
 
 void InputManager::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
@@ -75,13 +71,23 @@ bool InputManager::isFullscreenKeyPressed(GLFWwindow* window) {
     return false;
 }
 
-void InputManager::getMouseMovement(GLFWwindow* window, double& xMovement, double& yMovement) {
-    double x, y;
+bool InputManager::isResetKeyPressed(GLFWwindow* window) {
+    static bool isResetKeyPressed = false;
+    if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)
+    {
+        if (!isResetKeyPressed)
+        {
+            isResetKeyPressed = true;
+            return true;
+        }
+    }
+    else
+    {
+        isResetKeyPressed = false;
+    }
+    return false;
+}
+
+void InputManager::getMousePosition(GLFWwindow* window, double& x, double& y) {
     glfwGetCursorPos(window, &x, &y);
-
-    xMovement = x - lastMouseX;
-    yMovement = lastMouseY - y;
-
-    lastMouseX = x;
-    lastMouseY = y;
 }

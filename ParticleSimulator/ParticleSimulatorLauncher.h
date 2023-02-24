@@ -8,7 +8,7 @@
 struct GLFWwindow;
 
 constexpr const std::string_view PROJECT_NAME = "Particle Simulator 3D";
-constexpr const std::string_view PROJECT_VERSION = "0.1.0";
+constexpr const std::string_view PROJECT_VERSION = "0.1.3";
 constexpr const std::string_view PROJECT_GITHUB = "https://github.com/Im-Rises/ParticleSimulator";
 constexpr const std::string_view PROJECT_AUTHOR = "Im-Rises (Quentin Morel)";
 
@@ -19,7 +19,7 @@ private:
     bool isFullscreen = false;
 
     std::unique_ptr<Scene> scene;
-    float fixedUpdate = 50.0f;
+    float fixedUpdate = 60.0f;
 
     struct {
         float x = 0.0f;
@@ -27,6 +27,9 @@ private:
         float z = 0.0f;
         float w = 0.0f;
     } clear_color;
+
+    float targetDistance = 10.0f;
+    glm::vec3 mousePositionWorld;
 
 public:
     explicit ParticleSimulatorLauncher();
@@ -42,6 +45,12 @@ private:
 private:
     void centerWindow();
     void toggleFullscreen();
+    bool isWindowMinimized();
+
+private:
+    void calculateMouseMovement(const double& xMouse, const double& yMouse, double& xMovement, double& yMovement);
+    glm::vec3 projectMouse(const double& xMouse, const double& yMouse);
+    glm::vec3 calculateWorldSpaceRay(glm::mat4 inverseProjection, glm::mat4 inverseView, glm::vec2 normalizedDeviceCoords);
 
 private:
     std::string_view getOpenGLVendor();

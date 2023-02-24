@@ -25,24 +25,28 @@ private:
     float deltaTime;
     glm::vec3 pointOfGravity;
 
-    bool isPaused = false;
+    //    float isRunning = 1.0f;
+    float isTargeting = 0.0f;
 
 public:
     explicit ParticleSimulator(int particleCount = 100000);
     ~ParticleSimulator();
 
 public:
-    void update(float deltaTime) override;
+    void update(const float& deltaTime) override;
     void render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProjectionMatrix) override;
 
 public:
-    void setPointOfGravity(glm::vec3 cameraPos, glm::vec3 cameraFront);
+    void randomizeParticles();
+    void reset();
+    void setTarget(const glm::vec3& target) { this->pointOfGravity = target; }
 
 public:
-    bool getIsPaused() const { return isPaused; }
-    void setIsPaused(bool isPaused) { this->isPaused = isPaused; }
+    void setIsTargeting(const bool& value) { this->isTargeting = (float)value; }
+    bool getIsTargeting() const { return (bool)this->isTargeting; }
+    //    void setIsRunning(const bool& value) { this->isRunning = (float)value; }
 
-    size_t getParticleCount() const { return particles.size(); }
+    [[nodiscard]] size_t getParticleCount() const { return particles.size(); }
 };
 
 #endif // PARTICLE_SIMULATOR_H
