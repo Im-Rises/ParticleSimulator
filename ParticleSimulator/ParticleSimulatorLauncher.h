@@ -28,6 +28,8 @@ private:
         float w = 0.0f;
     } clear_color;
 
+    float targetDistance = 10.0f;
+
 public:
     explicit ParticleSimulatorLauncher();
     ~ParticleSimulatorLauncher();
@@ -45,7 +47,9 @@ private:
     bool isWindowMinimized();
 
 private:
-    void calculateMouseMovement(float& xMouse, float& yMouse);
+    void calculateMouseMovement(const double& xMouse, const double& yMouse, double& xMovement, double& yMovement);
+    glm::vec3 projectMouse(const double& xMouse, const double& yMouse);
+    glm::vec3 calculateWorldSpaceRay(glm::mat4 inverseProjection, glm::mat4 inverseView, glm::vec2 normalizedDeviceCoords);
 
 private:
     std::string_view getOpenGLVendor();

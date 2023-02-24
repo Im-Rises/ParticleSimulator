@@ -194,12 +194,16 @@ void ParticleSimulatorLauncher::handleInputs() {
 
     /* Get mouse position*/
     double mouseX = 0, mouseY = 0;
-    InputManager::getMouseMovement(window, mouseX, mouseY);
+    InputManager::getMousePosition(window, mouseX, mouseY);
+
+    /* Get mouse delta */
+    double mouseDeltaX = 0, mouseDeltaY = 0;
+    calculateMouseMovement(mouseX, mouseY, mouseDeltaX, mouseDeltaY);
 
     // Read mouse inputs and update camera
     if (InputManager::isKeyMouseMovementPressed(window))
     {
-        scene->camera.processMouseMovement((float)mouseX, (float)mouseY);
+        scene->camera.processMouseMovement((float)mouseDeltaX, (float)mouseDeltaY);
     }
 
     // Read mouse inputs and update particle simulator target
@@ -207,7 +211,7 @@ void ParticleSimulatorLauncher::handleInputs() {
     scene->particleSimulator.setIsTargeting(isTargeting);
     if (isTargeting)
     {
-        //        scene->particleSimulator.mouseProjection((float)mouseX, (float)mouseY, display_w, display_h, scene->camera.getViewMatrix(), scene->camera.getProjectionMatrix());
+        scene->particleSimulator.setTarget(projectMouse(mouseX, mouseY));
     }
 }
 
@@ -291,6 +295,17 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
         ImGui::Text("Fixed update frequency:");
         ImGui::DragFloat("##fixedUpdate", &fixedUpdate, 1.0f, 1.0f, 1000.0f);
 
+        ImGui::Text("Toggle pause:");
+        ImGui::SameLine();
+        ImGui::Button(scene->getIsPaused() ? "Resume##TogglePAuseBtn" : "Pause##TogglePAuseBtn");
+        if (ImGui::IsItemClicked())
+        {
+            scene->togglePause();
+        }
+
+        ImGui::Text("Target distance:");
+        ImGui::DragFloat("##targetDistance", &targetDistance, 0.1f, 0.0f, 100.0f);
+
         ImGui::End();
     }
 
@@ -369,6 +384,33 @@ bool ParticleSimulatorLauncher::isWindowMinimized() {
     return width == 0 || height == 0;
 }
 
+void ParticleSimulatorLauncher::calculateMouseMovement(const double& xMouse, const double& yMouse, double& xMovement, double& yMovement) {
+    static double lastMouseX = 0.0;
+    static double lastMouseY = 0.0;
+
+    xMovement = xMouse - lastMouseX;
+    yMovement = lastMouseY - yMouse;
+
+    lastMouseX = xMouse;
+    lastMouseY = yMouse;
+}
+
+glm::vec3 ParticleSimulatorLauncher::projectMouse(const double& xMouse, const double& yMouse) {
+    glm::vec2 windowSpaceCoords = glm::vec2(xMouse, yMouse);
+    windowSpaceCoords = glm::vec2(windowSpaceCoords.x, display_h - windowSpaceCoords.y);
+    glm::vec2 normalizedDeviceCoords = (windowSpaceCoords / glm::vec2(display_w, display_h)) * 2.0f - glm::vec2(1.0f);
+    glm::vec3 dir = calculateWorldSpaceRay(glm::inverse(scene->camera.getProjectionMatrix()), glm::inverse(scene->camera.getViewMatrix()), normalizedDeviceCoords);
+    return scene->camera.position + dir * targetDistance;
+}
+
+glm::vec3 ParticleSimulatorLauncher::calculateWorldSpaceRay(glm::mat4 inverseProjection, glm::mat4 inverseView, glm::vec2 normalizedDeviceCoords) {
+    glm::vec4 rayEye = glm::vec4(normalizedDeviceCoords, -1.0f, 1.0f) * inverseProjection;
+    rayEye.z = -1.0f;
+    rayEye.w = 0.0f;
+    return glm::normalize(glm::vec3(rayEye * inverseView));
+}
+
+
 std::string_view ParticleSimulatorLauncher::getOpenGLVendor() {
     return reinterpret_cast<const char*>(glGetString(GL_RENDERER));
 }
@@ -399,7 +441,4 @@ std::string ParticleSimulatorLauncher::getGLMVersion() {
     char version[10];
     sprintf(version, "%d.%d.%d", GLM_VERSION_MAJOR, GLM_VERSION_MINOR, GLM_VERSION_PATCH);
     return { version };
-}
-
-void ParticleSimulatorLauncher::calculateMouseMovement(float& xMouse, float& yMouse) {
 }

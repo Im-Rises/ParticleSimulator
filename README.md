@@ -53,6 +53,7 @@ Major:
 
 Minor:
 
+- [ ] Add pause button to the UI
 - [ ] Move fullscreen toggle to a callback function
 - [ ] Change the windows minimized implementation (only call one time isMinimized, at the moment it is called in the
   UpdateGui (check the Physical Engine Project))

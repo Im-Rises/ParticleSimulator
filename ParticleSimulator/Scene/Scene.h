@@ -10,7 +10,6 @@ private:
 
 public:
     Camera camera;
-
     ParticleSimulator particleSimulator;
 
 public:
@@ -23,6 +22,9 @@ public:
     void updateProjectionMatrix(int display_w, int display_h);
     void togglePause();
     void reset();
+
+public:
+    [[nodiscard]] bool getIsPaused() const { return isPaused; }
 };
 
 #endif // SCENE_H

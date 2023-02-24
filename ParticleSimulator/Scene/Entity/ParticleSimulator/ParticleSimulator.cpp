@@ -102,19 +102,3 @@ void ParticleSimulator::reset() {
     glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, particles.size() * sizeof(Particle), particles.data()); // We use glBufferSubData because the buffer is already allocated, and we want to update it
     glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
-
-void ParticleSimulator::mouseProjection(const float& xMouse, const float& yMouse, const int& screenWidth, const int& screenHeight, const glm::mat4& cameraViewMatrix, const glm::mat4& cameraProjectionMatrix) {
-    float x = (2.0f * xMouse) / screenWidth - 1.0f;
-    float y = 1.0f - (2.0f * yMouse) / screenHeight;
-
-    glm::vec4 rayClip = glm::vec4(x, y, -1.0f, 1.0f);
-    glm::vec4 rayEye = glm::inverse(cameraProjectionMatrix) * rayClip;
-    rayEye = glm::vec4(rayEye.x, rayEye.y, -1.0f, 0.0f);
-    glm::vec3 rayWorld = glm::vec3(glm::inverse(cameraViewMatrix) * rayEye);
-    rayWorld = glm::normalize(rayWorld);
-
-    pointOfGravity = rayWorld * distanceToCamera;
-
-    std::cout << "x: " << x << " y: " << y << std::endl;
-    std::cout << "pointOfGravity: " << pointOfGravity.x << " " << pointOfGravity.y << " " << pointOfGravity.z << std::endl;
-}
