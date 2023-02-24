@@ -18,7 +18,7 @@ uniform vec3 u_pointOfGravity;
 // Use float instead of bool as boolean condition in shader can produce unexpected results, the float is 0.0f or 1.0f
 // and used to multiply the force to apply or not
 uniform float u_isTargeting;
-uniform float u_isPaused;
+//uniform float u_isRunning;
 
 out vec3 v_color;
 
@@ -37,7 +37,7 @@ void main()
     // particle and the point of gravity)
     vec3 r = u_pointOfGravity - particle.position;
     float rSquared = dot(r, r) + distanceOffset;// (dot(toMass, toMass)) gives the square of the magnitude (length) of the vector
-    vec3 force = (G * m1 * m2 * normalize(r) / rSquared) * u_isTargeting * u_isPaused;// normalize(r) gives the direction of the vector
+    vec3 force = (G * m1 * m2 * normalize(r) / rSquared) * u_isTargeting;// normalize(r) gives the direction of the vector
 
     // F = ma
     vec3 acceleration = force / m1;// a = F / m

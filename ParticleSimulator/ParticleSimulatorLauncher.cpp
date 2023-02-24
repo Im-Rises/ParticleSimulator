@@ -293,13 +293,25 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
         ImGui::Text("Fixed update frequency:");
         ImGui::DragFloat("##fixedUpdate", &fixedUpdate, 1.0f, 1.0f, 1000.0f);
 
-        ImGui::Text("Toggle pause:");
+        ImGui::Text("Reset simulation:");
         ImGui::SameLine();
-        ImGui::Button(scene->getIsPaused() ? "Resume##TogglePAuseBtn" : "Pause##TogglePAuseBtn");
+        ImGui::Button("Reset##ResetBtn");
         if (ImGui::IsItemClicked())
         {
-            scene->togglePause();
+            scene->reset();
         }
+
+        ImGui::Text("Spawn position:");
+        ImGui::DragFloat3("##spawnPosition", (float*)&scene->particleSimulator.position);
+
+//        ImGui::Text("Toggle pause:");
+//        ImGui::SameLine();
+//        ImGui::Button(scene->getIsPaused() ? "Resume##TogglePAuseBtn" : "Pause##TogglePAuseBtn");
+//        if (ImGui::IsItemClicked())
+//        {
+//            scene->togglePause();
+//        }
+
         ImGui::End();
     }
 

@@ -25,7 +25,7 @@ void Scene::updateProjectionMatrix(int display_w, int display_h) {
 
 void Scene::togglePause() {
     isPaused = !isPaused;
-    particleSimulator.setIsPaused(isPaused);
+    //    particleSimulator.setIsRunning(!isPaused);
 }
 
 void Scene::reset() {

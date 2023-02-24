@@ -43,17 +43,14 @@ PLACEHOLDER
 
 Major:
 
-- [ ] Put the mouse coordinate getter in the UpdateInputs function and calculate from here the mouse movement for the
-  camera rotation and the mouse position for the gravity
-- [ ] Set point of gravity only on the left click
-- [ ] Set point of gravity on the mouse position
-- [ ] Correct mouse drag of the particles
+- [ ] Correct pause simulation
+- [ ] Adjust the particles settings
+- [ ] Correct mouse drag of the particles (add lerp function ?)
 - [ ] Correct fixed updated linked to the render function in the ParticleSimulator
 - [ ] Change particle color based on velocity or age or the distance to the mouse
 
 Minor:
 
-- [ ] Add pause button to the UI
 - [ ] Move fullscreen toggle to a callback function
 - [ ] Change the windows minimized implementation (only call one time isMinimized, at the moment it is called in the
   UpdateGui (check the Physical Engine Project))

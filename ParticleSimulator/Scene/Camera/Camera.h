@@ -25,7 +25,7 @@ public:
     bool constrainPitch = true;
     float yaw = -90.0f;
     float pitch = 0.0f;
-    glm::vec3 position = glm::vec3(0.0F, 0.0F, 8.0F);
+    glm::vec3 position = glm::vec3(0.0F, 0.0F, 10.0F);
 
     // Movement buffer to take into account the deltaTime
     glm::vec3 movementBuffer;
