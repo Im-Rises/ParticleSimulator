@@ -304,13 +304,13 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
         ImGui::Text("Spawn position:");
         ImGui::DragFloat3("##spawnPosition", (float*)&scene->particleSimulator.position);
 
-//        ImGui::Text("Toggle pause:");
-//        ImGui::SameLine();
-//        ImGui::Button(scene->getIsPaused() ? "Resume##TogglePAuseBtn" : "Pause##TogglePAuseBtn");
-//        if (ImGui::IsItemClicked())
-//        {
-//            scene->togglePause();
-//        }
+        ImGui::Text("Toggle pause:");
+        ImGui::SameLine();
+        ImGui::Button(scene->getIsPaused() ? "Resume##TogglePAuseBtn" : "Pause##TogglePAuseBtn");
+        if (ImGui::IsItemClicked())
+        {
+            scene->togglePause();
+        }
 
         ImGui::End();
     }

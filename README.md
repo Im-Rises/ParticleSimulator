@@ -43,7 +43,7 @@ PLACEHOLDER
 
 Major:
 
-- [ ] Correct pause simulation
+- [ ] Add a display debug to show the mouse position in 3D (cube set to the mouse position)
 - [ ] Adjust the particles settings
 - [ ] Correct mouse drag of the particles (add lerp function ?)
 - [ ] Correct fixed updated linked to the render function in the ParticleSimulator
