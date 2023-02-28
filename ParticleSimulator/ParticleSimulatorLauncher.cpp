@@ -54,8 +54,12 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);           // 3.0+ only
 #endif
 
+    // Set display size
+    displayWidth = windowWidth;
+    displayHeight = windowHeight;
+
     // Create window with graphics context
-    window = glfwCreateWindow(display_w, display_h, PROJECT_NAME.data(), NULL, NULL);
+    window = glfwCreateWindow(displayWidth, displayHeight, PROJECT_NAME.data(), NULL, NULL);
     if (window == NULL)
         exit(1);
     glfwMakeContextCurrent(window);
@@ -133,7 +137,7 @@ ParticleSimulatorLauncher::~ParticleSimulatorLauncher() {
 
 void ParticleSimulatorLauncher::start() {
     // Create the scene
-    scene = std::make_unique<Scene>(display_w, display_h);
+    scene = std::make_unique<Scene>(displayWidth, displayHeight);
 
     // Variables for the main loop
     float deltaTime;
@@ -165,9 +169,6 @@ void ParticleSimulatorLauncher::start() {
 void ParticleSimulatorLauncher::handleInputs() {
     glfwPollEvents();
 
-    //    if (InputManager::isFullscreenKeyPressed(window))
-    //        toggleFullscreen();
-
     /* Read keyboard inputs and update states (buffers) */
     if (InputManager::isLeftKeyPressed(window))
         scene->camera.moveLeft();
@@ -186,12 +187,6 @@ void ParticleSimulatorLauncher::handleInputs() {
 
     if (InputManager::isDownKeyPressed(window))
         scene->camera.moveDown();
-
-    //    if (InputManager::isPauseKeyPressed(window))
-    //        scene->togglePause();
-
-    //    if (InputManager::isResetKeyPressed(window))
-    //        scene->reset();
 
     /* Get mouse position*/
     double mouseX = 0, mouseY = 0;
@@ -225,8 +220,8 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
     {
         ImGui::Begin("Window info");
         ImGui::Text("%.3f ms/frame (%.1f FPS)", deltaTime, 1.0f / deltaTime);
-        ImGui::Text("Window width: %d", display_w);
-        ImGui::Text("Window height: %d", display_h);
+        ImGui::Text("Window width: %d", displayWidth);
+        ImGui::Text("Window height: %d", displayHeight);
         ImGui::Text("GPU: %s", getOpenGLVendor().data());
         ImGui::Text("OpenGL version: %s", getOpenGLVersion().data());
         ImGui::Text("GLSL version: %s", getGLSLVersion().data());
@@ -352,10 +347,7 @@ void ParticleSimulatorLauncher::updateGame(float deltaTime) {
 void ParticleSimulatorLauncher::updateScreen() {
     if (!isWindowMinimized())
     {
-        int screenWidth, screenHeight;
-        glfwGetFramebufferSize(window, &screenWidth, &screenHeight);
-        scene->updateProjectionMatrix(screenWidth, screenHeight);
-        glViewport(0, 0, screenWidth, screenHeight);
+        updateViewport();
 
         glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -382,8 +374,8 @@ void ParticleSimulatorLauncher::updateScreen() {
 void ParticleSimulatorLauncher::centerWindow() {
     GLFWmonitor* monitor = glfwGetPrimaryMonitor();
     const GLFWvidmode* mode = glfwGetVideoMode(monitor);
-    auto xPos = (mode->width - display_w) / 2;
-    auto yPos = (mode->height - display_h) / 2;
+    auto xPos = (mode->width - windowWidth) / 2;
+    auto yPos = (mode->height - windowHeight) / 2;
     glfwSetWindowPos(window, xPos, yPos);
 }
 
@@ -417,6 +409,12 @@ bool ParticleSimulatorLauncher::isWindowMinimized() {
     return width == 0 || height == 0;
 }
 
+void ParticleSimulatorLauncher::updateViewport() {
+    glfwGetFramebufferSize(window, &displayWidth, &displayHeight);
+    scene->updateProjectionMatrix(displayWidth, displayHeight);
+    glViewport(0, 0, displayWidth, displayHeight);
+}
+
 void ParticleSimulatorLauncher::calculateMouseMovement(const double& xMouse, const double& yMouse, double& xMovement, double& yMovement) {
     static double lastMouseX = 0.0;
     static double lastMouseY = 0.0;
@@ -430,8 +428,8 @@ void ParticleSimulatorLauncher::calculateMouseMovement(const double& xMouse, con
 
 glm::vec3 ParticleSimulatorLauncher::projectMouse(const double& xMouse, const double& yMouse) {
     glm::vec2 windowSpaceCoords = glm::vec2(xMouse, yMouse);
-    windowSpaceCoords = glm::vec2(windowSpaceCoords.x, display_h - windowSpaceCoords.y);
-    glm::vec2 normalizedDeviceCoords = (windowSpaceCoords / glm::vec2(display_w, display_h)) * 2.0f - glm::vec2(1.0f);
+    windowSpaceCoords = glm::vec2(windowSpaceCoords.x, displayHeight - windowSpaceCoords.y);
+    glm::vec2 normalizedDeviceCoords = (windowSpaceCoords / glm::vec2(displayWidth, displayHeight)) * 2.0f - glm::vec2(1.0f);
     glm::vec3 dir = calculateWorldSpaceRay(glm::inverse(scene->camera.getProjectionMatrix()), glm::inverse(scene->camera.getViewMatrix()), normalizedDeviceCoords);
     return scene->camera.position + dir * targetDistance;
 }

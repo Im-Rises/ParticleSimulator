@@ -8,14 +8,15 @@
 struct GLFWwindow;
 
 constexpr const std::string_view PROJECT_NAME = "Particle Simulator 3D";
-constexpr const std::string_view PROJECT_VERSION = "0.1.3";
+constexpr const std::string_view PROJECT_VERSION = "1.0.0";
 constexpr const std::string_view PROJECT_GITHUB = "https://github.com/Im-Rises/ParticleSimulator";
 constexpr const std::string_view PROJECT_AUTHOR = "Im-Rises (Quentin Morel)";
 
 class ParticleSimulatorLauncher {
 private:
     GLFWwindow* window;
-    int display_w = 1280, display_h = 720;
+    const int windowWidth = 1280, windowHeight = 720;
+    int displayWidth, displayHeight;
     bool isFullscreen = false;
 
     std::unique_ptr<Scene> scene;
@@ -50,6 +51,7 @@ public:
 private:
     void centerWindow();
     bool isWindowMinimized();
+    void updateViewport();
 
 private:
     void calculateMouseMovement(const double& xMouse, const double& yMouse, double& xMovement, double& yMovement);
