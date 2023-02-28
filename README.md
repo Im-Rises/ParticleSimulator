@@ -43,22 +43,21 @@ PLACEHOLDER
 
 Major:
 
-- [ ] Add a display debug to show the mouse position in 3D (cube set to the mouse position)
 - [ ] Adjust the particles settings
 - [ ] Correct mouse drag of the particles (add lerp function ?)
 - [ ] Correct fixed updated linked to the render function in the ParticleSimulator
-- [ ] Change particle color based on velocity or age or the distance to the mouse
+- [ ] Change particle color based on velocity
 
 Minor:
 
-- [ ] Move fullscreen toggle to a callback function
+- [ ] Add a display debug to show the mouse position in 3D (cube set to the mouse position)
 - [ ] Change the windows minimized implementation (only call one time isMinimized, at the moment it is called in the
   UpdateGui (check the Physical Engine Project))
 
 ## Dependencies
 
-- OpenGL version: 4.6.0 NVIDIA 528.49
-- GLSL version: 4.60 NVIDIA
+- OpenGL version: 4.6.0
+- GLSL version: 4.60
 - GLFW version: 3.3.8
 - Glad version: 0.1.36
 - ImGui version: 1.89.1 WIP

@@ -1,7 +1,7 @@
 #ifndef INPUT_MANAGER_H
 #define INPUT_MANAGER_H
 
-#include <GLFW/glfw3.h>
+struct GLFWwindow;
 
 class InputManager {
 public:
@@ -15,7 +15,7 @@ public:
     static bool isUpKeyPressed(GLFWwindow* window);
     static bool isDownKeyPressed(GLFWwindow* window);
     static bool isPauseKeyPressed(GLFWwindow* window);
-    static bool isFullscreenKeyPressed(GLFWwindow* window);
+    //    static bool isFullscreenKeyPressed(GLFWwindow* window);
     static bool isResetKeyPressed(GLFWwindow* window);
 
 public:

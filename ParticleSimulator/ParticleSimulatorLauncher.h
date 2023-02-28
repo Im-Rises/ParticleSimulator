@@ -42,9 +42,11 @@ private:
     void updateGame(float deltaTime);
     void updateScreen();
 
+public:
+    void toggleFullscreen();
+
 private:
     void centerWindow();
-    void toggleFullscreen();
     bool isWindowMinimized();
 
 private:

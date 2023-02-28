@@ -62,6 +62,7 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
     glfwSwapInterval(1); // Enable vsync
 
     // Callbacks
+    glfwSetWindowUserPointer(window, this);
     glfwSetKeyCallback(window, InputManager::key_callback);
 
     // Center window
@@ -164,8 +165,8 @@ void ParticleSimulatorLauncher::start() {
 void ParticleSimulatorLauncher::handleInputs() {
     glfwPollEvents();
 
-    if (InputManager::isFullscreenKeyPressed(window))
-        toggleFullscreen();
+    //    if (InputManager::isFullscreenKeyPressed(window))
+    //        toggleFullscreen();
 
     /* Read keyboard inputs and update states (buffers) */
     if (InputManager::isLeftKeyPressed(window))

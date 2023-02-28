@@ -1,8 +1,26 @@
 #include "InputManager.h"
 
+#include "ParticleSimulatorLauncher.h"
+#include <GLFW/glfw3.h>
+
 void InputManager::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
-    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, GLFW_TRUE);
+    auto* engine = (ParticleSimulatorLauncher*)glfwGetWindowUserPointer(window);
+
+    switch (key)
+    {
+    case GLFW_KEY_ESCAPE:
+        if (action == GLFW_PRESS)
+        {
+            glfwSetWindowShouldClose(window, GLFW_TRUE);
+        }
+        break;
+    case GLFW_KEY_F11:
+        if (action == GLFW_PRESS)
+        {
+            engine->toggleFullscreen();
+        }
+        break;
+    }
 }
 
 bool InputManager::isForwardKeyPressed(GLFWwindow* window) {
@@ -54,22 +72,22 @@ bool InputManager::isKeyMouseSetTargetPressed(GLFWwindow* window) {
     return glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS;
 }
 
-bool InputManager::isFullscreenKeyPressed(GLFWwindow* window) {
-    static bool isFullscreenKeyPressed = false;
-    if (glfwGetKey(window, GLFW_KEY_F11) == GLFW_PRESS)
-    {
-        if (!isFullscreenKeyPressed)
-        {
-            isFullscreenKeyPressed = true;
-            return true;
-        }
-    }
-    else
-    {
-        isFullscreenKeyPressed = false;
-    }
-    return false;
-}
+// bool InputManager::isFullscreenKeyPressed(GLFWwindow* window) {
+//     static bool isFullscreenKeyPressed = false;
+//     if (glfwGetKey(window, GLFW_KEY_F11) == GLFW_PRESS)
+//     {
+//         if (!isFullscreenKeyPressed)
+//         {
+//             isFullscreenKeyPressed = true;
+//             return true;
+//         }
+//     }
+//     else
+//     {
+//         isFullscreenKeyPressed = false;
+//     }
+//     return false;
+// }
 
 bool InputManager::isResetKeyPressed(GLFWwindow* window) {
     static bool isResetKeyPressed = false;
