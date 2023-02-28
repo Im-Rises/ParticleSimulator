@@ -44,6 +44,8 @@ private:
 
 public:
     void toggleFullscreen();
+    void resetScene();
+    void toggleScenePause();
 
 private:
     void centerWindow();

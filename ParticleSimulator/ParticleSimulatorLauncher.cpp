@@ -187,11 +187,11 @@ void ParticleSimulatorLauncher::handleInputs() {
     if (InputManager::isDownKeyPressed(window))
         scene->camera.moveDown();
 
-    if (InputManager::isPauseKeyPressed(window))
-        scene->togglePause();
+    //    if (InputManager::isPauseKeyPressed(window))
+    //        scene->togglePause();
 
-    if (InputManager::isResetKeyPressed(window))
-        scene->reset();
+    //    if (InputManager::isResetKeyPressed(window))
+    //        scene->reset();
 
     /* Get mouse position*/
     double mouseX = 0, mouseY = 0;
@@ -299,7 +299,7 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
         ImGui::Button("Reset##ResetBtn");
         if (ImGui::IsItemClicked())
         {
-            scene->reset();
+            resetScene();
         }
 
         ImGui::Text("Spawn position:");
@@ -401,6 +401,14 @@ void ParticleSimulatorLauncher::toggleFullscreen() {
         glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
         isFullscreen = true;
     }
+}
+
+void ParticleSimulatorLauncher::resetScene() {
+    scene->reset();
+}
+
+void ParticleSimulatorLauncher::toggleScenePause() {
+    scene->togglePause();
 }
 
 bool ParticleSimulatorLauncher::isWindowMinimized() {
