@@ -25,7 +25,7 @@ private:
     float deltaTime;
     glm::vec3 pointOfGravity;
 
-    //    float isRunning = 1.0f;
+    float isPaused = 0.0f;
     float isTargeting = 0.0f;
 
 public:
@@ -45,6 +45,7 @@ public:
     void setIsTargeting(const bool& value) { this->isTargeting = (float)value; }
     bool getIsTargeting() const { return (bool)this->isTargeting; }
     //    void setIsRunning(const bool& value) { this->isRunning = (float)value; }
+    void setIsPaused(const bool& value) { this->isPaused = (float)value; }
 
     [[nodiscard]] size_t getParticleCount() const { return particles.size(); }
 };

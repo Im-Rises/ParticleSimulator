@@ -18,7 +18,7 @@ uniform vec3 u_pointOfGravity;
 // Use float instead of bool as boolean condition in shader can produce unexpected results, the float is 0.0f or 1.0f
 // and used to multiply the force to apply or not
 uniform float u_isTargeting;
-//uniform float u_isRunning;
+uniform float u_isRunning;
 
 out vec3 v_color;
 
@@ -37,13 +37,13 @@ void main()
     // particle and the point of gravity)
     vec3 r = u_pointOfGravity - particle.position;
     float rSquared = dot(r, r) + distanceOffset;// (dot(toMass, toMass)) gives the square of the magnitude (length) of the vector
-    vec3 force = (G * m1 * m2 * normalize(r) / rSquared) * u_isTargeting;// normalize(r) gives the direction of the vector
+    vec3 force = (G * m1 * m2 * normalize(r) / rSquared) * u_isTargeting * u_isRunning;// normalize(r) gives the direction of the vector
 
     // F = ma
     vec3 acceleration = force / m1;// a = F / m
 
     // p = p0 + v * t + 1/2 * a * t^2
-    particle.position += particle.velocity * u_deltaTime + 0.5f * acceleration * u_deltaTime * u_deltaTime;
+    particle.position += (particle.velocity * u_deltaTime + 0.5f * acceleration * u_deltaTime * u_deltaTime) * u_isRunning;
 
     // v = v0 + at
     particle.velocity += acceleration * u_deltaTime;
@@ -57,6 +57,12 @@ void main()
     // Set the output
     gl_Position = u_mvp * vec4(particle.position, 1.0);
 
-    // Set the color
-    v_color = vec3(0.0, 1.0, 1.0);
+    // Set the color based on the velocity
+    v_color = vec3(max(particle.velocity.x, 0.5f), min(particle.velocity.y, 0.5f), min(particle.velocity.z, 0.5f));
+
+    //    // Old code
+    //    v_color = particle.velocity * 0.1f;
+
+    //    // Set fixed color
+    //    v_color = vec3(0.0, 1.0, 1.0);
 }

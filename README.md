@@ -18,17 +18,22 @@ The source code of the WebGL can be found at the following link:
 
 > **Note:**   
 > This project is still in development.
-> The tests are done on a Windows 11 machine with an Nvidia RTX 2070 Super 6GB.
+> The tests are running at 144Hz with 10 000 000 particles on a Windows 11 machine with an Nvidia RTX 2070 6GB.
 
 ## Images
 
-![screenshot (1)](https://user-images.githubusercontent.com/59691442/220508250-a56d2d75-8f7a-4043-a57b-aeae9c987108.png)
-![screenshot (2)](https://user-images.githubusercontent.com/59691442/220508256-11312315-eb2d-4101-8086-cda5ede960fe.png)
-![screenshot (3)](https://user-images.githubusercontent.com/59691442/220508258-c45c4877-e884-4ad7-b544-3a22945e0e0e.png)
+![screenshot1](https://user-images.githubusercontent.com/59691442/221967878-52c06fd3-2de1-4362-873a-5ae69c62d618.png)
+![screenshot2](https://user-images.githubusercontent.com/59691442/221967884-f74d32e2-1bf2-4382-839b-83b85433e7a8.png)
+![screenshot3](https://user-images.githubusercontent.com/59691442/221970097-cbd13fe8-dfe2-4a5a-9c8b-e7723349f232.png)
+![Particle Simulator 3D 28_02_2023 15_45_32](https://user-images.githubusercontent.com/59691442/221975698-54e0e84e-602b-404a-b481-a5562f69dde1.png)
+
+[//]: # (![screenshot &#40;2&#41;]&#40;https://user-images.githubusercontent.com/59691442/220508256-11312315-eb2d-4101-8086-cda5ede960fe.png&#41;)
+
+[//]: # (![screenshot &#40;3&#41;]&#40;https://user-images.githubusercontent.com/59691442/220508258-c45c4877-e884-4ad7-b544-3a22945e0e0e.png&#41;)
 
 ## Video
 
-PLACEHOLDER
+https://user-images.githubusercontent.com/59691442/221977239-01ca5be8-0c4e-4a83-98c0-533cbf30c083.mp4
 
 ## Features
 
@@ -43,22 +48,20 @@ PLACEHOLDER
 
 Major:
 
-- [ ] Correct pause simulation
-- [ ] Adjust the particles settings
+- [ ] Adjust the particles movement settings
 - [ ] Correct mouse drag of the particles (add lerp function ?)
+- [ ] Change colorimetry of the particles (currently there's too much red)
 - [ ] Correct fixed updated linked to the render function in the ParticleSimulator
-- [ ] Change particle color based on velocity or age or the distance to the mouse
 
 Minor:
 
-- [ ] Move fullscreen toggle to a callback function
-- [ ] Change the windows minimized implementation (only call one time isMinimized, at the moment it is called in the
-  UpdateGui (check the Physical Engine Project))
+- [ ] Add a display debug to show the mouse position in 3D (cube set to the mouse position)
+- [ ] Change the toogle fullscreen implementation to keep the previous window size
 
 ## Dependencies
 
-- OpenGL version: 4.6.0 NVIDIA 528.49
-- GLSL version: 4.60 NVIDIA
+- OpenGL version: 4.6.0
+- GLSL version: 4.60
 - GLFW version: 3.3.8
 - Glad version: 0.1.36
 - ImGui version: 1.89.1 WIP
@@ -171,6 +174,12 @@ Windows users can directly compile the project by typing the following command a
 cmake -B . -DCMAKE_BUILD_TYPE=Release
 ```
 
+then
+
+```bash
+cmake --build . --config Release
+```
+
 > **Note**  
 > If you're using Visual Studio, you can install CMake directly from the IDE (Visual Studio Installer).
 > Then you need to open the Project as a CMake Project, not a Visual Studio Project!
@@ -202,6 +211,12 @@ You are now able to compile the project. Go to the project root and type the fol
 cmake -B . -DCMAKE_BUILD_TYPE=Release
 ```
 
+then
+
+```bash
+cmake --build . --config Release
+```
+
 ### MacOs
 
 For macOS user, you should install brew package manager by following the instructions in the link below:  
@@ -223,6 +238,12 @@ You are now able to compile the project. Go to the project root and type the fol
 
 ```bash
 cmake -B . -DCMAKE_BUILD_TYPE=Release
+```
+
+then
+
+```bash
+cmake --build . --config Release
 ```
 
 ## Github-Actions

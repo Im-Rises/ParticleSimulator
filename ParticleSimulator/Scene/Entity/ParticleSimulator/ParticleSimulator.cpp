@@ -55,7 +55,7 @@ void ParticleSimulator::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProje
     shader.setFloat("u_deltaTime", deltaTime);
     shader.setVec3("u_pointOfGravity", pointOfGravity);
     shader.setFloat("u_isTargeting", isTargeting);
-    //    shader.setFloat("u_isPaused", isRunning);
+    shader.setFloat("u_isRunning", !isPaused);
 
     // Draw the particles
     glDrawArrays(GL_POINTS, 0, particles.size());
