@@ -3,7 +3,7 @@
 <p align="center">
       <img src="https://user-images.githubusercontent.com/59691442/183268126-b3d19e66-8f2d-463a-805e-ae6ef7cc6c01.png" alt="cmakeLogo" style="height:60px;"/>
       <img src="https://img.shields.io/badge/C%2B%2B-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white" alt="cppLogo" style="height:60px;"/>
-      <img src="https://user-images.githubusercontent.com/59691442/190315010-0a84e171-a2bc-42a4-91c8-bb850960209c.png" alt="openglLogo" style="height:60px;"/>
+      <img src="https://img.shields.io/badge/OpenGL-FFFFFF?style=for-the-badge&logo=opengl" alt="openglLogo" style="height:60px;"/>
       <img src="https://user-images.githubusercontent.com/59691442/190315147-ec9dc33f-0090-4f0d-98ab-514eb1463e01.png" alt="glfwLogo" style="height:60px;"/>
 </p>
 
@@ -11,7 +11,7 @@
 
 This is a simple particle simulator made with OpenGL and C++ with the help of the ImGui library for the UI.
 
-You can also test the app using the WebGL version  [here](https://im-rises.github.io/particle-simulator-webgl/).
+## 🚀🚀[you can try the webgl build online by clicking here](https://im-rises.github.io/particle-simulator-webgl/) 🚀🚀
 
 The source code of the WebGL can be found at the following link:  
 <https://github.com/Im-Rises/particle-simulator-webgl>
@@ -48,6 +48,8 @@ https://user-images.githubusercontent.com/59691442/221977239-01ca5be8-0c4e-4a83-
 
 Major:
 
+- [ ] Correct the mouse projection in 3D (currently when the camera is on the right or left of the center, it adds the
+  distance to camera instead of substracting it)
 - [ ] Adjust the particles movement settings
 - [ ] Correct mouse drag of the particles (add lerp function ?)
 - [ ] Change colorimetry of the particles (currently there's too much red)

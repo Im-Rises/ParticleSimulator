@@ -58,7 +58,7 @@ void main()
     gl_Position = u_mvp * vec4(particle.position, 1.0);
 
     // Set the color based on the velocity
-    v_color = vec3(max(particle.velocity.x, 0.5f), min(particle.velocity.y, 0.5f), min(particle.velocity.z, 0.5f));
+    v_color = vec3(max(particle.velocity.x, 0.3f), min(particle.velocity.y, 0.8f), min(particle.velocity.z, 0.2f));
 
     //    // Old code
     //    v_color = particle.velocity * 0.1f;
