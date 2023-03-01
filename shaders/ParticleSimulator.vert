@@ -20,7 +20,7 @@ uniform vec3 u_pointOfGravity;
 uniform float u_isTargeting;
 uniform float u_isRunning;
 
-out vec3 v_color;
+out vec3 v_velocity;
 
 const float G = 1000.0f;// Gravitational constant
 const float m1 = 1000.0f;// Mass of the particle
@@ -57,12 +57,5 @@ void main()
     // Set the output
     gl_Position = u_mvp * vec4(particle.position, 1.0);
 
-    // Set the color based on the velocity
-    v_color = vec3(max(particle.velocity.x, 0.3f), min(particle.velocity.y, 0.8f), min(particle.velocity.z, 0.2f));
-
-    //    // Old code
-    //    v_color = particle.velocity * 0.1f;
-
-    //    // Set fixed color
-    //    v_color = vec3(0.0, 1.0, 1.0);
+    v_velocity = particle.velocity;
 }
