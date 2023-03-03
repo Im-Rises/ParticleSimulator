@@ -51,10 +51,10 @@ https://user-images.githubusercontent.com/59691442/221977239-01ca5be8-0c4e-4a83-
 
 Major:
 
+- [ ] Correct fixed updated linked to the render function in the ParticleSimulator
 - [ ] Adjust the particles movement settings
 - [ ] Correct mouse drag of the particles (add lerp function ?)
 - [ ] Change colorimetry of the particles (currently there's too much red)
-- [ ] Correct fixed updated linked to the render function in the ParticleSimulator
 
 ## Dependencies
 

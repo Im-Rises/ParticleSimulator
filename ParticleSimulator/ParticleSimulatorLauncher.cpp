@@ -1,6 +1,5 @@
 #include "ParticleSimulatorLauncher.h"
 
-#include "Scene/Scene.h"
 #include "InputManager.h"
 
 #include <imgui/imgui.h>
@@ -15,6 +14,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h> // Will drag system OpenGL headers
 #include <iostream>
+#include "Scene/Scene.h"
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1900) && !defined(IMGUI_DISABLE_WIN32_FUNCTIONS)
 #pragma comment(lib, "legacy_stdio_definitions")
@@ -35,9 +35,9 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
 
 // Decide GL+GLSL versions
 #if defined(IMGUI_IMPL_OPENGL_ES2)
-    const char* glsl_version = "#version 300 es";
+    const char* glsl_version = "#version 310 es";
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
     glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
 #elif defined(__APPLE__)
     const char* glsl_version = "#version 430";
