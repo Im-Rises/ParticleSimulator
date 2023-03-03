@@ -21,7 +21,7 @@
 #endif
 
 #ifdef __EMSCRIPTEN__
-#include "../libs/emscripten/emscripten_mainloop_stub.h"
+#include "imgui/libs/emscripten/emscripten_mainloop_stub.h"
 #endif
 
 static void glfw_error_callback(int error, const char* description) {
@@ -35,9 +35,9 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
 
 // Decide GL+GLSL versions
 #if defined(IMGUI_IMPL_OPENGL_ES2)
-    const char* glsl_version = "#version 310";
+    const char* glsl_version = "#version 300 es";
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
     glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
 #elif defined(__APPLE__)
     const char* glsl_version = "#version 430";
@@ -462,9 +462,7 @@ std::string_view ParticleSimulatorLauncher::getGLSLVersion() {
 }
 
 std::string ParticleSimulatorLauncher::getGLFWVersion() {
-    char version[10];
-    sprintf_s(version, "%d.%d.%d", GLFW_VERSION_MAJOR, GLFW_VERSION_MINOR, GLFW_VERSION_REVISION);
-    return { version };
+    return std::to_string(GLFW_VERSION_MAJOR) + "." + std::to_string(GLFW_VERSION_MINOR) + "." + std::to_string(GLFW_VERSION_REVISION);
 }
 
 std::string_view ParticleSimulatorLauncher::getGladVersion() {
@@ -476,7 +474,5 @@ std::string ParticleSimulatorLauncher::getImGuiVersion() {
 }
 
 std::string ParticleSimulatorLauncher::getGLMVersion() {
-    char version[10];
-    sprintf_s(version, "%d.%d.%d", GLM_VERSION_MAJOR, GLM_VERSION_MINOR, GLM_VERSION_PATCH);
-    return { version };
+    return std::to_string(GLM_VERSION_MAJOR) + "." + std::to_string(GLM_VERSION_MINOR) + "." + std::to_string(GLM_VERSION_PATCH);
 }
