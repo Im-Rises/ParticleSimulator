@@ -32,6 +32,7 @@ ParticleSimulator::ParticleSimulator(int particleCount) : Entity("shaders/Partic
 }
 
 ParticleSimulator::~ParticleSimulator() {
+    glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &ssbo);
 }
 

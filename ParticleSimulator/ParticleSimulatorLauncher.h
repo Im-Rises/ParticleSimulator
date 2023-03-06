@@ -3,8 +3,9 @@
 
 #include <memory>
 #include <string_view>
-#include "Scene/Scene.h"
+#include <glm/glm.hpp>
 
+class Scene;
 struct GLFWwindow;
 
 constexpr const std::string_view PROJECT_NAME = "Particle Simulator 3D";
@@ -26,7 +27,7 @@ private:
         float x = 0.0f;
         float y = 0.0f;
         float z = 0.0f;
-        float w = 0.0f;
+        float w = 1.0f;
     } clear_color;
 
     float targetDistance = 10.0f;
@@ -56,7 +57,6 @@ private:
 private:
     void calculateMouseMovement(const double& xMouse, const double& yMouse, double& xMovement, double& yMovement);
     glm::vec3 projectMouse(const double& xMouse, const double& yMouse);
-    glm::vec3 calculateWorldSpaceRay(glm::mat4 inverseProjection, glm::mat4 inverseView, glm::vec2 normalizedDeviceCoords);
 
 private:
     std::string_view getOpenGLVendor();

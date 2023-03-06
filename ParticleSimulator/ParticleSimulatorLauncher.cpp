@@ -1,8 +1,5 @@
 #include "ParticleSimulatorLauncher.h"
 
-#include <glad/glad.h>
-
-#include "Scene/Scene.h"
 #include "InputManager.h"
 
 #include <imgui/imgui.h>
@@ -14,15 +11,17 @@
 #if defined(IMGUI_IMPL_OPENGL_ES2)
 #include <GLES2/gl2.h>
 #endif
+#include <glad/glad.h>
 #include <GLFW/glfw3.h> // Will drag system OpenGL headers
 #include <iostream>
+#include "Scene/Scene.h"
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1900) && !defined(IMGUI_DISABLE_WIN32_FUNCTIONS)
 #pragma comment(lib, "legacy_stdio_definitions")
 #endif
 
 #ifdef __EMSCRIPTEN__
-#include "../libs/emscripten/emscripten_mainloop_stub.h"
+#include "imgui/libs/emscripten/emscripten_mainloop_stub.h"
 #endif
 
 static void glfw_error_callback(int error, const char* description) {
@@ -36,7 +35,7 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
 
 // Decide GL+GLSL versions
 #if defined(IMGUI_IMPL_OPENGL_ES2)
-    const char* glsl_version = "#version 310";
+    const char* glsl_version = "#version 310 es";
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
     glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
@@ -145,6 +144,8 @@ void ParticleSimulatorLauncher::start() {
 #ifdef __EMSCRIPTEN__
     // For an Emscripten build we are disabling file-system access, so let's not attempt to do a fopen() of the imgui.ini file.
     // You may manually call LoadIniSettingsFromMemory() to load settings from your own storage.
+    ImGuiIO& io = ImGui::GetIO();
+    (void)io;
     io.IniFilename = NULL;
     EMSCRIPTEN_MAINLOOP_BEGIN
 #else
@@ -427,20 +428,26 @@ void ParticleSimulatorLauncher::calculateMouseMovement(const double& xMouse, con
 }
 
 glm::vec3 ParticleSimulatorLauncher::projectMouse(const double& xMouse, const double& yMouse) {
-    glm::vec2 windowSpaceCoords = glm::vec2(xMouse, yMouse);
-    windowSpaceCoords = glm::vec2(windowSpaceCoords.x, displayHeight - windowSpaceCoords.y);
-    glm::vec2 normalizedDeviceCoords = (windowSpaceCoords / glm::vec2(displayWidth, displayHeight)) * 2.0f - glm::vec2(1.0f);
-    glm::vec3 dir = calculateWorldSpaceRay(glm::inverse(scene->camera.getProjectionMatrix()), glm::inverse(scene->camera.getViewMatrix()), normalizedDeviceCoords);
-    return scene->camera.position + dir * targetDistance;
-}
+    // Convert the mouse coordinates from screen space to NDC space
+    float normalized_x = (2.0f * xMouse) / displayWidth - 1.0f;
+    float normalized_y = 1.0f - (2.0f * yMouse) / displayHeight;
 
-glm::vec3 ParticleSimulatorLauncher::calculateWorldSpaceRay(glm::mat4 inverseProjection, glm::mat4 inverseView, glm::vec2 normalizedDeviceCoords) {
-    glm::vec4 rayEye = glm::vec4(normalizedDeviceCoords, -1.0f, 1.0f) * inverseProjection;
-    rayEye.z = -1.0f;
-    rayEye.w = 0.0f;
-    return glm::normalize(glm::vec3(rayEye * inverseView));
-}
+    // Create a vector representing the mouse coordinates in NDC space
+    glm::vec4 mouse_ndc(normalized_x, normalized_y, -1.0f, 1.0f);
 
+    // Convert the mouse coordinates from NDC space to world space
+    glm::mat4 inverse_projection = glm::inverse(scene->camera.getProjectionMatrix());
+    glm::mat4 inverse_view = glm::inverse(scene->camera.getViewMatrix());
+    glm::vec4 mouse_world = inverse_projection * mouse_ndc;
+    mouse_world = mouse_world / mouse_world.w;
+    mouse_world = inverse_view * mouse_world;
+
+    // Calculate the direction from the camera position to the mouse position
+    glm::vec3 camera_to_mouse = glm::normalize(glm::vec3(mouse_world) - scene->camera.position);
+
+    // Use the direction to update the position of an object in the 3D environment
+    return scene->camera.position + camera_to_mouse * targetDistance;
+}
 
 std::string_view ParticleSimulatorLauncher::getOpenGLVendor() {
     return reinterpret_cast<const char*>(glGetString(GL_RENDERER));
@@ -455,9 +462,7 @@ std::string_view ParticleSimulatorLauncher::getGLSLVersion() {
 }
 
 std::string ParticleSimulatorLauncher::getGLFWVersion() {
-    char version[10];
-    sprintf(version, "%d.%d.%d", GLFW_VERSION_MAJOR, GLFW_VERSION_MINOR, GLFW_VERSION_REVISION);
-    return { version };
+    return std::to_string(GLFW_VERSION_MAJOR) + "." + std::to_string(GLFW_VERSION_MINOR) + "." + std::to_string(GLFW_VERSION_REVISION);
 }
 
 std::string_view ParticleSimulatorLauncher::getGladVersion() {
@@ -469,7 +474,5 @@ std::string ParticleSimulatorLauncher::getImGuiVersion() {
 }
 
 std::string ParticleSimulatorLauncher::getGLMVersion() {
-    char version[10];
-    sprintf(version, "%d.%d.%d", GLM_VERSION_MAJOR, GLM_VERSION_MINOR, GLM_VERSION_PATCH);
-    return { version };
+    return std::to_string(GLM_VERSION_MAJOR) + "." + std::to_string(GLM_VERSION_MINOR) + "." + std::to_string(GLM_VERSION_PATCH);
 }

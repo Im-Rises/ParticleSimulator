@@ -3,7 +3,7 @@
 <p align="center">
       <img src="https://user-images.githubusercontent.com/59691442/183268126-b3d19e66-8f2d-463a-805e-ae6ef7cc6c01.png" alt="cmakeLogo" style="height:60px;"/>
       <img src="https://img.shields.io/badge/C%2B%2B-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white" alt="cppLogo" style="height:60px;"/>
-      <img src="https://user-images.githubusercontent.com/59691442/190315010-0a84e171-a2bc-42a4-91c8-bb850960209c.png" alt="openglLogo" style="height:60px;"/>
+      <img src="https://img.shields.io/badge/OpenGL-FFFFFF?style=for-the-badge&logo=opengl" alt="openglLogo" style="height:60px;"/>
       <img src="https://user-images.githubusercontent.com/59691442/190315147-ec9dc33f-0090-4f0d-98ab-514eb1463e01.png" alt="glfwLogo" style="height:60px;"/>
 </p>
 
@@ -11,7 +11,7 @@
 
 This is a simple particle simulator made with OpenGL and C++ with the help of the ImGui library for the UI.
 
-You can also test the app using the WebGL version  [here](https://im-rises.github.io/particle-simulator-webgl/).
+## 🚀🚀[you can try the webgl build online by clicking here](https://im-rises.github.io/particle-simulator-webgl/) 🚀🚀
 
 The source code of the WebGL can be found at the following link:  
 <https://github.com/Im-Rises/particle-simulator-webgl>
@@ -24,8 +24,11 @@ The source code of the WebGL can be found at the following link:
 
 ![screenshot1](https://user-images.githubusercontent.com/59691442/221967878-52c06fd3-2de1-4362-873a-5ae69c62d618.png)
 ![screenshot2](https://user-images.githubusercontent.com/59691442/221967884-f74d32e2-1bf2-4382-839b-83b85433e7a8.png)
-![screenshot3](https://user-images.githubusercontent.com/59691442/221970097-cbd13fe8-dfe2-4a5a-9c8b-e7723349f232.png)
-![Particle Simulator 3D 28_02_2023 15_45_32](https://user-images.githubusercontent.com/59691442/221975698-54e0e84e-602b-404a-b481-a5562f69dde1.png)
+![screenshot4](https://user-images.githubusercontent.com/59691442/222615096-59948508-7a2e-408f-9d6a-62cbcd5f7e43.png)
+
+[//]: # (![screenshot3]&#40;https://user-images.githubusercontent.com/59691442/221970097-cbd13fe8-dfe2-4a5a-9c8b-e7723349f232.png&#41;)
+
+[//]: # (![screenshot5]&#40;https://user-images.githubusercontent.com/59691442/221975698-54e0e84e-602b-404a-b481-a5562f69dde1.png&#41;)
 
 [//]: # (![screenshot &#40;2&#41;]&#40;https://user-images.githubusercontent.com/59691442/220508256-11312315-eb2d-4101-8086-cda5ede960fe.png&#41;)
 
@@ -48,15 +51,10 @@ https://user-images.githubusercontent.com/59691442/221977239-01ca5be8-0c4e-4a83-
 
 Major:
 
+- [ ] Correct fixed updated linked to the render function in the ParticleSimulator
 - [ ] Adjust the particles movement settings
 - [ ] Correct mouse drag of the particles (add lerp function ?)
 - [ ] Change colorimetry of the particles (currently there's too much red)
-- [ ] Correct fixed updated linked to the render function in the ParticleSimulator
-
-Minor:
-
-- [ ] Add a display debug to show the mouse position in 3D (cube set to the mouse position)
-- [ ] Change the toogle fullscreen implementation to keep the previous window size
 
 ## Dependencies
 
