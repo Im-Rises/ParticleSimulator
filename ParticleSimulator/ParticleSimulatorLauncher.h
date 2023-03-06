@@ -27,7 +27,7 @@ private:
         float x = 0.0f;
         float y = 0.0f;
         float z = 0.0f;
-        float w = 0.0f;
+        float w = 1.0f;
     } clear_color;
 
     float targetDistance = 10.0f;
@@ -57,7 +57,7 @@ private:
 private:
     void calculateMouseMovement(const double& xMouse, const double& yMouse, double& xMovement, double& yMovement);
     glm::vec3 projectMouse(const double& xMouse, const double& yMouse);
-    
+
 private:
     std::string_view getOpenGLVendor();
     std::string_view getOpenGLVersion();
