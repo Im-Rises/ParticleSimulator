@@ -383,12 +383,14 @@ void ParticleSimulatorLauncher::centerWindow() {
 void ParticleSimulatorLauncher::toggleFullscreen() {
     if (isFullscreen)
     {
-        glfwSetWindowMonitor(window, NULL, 0, 0, 1280, 720, 0);
+        glfwSetWindowMonitor(window, NULL, 0, 0, windowWidth, windowHeight, 0);
         centerWindow();
         isFullscreen = false;
     }
     else
     {
+        windowWidth = displayWidth;
+        windowHeight = displayHeight;
         GLFWmonitor* monitor = glfwGetPrimaryMonitor();
         const GLFWvidmode* mode = glfwGetVideoMode(monitor);
         glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);

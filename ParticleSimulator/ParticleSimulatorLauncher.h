@@ -16,7 +16,7 @@ constexpr const std::string_view PROJECT_AUTHOR = "Im-Rises (Quentin Morel)";
 class ParticleSimulatorLauncher {
 private:
     GLFWwindow* window;
-    const int windowWidth = 1280, windowHeight = 720;
+    int windowWidth = 1280, windowHeight = 720;
     int displayWidth, displayHeight;
     bool isFullscreen = false;
 

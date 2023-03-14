@@ -62,7 +62,7 @@ Major:
 - GLSL version: 4.60
 - GLFW version: 3.3.8
 - Glad version: 0.1.36
-- ImGui version: 1.89.1 WIP
+- ImGui version: 1.89.4 WIP
 - GLM version: 0.9.8
 
 ## Quickstart
