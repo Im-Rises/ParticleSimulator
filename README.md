@@ -54,7 +54,7 @@ Major:
 - [ ] Correct fixed updated linked to the render function in the ParticleSimulator
 - [ ] Adjust the particles movement settings
 - [ ] Correct mouse drag of the particles (add lerp function ?)
-- [ ] Change colorimetry of the particles (currently there's too much red)
+- [ ] Copy a lot of code from the webgl version to the desktop version
 
 ## Dependencies
 

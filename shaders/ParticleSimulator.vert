@@ -25,7 +25,7 @@ out vec3 v_velocity;
 const float G = 1000.0f;// Gravitational constant
 const float m1 = 1000.0f;// Mass of the particle
 const float m2 = 1.0f;// Mass of the point of gravity
-const float distanceOffset = 1000.0f;
+const float distanceOffset = 100.0f;
 //const float friction = 0.99f;
 
 void main()
