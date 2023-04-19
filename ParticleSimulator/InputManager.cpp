@@ -16,12 +16,12 @@ void InputManager::key_callback(GLFWwindow* window, int key, int scancode, int a
             glfwSetWindowShouldClose(window, GLFW_TRUE);
         }
         break;
-        //    case GLFW_KEY_F11:
-        //        if (action == GLFW_PRESS)
-        //        {
-        //            engine->toggleFullscreen();
-        //        }
-        //        break;
+    case GLFW_KEY_F11:
+        if (action == GLFW_PRESS)
+        {
+            engine->toggleFullscreen();
+        }
+        break;
     case GLFW_KEY_R:
         if (action == GLFW_PRESS)
         {

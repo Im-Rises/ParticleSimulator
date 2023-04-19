@@ -36,6 +36,8 @@ private:
 
     constexpr static int MAX_PARTICLES_COUNT = 10000000;
 
+    bool isFullscreen = false;
+
 public:
     ParticleSimulatorLauncher();
 
@@ -66,9 +68,12 @@ public:
 
     void toggleScenePause();
 
+    void centerWindow();
+
+    void toggleFullscreen();
+
 private:
-    static void
-    calculateMouseMovement(const double &xMouse, const double &yMouse, double &xMovement, double &yMovement);
+    static void calculateMouseMovement(const double &xMouse, const double &yMouse, double &xMovement, double &yMovement);
 
     auto projectMouse(const double &xMouse, const double &yMouse) -> glm::vec3;
 

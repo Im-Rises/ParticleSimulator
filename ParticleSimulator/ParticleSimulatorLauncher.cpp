@@ -123,6 +123,8 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
     emscripten_set_touchend_callback("#canvas", (void*)&InputManager::dragMovementData, true, InputManager::touchEnd_callback);
 #endif
 
+    centerWindow();
+
     // Same line as above but with C++ string
     std::cout << "OpenGL vendor: " << getOpenGLVendor() << std::endl
               << "OpenGL version: " << getOpenGLVersion() << std::endl
@@ -458,6 +460,25 @@ void ParticleSimulatorLauncher::resetScene() {
 
 void ParticleSimulatorLauncher::toggleScenePause() {
     scene->togglePause();
+}
+
+void ParticleSimulatorLauncher::centerWindow() {
+    GLFWmonitor *monitor = glfwGetPrimaryMonitor();
+    const GLFWvidmode *mode = glfwGetVideoMode(monitor);
+    glfwSetWindowPos(window, (mode->width - displayWidth) / 2, (mode->height - displayHeight) / 2);
+
+}
+
+void ParticleSimulatorLauncher::toggleFullscreen() {
+    if (isFullscreen) {
+        glfwSetWindowMonitor(window, nullptr, 0, 0, displayWidth, displayHeight, GLFW_DONT_CARE);
+        isFullscreen = false;
+    } else {
+        GLFWmonitor *monitor = glfwGetPrimaryMonitor();
+        const GLFWvidmode *mode = glfwGetVideoMode(monitor);
+        glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
+        isFullscreen = true;
+    }
 }
 
 void ParticleSimulatorLauncher::calculateMouseMovement(const double &xMouse, const double &yMouse, double &xMovement,

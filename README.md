@@ -20,6 +20,10 @@ The source code of the WebGL can be found at the following link:
 > This project is still in development.
 > The tests are running at 144Hz with 10 000 000 particles on a Windows 11 machine with an Nvidia RTX 2070 6GB.
 
+TODO:
+- [ ] Correct toggle fullscreen bugs
+- [ ] Correct minimization crash
+
 ## Images
 
 [//]: # (![screenshot1]&#40;https://user-images.githubusercontent.com/59691442/221967878-52c06fd3-2de1-4362-873a-5ae69c62d618.png&#41;)
