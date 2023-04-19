@@ -6,66 +6,102 @@
 #include <glm/glm.hpp>
 
 class Scene;
+
 struct GLFWwindow;
 
-constexpr const std::string_view PROJECT_NAME = "Particle Simulator 3D";
-constexpr const std::string_view PROJECT_VERSION = "1.0.0";
-constexpr const std::string_view PROJECT_GITHUB = "https://github.com/Im-Rises/ParticleSimulator";
-constexpr const std::string_view PROJECT_AUTHOR = "Im-Rises (Quentin Morel)";
-
 class ParticleSimulatorLauncher {
+public:
+    static constexpr std::string_view PROJECT_NAME = "Particle Simulator 3D";
+    static constexpr std::string_view PROJECT_VERSION = "2.0.0";
+    static constexpr std::string_view PROJECT_LINK = "https://github.com/Im-Rises/ParticleSimulator";
+    static constexpr std::string_view PROJECT_AUTHOR = "Im-Rises (Quentin Morel)";
+
 private:
     GLFWwindow* window;
-    const int windowWidth = 1280, windowHeight = 720;
+    int windowWidth = 1280;
+    int windowHeight = 720;
     int displayWidth, displayHeight;
-    bool isFullscreen = false;
+    int windowPosX, windowPosY;
 
     std::unique_ptr<Scene> scene;
-    float fixedUpdate = 60.0f;
 
     struct {
-        float x = 0.0f;
-        float y = 0.0f;
-        float z = 0.0f;
-        float w = 1.0f;
+        float x = 0.0F;
+        float y = 0.0F;
+        float z = 0.0F;
+        float w = 1.0F;
     } clear_color;
 
-    float targetDistance = 10.0f;
+    float attractorDistance = 10.0F;
     glm::vec3 mousePositionWorld;
 
+    static constexpr int MAX_PARTICLES_COUNT = 10000000;
+
+#ifndef __EMSCRIPTEN__
+    bool isFullscreen = false;
+#endif
+
+    static constexpr int FRAME_PER_SECOND = 60;
+
 public:
-    explicit ParticleSimulatorLauncher();
+    ParticleSimulatorLauncher();
+
+    ParticleSimulatorLauncher(const ParticleSimulatorLauncher&) = delete;
+
+    auto operator=(const ParticleSimulatorLauncher&) -> ParticleSimulatorLauncher& = delete;
+
+    ParticleSimulatorLauncher(ParticleSimulatorLauncher&&) = delete;
+
+    auto operator=(ParticleSimulatorLauncher&&) -> ParticleSimulatorLauncher& = delete;
+
     ~ParticleSimulatorLauncher();
+
+public:
     void start();
 
 private:
     void handleInputs();
+
     void handleUi(float deltaTime);
+
     void updateGame(float deltaTime);
+
     void updateScreen();
 
 public:
-    void toggleFullscreen();
     void resetScene();
+
     void toggleScenePause();
 
-private:
-    void centerWindow();
-    bool isWindowMinimized();
     void updateViewport();
 
-private:
-    void calculateMouseMovement(const double& xMouse, const double& yMouse, double& xMovement, double& yMovement);
-    glm::vec3 projectMouse(const double& xMouse, const double& yMouse);
+    void centerWindow();
+
+    void toggleFullscreen();
+
+    void clearScreen() const;
+
+    [[nodiscard]] auto isMinimized() const -> bool;
 
 private:
-    std::string_view getOpenGLVendor();
-    std::string_view getOpenGLVersion();
-    std::string_view getGLSLVersion();
-    std::string getGLFWVersion();
-    std::string_view getGladVersion();
-    std::string getImGuiVersion();
-    std::string getGLMVersion();
+    static void calculateMouseMovement(const double& xMouse, const double& yMouse, double& xMovement, double& yMovement);
+
+    auto projectMouse(const double& xMouse, const double& yMouse) -> glm::vec3;
+
+private:
+    static auto getOpenGLVendor() -> std::string_view;
+
+    static auto getOpenGLVersion() -> std::string_view;
+
+    static auto getGLSLVersion() -> std::string_view;
+
+    static auto getGLFWVersion() -> std::string;
+
+    static auto getGladVersion() -> std::string_view;
+
+    static auto getImGuiVersion() -> std::string;
+
+    static auto getGLMVersion() -> std::string;
 };
 
 #endif // PARTICLE_EMISSION_H

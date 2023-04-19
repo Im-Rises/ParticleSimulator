@@ -1,3 +1,6 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "cppcoreguidelines-pro-type-vararg"
+
 #include "ParticleSimulatorLauncher.h"
 
 #include "InputManager.h"
@@ -5,16 +8,19 @@
 #include <imgui/imgui.h>
 #include <imgui/imgui_impl_glfw.h>
 #include <imgui/imgui_impl_opengl3.h>
-#include <cstdio>
 #include <cstdlib>
+
 #define GL_SILENCE_DEPRECATION
 #if defined(IMGUI_IMPL_OPENGL_ES2)
 #include <GLES2/gl2.h>
 #endif
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h> // Will drag system OpenGL headers
-#include <iostream>
 #include "Scene/Scene.h"
+#include <iostream>
+#include <chrono>
+#include <thread>
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1900) && !defined(IMGUI_DISABLE_WIN32_FUNCTIONS)
 #pragma comment(lib, "legacy_stdio_definitions")
@@ -22,15 +28,16 @@
 
 #ifdef __EMSCRIPTEN__
 #include "imgui/libs/emscripten/emscripten_mainloop_stub.h"
+#include <emscripten/html5.h>
 #endif
 
 static void glfw_error_callback(int error, const char* description) {
-    fprintf(stderr, "GLFW Error %d: %s\n", error, description);
+    std::cerr << "GLFW Error " << error << ": " << description << std::endl;
 }
 
 ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
     glfwSetErrorCallback(glfw_error_callback);
-    if (!glfwInit())
+    if (glfwInit() == 0)
         exit(1);
 
 // Decide GL+GLSL versions
@@ -54,26 +61,37 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
 #endif
 
     // Set display size
+#ifdef __EMSCRIPTEN__
+    // According to canvas
+    emscripten_get_canvas_element_size("#canvas", &displayWidth, &displayHeight);
+#else
+    // According to init windowSize
     displayWidth = windowWidth;
     displayHeight = windowHeight;
+#endif
 
     // Create window with graphics context
-    window = glfwCreateWindow(displayWidth, displayHeight, PROJECT_NAME.data(), NULL, NULL);
-    if (window == NULL)
+    window = glfwCreateWindow(displayWidth, displayHeight, PROJECT_NAME.data(), nullptr, nullptr);
+    if (window == nullptr)
         exit(1);
     glfwMakeContextCurrent(window);
-    glfwSwapInterval(1); // Enable vsync
+    //    glfwSwapInterval(1); // Enable vsync
+    //    glfwSwapInterval(0); // Disable vsync
+    glfwWindowHint(GLFW_REFRESH_RATE, ParticleSimulatorLauncher::FRAME_PER_SECOND);
 
     // Callbacks
     glfwSetWindowUserPointer(window, this);
     glfwSetKeyCallback(window, InputManager::key_callback);
 
-    // Center window
-    centerWindow();
-
+#ifdef __EMSCRIPTEN__
     // Initialize OpenGL loader
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    if (gladLoadGLES2Loader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)) == 0)
         exit(1);
+#else
+    // Initialize OpenGL loader
+    if (gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)) == 0)
+        exit(1);
+#endif
 
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
@@ -93,26 +111,26 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
 
     // When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.
     ImGuiStyle& style = ImGui::GetStyle();
-    if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+    if ((io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) != 0)
     {
-        style.WindowRounding = 0.0f;
-        style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+        style.WindowRounding = 0.0F;
+        style.Colors[ImGuiCol_WindowBg].w = 1.0F;
     }
 
     // Setup Platform/Renderer backends
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init(glsl_version);
 
-    // Print OpenGL version
-    printf("OpenGL vendor: %s\nOpenGL version: %s\nGLSL version: %s\nGLFW version: %s\n"
-           "Glad version: %s\nImGui version: %s\nGLM version: %s\n",
-        getOpenGLVendor().data(),
-        getOpenGLVersion().data(),
-        getGLSLVersion().data(),
-        getGLFWVersion().data(),
-        getGladVersion().data(),
-        getImGuiVersion().data(),
-        getGLMVersion().data());
+#ifdef __EMSCRIPTEN__
+    // Register emscripten callbacks
+    emscripten_set_touchstart_callback("#canvas", (void*)&InputManager::dragMovementData, true, InputManager::touchStart_callback);
+    emscripten_set_touchmove_callback("#canvas", (void*)&InputManager::dragMovementData, true, InputManager::touchMove_callback);
+    emscripten_set_touchend_callback("#canvas", (void*)&InputManager::dragMovementData, true, InputManager::touchEnd_callback);
+#endif
+
+#ifndef __EMSCRIPTEN__
+    centerWindow();
+#endif
 
     // Setup OpenGL state
     glEnable(GL_DEPTH_TEST);
@@ -121,8 +139,19 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+    //    glEnable(GL_MULTISAMPLE);
     //    glEnable(GL_POINT_SMOOTH); // Deprecated
-    glPointSize(1.0f);
+    //    glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
+    //    glPointSize(1.0f); // Not working in OpenGL ES 3.0
+
+    // Same line as above but with C++ string
+    std::cout << "OpenGL vendor: " << getOpenGLVendor() << std::endl
+              << "OpenGL version: " << getOpenGLVersion() << std::endl
+              << "GLSL version: " << getGLSLVersion() << std::endl
+              << "GLFW version: " << getGLFWVersion() << std::endl
+              << "Glad version: " << getGladVersion() << std::endl
+              << "ImGui version: " << getImGuiVersion() << std::endl
+              << "GLM version: " << getGLMVersion() << std::endl;
 }
 
 ParticleSimulatorLauncher::~ParticleSimulatorLauncher() {
@@ -139,17 +168,17 @@ void ParticleSimulatorLauncher::start() {
     scene = std::make_unique<Scene>(displayWidth, displayHeight);
 
     // Variables for the main loop
-    float deltaTime;
+    float deltaTime = NAN;
 
 #ifdef __EMSCRIPTEN__
     // For an Emscripten build we are disabling file-system access, so let's not attempt to do a fopen() of the imgui.ini file.
     // You may manually call LoadIniSettingsFromMemory() to load settings from your own storage.
     ImGuiIO& io = ImGui::GetIO();
     (void)io;
-    io.IniFilename = NULL;
+    io.IniFilename = nullptr;
     EMSCRIPTEN_MAINLOOP_BEGIN
 #else
-    while (!glfwWindowShouldClose(window))
+    while (glfwWindowShouldClose(window) == 0)
 #endif
     {
         deltaTime = ImGui::GetIO().DeltaTime;
@@ -189,211 +218,296 @@ void ParticleSimulatorLauncher::handleInputs() {
     if (InputManager::isDownKeyPressed(window))
         scene->camera.moveDown();
 
-    /* Get mouse position*/
-    double mouseX = 0, mouseY = 0;
-    InputManager::getMousePosition(window, mouseX, mouseY);
+    /* Read and update mouse controls */
+    // Get mouse position or drag position
+    double posX = 0, posY = 0;
+#ifdef __EMSCRIPTEN__
+    if (InputManager::dragMovementData.isUsingDrag)
+    {
+        posX = InputManager::dragMovementData.dragX;
+        posY = InputManager::dragMovementData.dragY;
+    }
+    else
+    {
+#endif
+        InputManager::getMousePosition(window, posX, posY);
+#ifdef __EMSCRIPTEN__
+    }
+#endif
 
-    /* Get mouse delta */
+    // Get movement delta
     double mouseDeltaX = 0, mouseDeltaY = 0;
-    calculateMouseMovement(mouseX, mouseY, mouseDeltaX, mouseDeltaY);
+    calculateMouseMovement(posX, posY, mouseDeltaX, mouseDeltaY);
 
     // Read mouse inputs and update camera
     if (InputManager::isKeyMouseMovementPressed(window))
     {
-        scene->camera.processMouseMovement((float)mouseDeltaX, (float)mouseDeltaY);
+        scene->camera.processMouseMovement(static_cast<float>(mouseDeltaX), static_cast<float>(mouseDeltaY));
     }
 
-    // Read mouse inputs and update particle simulator target
-    bool isTargeting = InputManager::isKeyMouseSetTargetPressed(window);
-    scene->particleSimulator.setIsTargeting(isTargeting);
-    mousePositionWorld = projectMouse(mouseX, mouseY);
-    scene->particleSimulator.setTarget(mousePositionWorld);
+    // Update particle simulator attractor if mouse is pressed or dragging
+    bool const isAttracting = InputManager::isKeyMouseSetAttractorPressed(window);
+    scene->particleSimulatorSsbo.setIsAttracting(isAttracting);
+    mousePositionWorld = projectMouse(posX, posY);
+    scene->particleSimulatorSsbo.setAttractorPosition(mousePositionWorld);
 }
 
 void ParticleSimulatorLauncher::handleUi(float deltaTime) {
-    if (isFullscreen || isWindowMinimized())
-        return;
 
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
+    if (!isFullscreen)
     {
-        ImGui::Begin("Window info");
-        ImGui::Text("%.3f ms/frame (%.1f FPS)", deltaTime, 1.0f / deltaTime);
-        ImGui::Text("Window width: %d", displayWidth);
-        ImGui::Text("Window height: %d", displayHeight);
-        ImGui::Text("GPU: %s", getOpenGLVendor().data());
-        ImGui::Text("OpenGL version: %s", getOpenGLVersion().data());
-        ImGui::Text("GLSL version: %s", getGLSLVersion().data());
-        ImGui::End();
-    }
-
-    {
-        ImGui::Begin("Camera settings");
-
-        static bool wireframe = false;
-        ImGui::TextColored(ImVec4(1.0F, 0.0F, 1.0F, 1.0F), "View settings");
-        ImGui::Checkbox("Wireframe", &wireframe);
-        if (wireframe)
         {
-            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-        }
-        else
-        {
-            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-        }
-        ImGui::NewLine();
-
-        ImGui::TextColored(ImVec4(1.0F, 0.0F, 1.0F, 1.0F), "Camera settings");
-
-        ImGui::Text("Position:");
-        ImGui::DragFloat3("##position", (float*)&scene->camera.position);
-
-        ImGui::NewLine();
-        ImGui::Text("Pitch:");
-        ImGui::Checkbox("Pitch constrained", &scene->camera.constrainPitch);
-        ImGui::DragFloat("##pitch", &scene->camera.pitch);
-
-        ImGui::Text("Yaw:");
-        ImGui::DragFloat("##yaw", &scene->camera.yaw);
-
-        ImGui::NewLine();
-        ImGui::Text("FOV:");
-        ImGui::DragFloat("##fov", &scene->camera.fov);
-
-        ImGui::NewLine();
-        ImGui::Text("Near plane:");
-        ImGui::DragFloat("##near", &scene->camera.nearPlane);
-
-        ImGui::Text("Far plane:");
-        ImGui::DragFloat("##far", &scene->camera.farPlane);
-
-        ImGui::NewLine();
-        ImGui::Text("Speed:");
-        ImGui::DragFloat("##speed", &scene->camera.movementSpeed);
-
-        ImGui::Text("Sensitivity: ");
-        ImGui::DragFloat("##sensitivity", &scene->camera.rotationSpeed, 0.1f);
-
-        ImGui::End();
-    }
-
-    {
-        ImGui::Begin("Particle simulator settings");
-
-        ImGui::Text("Particle count: %s", std::to_string(scene->particleSimulator.getParticleCount()).c_str());
-        ImGui::NewLine();
-
-        ImGui::TextColored(ImVec4(1.0F, 0.0F, 1.0F, 1.0F), "Particle settings");
-
-        ImGui::Text("Fixed update frequency:");
-        ImGui::DragFloat("##fixedUpdate", &fixedUpdate, 1.0f, 1.0f, 1000.0f);
-
-        ImGui::Text("Reset simulation:");
-        ImGui::SameLine();
-        ImGui::Button("Reset##ResetBtn");
-        if (ImGui::IsItemClicked())
-        {
-            resetScene();
+#ifdef __EMSCRIPTEN__
+            static bool isCollapsed = true;
+            ImGui::SetNextWindowPos(ImVec2(5, 5), ImGuiCond_Once);
+            ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
+#endif
+            ImGui::Begin("Information");
+            ImGui::Text("Author: %s", PROJECT_AUTHOR.data());
+            ImGui::Text("Project: %s", PROJECT_NAME.data());
+            ImGui::Text("Version: %s", PROJECT_VERSION.data());
+            ImGui::Text("Author: %s", PROJECT_AUTHOR.data());
+            ImGui::Text("%.3f ms/frame (%.1f FPS)", deltaTime, 1.0F / deltaTime);
+            ImGui::Text("Window width: %d", displayWidth);
+            ImGui::Text("Window height: %d", displayHeight);
+            ImGui::Text("GPU: %s", getOpenGLVendor().data());
+            ImGui::Text("OpenGL version: %s", getOpenGLVersion().data());
+            ImGui::Text("GLSL version: %s", getGLSLVersion().data());
+            ImGui::End();
         }
 
-        ImGui::Text("Spawn position:");
-        ImGui::DragFloat3("##spawnPosition", (float*)&scene->particleSimulator.position);
+        // NOT WORKING
+        //        {
+        //            ImGui::Begin("View settings");
+        // #ifndef __EMSCRIPTEN__
+        //            static bool wireframe = false;
+        //            ImGui::Checkbox("Wireframe", &wireframe);
+        //            if (wireframe)
+        //            {
+        //                glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        //            }
+        //            else
+        //            {
+        //                glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        //            }
+        //            ImGui::NewLine();
+        // #endif
+        //            ImGui::NewLine();
+        //            static bool useVsync = false;
+        //            static float fps = 60.0F;
+        //            ImGui::Checkbox("Use VSync", &useVsync);
+        //            if (ImGui::IsItemClicked())
+        //            {
+        //                if (useVsync)
+        //                {
+        //                    glfwSwapInterval(1); // Enable vsync
+        //                }
+        //                else
+        //                {
+        //                    glfwSwapInterval(0); // Disable vsync
+        //                    glfwWindowHint(GLFW_REFRESH_RATE, fps);
+        //                }
+        //            }
+        //            if (!useVsync)
+        //            {
+        //                ImGui::DragFloat("Frame per second", &fps, 0.1F, 1.0F, 60.0F);
+        //                ImGui::Button("Validate");
+        //                if (ImGui::IsItemClicked())
+        //                {
+        //                    glfwWindowHint(GLFW_REFRESH_RATE, fps);
+        //                }
+        //            }
+        //            ImGui::End();
+        //        }
 
-        ImGui::Text("Toggle pause:");
-        ImGui::SameLine();
-        ImGui::Button(scene->getIsPaused() ? "Resume##TogglePAuseBtn" : "Pause##TogglePAuseBtn");
-        if (ImGui::IsItemClicked())
         {
-            scene->togglePause();
+#ifdef __EMSCRIPTEN__
+            static bool isCollapsed = true;
+            ImGui::SetNextWindowPos(ImVec2(5, 25), ImGuiCond_Once);
+            ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
+#endif
+            ImGui::Begin("Camera settings");
+            //        #ifndef __EMSCRIPTEN__
+            //        ImGui::TextColored(ImVec4(1.0F, 0.0F, 1.0F, 1.0F), "View settings");
+            //        static bool wireframe = false;
+            //        ImGui::Checkbox("Wireframe", &wireframe);
+            //        if (wireframe)
+            //        {
+            //            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+            //        }
+            //        else
+            //        {
+            //            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+            //        }
+            //        ImGui::NewLine();
+            //        #endif
+
+            ImGui::Text("Position:");
+            ImGui::DragFloat3("##position", reinterpret_cast<float*>(&scene->camera.position));
+
+            ImGui::Text("Reset position:");
+            ImGui::DragFloat3("##resetPosition", reinterpret_cast<float*>(&scene->camera.initPosition));
+            ImGui::Button("Reset position");
+            if (ImGui::IsItemClicked())
+            {
+                scene->camera.reset();
+            }
+
+            ImGui::NewLine();
+            ImGui::Text("Pitch:");
+            ImGui::Checkbox("Pitch constrained", &scene->camera.constrainPitch);
+            ImGui::DragFloat("##pitch", &scene->camera.pitch);
+
+            ImGui::Text("Yaw:");
+            ImGui::DragFloat("##yaw", &scene->camera.yaw);
+
+            ImGui::NewLine();
+            ImGui::Text("FOV:");
+            ImGui::DragFloat("##fov", &scene->camera.fov);
+
+            ImGui::NewLine();
+            ImGui::Text("Near plane:");
+            ImGui::DragFloat("##near", &scene->camera.nearPlane);
+
+            ImGui::Text("Far plane:");
+            ImGui::DragFloat("##far", &scene->camera.farPlane);
+
+            ImGui::NewLine();
+            ImGui::Text("Speed:");
+            ImGui::DragFloat("##speed", &scene->camera.movementSpeed);
+
+            ImGui::Text("Sensitivity: ");
+            ImGui::DragFloat("##sensitivity", &scene->camera.rotationSpeed, 0.1F);
+
+            ImGui::End();
         }
 
-        ImGui::End();
-    }
+        {
+#ifdef __EMSCRIPTEN__
+            static bool isCollapsed = true;
+            ImGui::SetNextWindowPos(ImVec2(5, 45), ImGuiCond_Once);
+            ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
+#endif
+            ImGui::Begin("Particle simulator settings");
 
-    {
-        ImGui::Begin("Mouse controls");
+            ImGui::Text("Particle count: %s", std::to_string(scene->particleSimulatorSsbo.getParticlesCount()).c_str());
+            static int particlesCount = static_cast<int>(scene->particleSimulatorSsbo.getParticlesCount());
+            ImGui::DragInt("##particlesCount", &particlesCount, 1, 1, MAX_PARTICLES_COUNT);
+            ImGui::Button("Validate##ParticlesCountSetterButton");
+            if (ImGui::IsItemClicked())
+            {
+                scene->particleSimulatorSsbo.setParticlesCount(particlesCount);
+            }
+            ImGui::NewLine();
 
-        ImGui::Text("Is targeting: %s", scene->particleSimulator.getIsTargeting() ? "true" : "false");
+            ImGui::Text("Reset simulation:");
+            ImGui::Button("Reset##ResetBtn");
+            if (ImGui::IsItemClicked())
+            {
+                resetScene();
+            }
+            ImGui::NewLine();
 
-        ImGui::Text("Mouse position world:");
-        ImGui::Text("X: %f", mousePositionWorld.x);
-        ImGui::SameLine();
-        ImGui::Text("Y: %f", mousePositionWorld.y);
-        ImGui::SameLine();
-        ImGui::Text("Z: %f", mousePositionWorld.z);
+            ImGui::Text("Toggle pause:");
+            ImGui::Button(scene->getIsPaused() ? "Resume##TogglePAuseBtn" : "Pause##TogglePAuseBtn");
+            if (ImGui::IsItemClicked())
+            {
+                scene->togglePause();
+            }
+            ImGui::NewLine();
 
-        ImGui::Text("Target distance:");
-        ImGui::DragFloat("##targetDistance", &targetDistance, 0.1f, 0.0f, 100.0f);
+            ImGui::Text("Spawn position:");
+            ImGui::DragFloat3("##spawnPosition", reinterpret_cast<float*>(&scene->particleSimulatorSsbo.position));
+            ImGui::NewLine();
 
-        ImGui::End();
+            ImGui::Text("Spawn radius:");
+            ImGui::DragFloat("##spawnRadius", &scene->particleSimulatorSsbo.spawnRadius, 0.1F, 0.1F, 100.0F);
+            ImGui::NewLine();
+
+            ImGui::Text("Particle mass:");
+            ImGui::DragFloat("##particleMass", &scene->particleSimulatorSsbo.particleMass, 0.1F, 0.1F, 100.0F);
+            ImGui::NewLine();
+
+            ImGui::Text("Attractor mass:");
+            ImGui::DragFloat("##attractorMass", &scene->particleSimulatorSsbo.attractorMass, 0.1F, 0.1F, 100.0F);
+            ImGui::NewLine();
+
+            ImGui::Text("Gravity:");
+            ImGui::DragFloat("##gravity", &scene->particleSimulatorSsbo.gravity, 0.1F, 0.1F, 100.0F);
+            ImGui::NewLine();
+
+            ImGui::Text("Distance offset:");
+            ImGui::DragFloat("##distanceOffset", &scene->particleSimulatorSsbo.distanceOffset, 0.1F, 0.1F, 100.0F);
+            ImGui::NewLine();
+
+            ImGui::Text("Damping:");
+            ImGui::DragFloat("##damping", &scene->particleSimulatorSsbo.damping, 0.0F, 0.0F, 1.0F);
+
+            ImGui::End();
+        }
+
+        {
+#ifdef __EMSCRIPTEN__
+            static bool isCollapsed = true;
+            ImGui::SetNextWindowPos(ImVec2(5, 65), ImGuiCond_Once);
+            ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
+#endif
+            ImGui::Begin("Mouse controls");
+
+            ImGui::Text("Is attracting: %s", scene->particleSimulatorSsbo.getIsAttracting() ? "true" : "false");
+
+            ImGui::Text("Mouse position world:");
+            ImGui::Text("X: %f", mousePositionWorld.x);
+            ImGui::SameLine();
+            ImGui::Text("Y: %f", mousePositionWorld.y);
+            ImGui::SameLine();
+            ImGui::Text("Z: %f", mousePositionWorld.z);
+
+            ImGui::Text("Attractor distance from camera:");
+            ImGui::DragFloat("##attractorDistance", &attractorDistance, 0.1F, 0.0F, 100.0F);
+
+            ImGui::End();
+        }
     }
 
     ImGui::Render();
+
+    // Prevent ImGui from stealing focus on start
+    static bool disableImGuiFocusOnStart = true;
+    if (disableImGuiFocusOnStart)
+    {
+        ImGui::SetWindowFocus(nullptr);
+        disableImGuiFocusOnStart = false;
+    }
 }
 
 void ParticleSimulatorLauncher::updateGame(float deltaTime) {
-    //    const float fixedDeltaTime = 1.0f / fixedUpdate;
-    //    static float accumulator = 0.0f;
-    //    accumulator += deltaTime;
-    //    while (accumulator >= fixedDeltaTime)
-    //    {
-    //        scene->update(fixedDeltaTime);
-    //        accumulator -= fixedDeltaTime;
-    //    }
     scene->update(deltaTime);
 }
 
 void ParticleSimulatorLauncher::updateScreen() {
-    if (!isWindowMinimized())
-    {
+    if (!isMinimized())
         updateViewport();
 
-        glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        scene->render();
+    clearScreen();
+    scene->render();
 
-        if (!isFullscreen)
-        {
-            ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-            ImGuiIO& io = ImGui::GetIO();
-            (void)io;
-            if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-            {
-                GLFWwindow* backup_current_context = glfwGetCurrentContext();
-                ImGui::UpdatePlatformWindows();
-                ImGui::RenderPlatformWindowsDefault();
-                glfwMakeContextCurrent(backup_current_context);
-            }
-        }
+    const ImGuiIO& io = ImGui::GetIO();
+    if ((io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) != 0)
+    {
+        GLFWwindow* backup_current_context = glfwGetCurrentContext();
+        ImGui::UpdatePlatformWindows();
+        ImGui::RenderPlatformWindowsDefault();
+        glfwMakeContextCurrent(backup_current_context);
     }
+
     glfwSwapBuffers(window);
-}
-
-void ParticleSimulatorLauncher::centerWindow() {
-    GLFWmonitor* monitor = glfwGetPrimaryMonitor();
-    const GLFWvidmode* mode = glfwGetVideoMode(monitor);
-    auto xPos = (mode->width - windowWidth) / 2;
-    auto yPos = (mode->height - windowHeight) / 2;
-    glfwSetWindowPos(window, xPos, yPos);
-}
-
-void ParticleSimulatorLauncher::toggleFullscreen() {
-    if (isFullscreen)
-    {
-        glfwSetWindowMonitor(window, NULL, 0, 0, 1280, 720, 0);
-        centerWindow();
-        isFullscreen = false;
-    }
-    else
-    {
-        GLFWmonitor* monitor = glfwGetPrimaryMonitor();
-        const GLFWvidmode* mode = glfwGetVideoMode(monitor);
-        glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
-        isFullscreen = true;
-    }
 }
 
 void ParticleSimulatorLauncher::resetScene() {
@@ -404,19 +518,65 @@ void ParticleSimulatorLauncher::toggleScenePause() {
     scene->togglePause();
 }
 
-bool ParticleSimulatorLauncher::isWindowMinimized() {
-    int width, height;
-    glfwGetWindowSize(window, &width, &height);
-    return width == 0 || height == 0;
-}
-
 void ParticleSimulatorLauncher::updateViewport() {
+#ifdef __EMSCRIPTEN__
+    emscripten_get_canvas_element_size("#canvas", &displayWidth, &displayHeight);
+#else
     glfwGetFramebufferSize(window, &displayWidth, &displayHeight);
+    if (!isFullscreen)
+    {
+        windowWidth = displayWidth;
+        windowHeight = displayHeight;
+    }
+#endif
     scene->updateProjectionMatrix(displayWidth, displayHeight);
+
     glViewport(0, 0, displayWidth, displayHeight);
 }
 
-void ParticleSimulatorLauncher::calculateMouseMovement(const double& xMouse, const double& yMouse, double& xMovement, double& yMovement) {
+
+void ParticleSimulatorLauncher::centerWindow() {
+    GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+    const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+    windowPosX = (mode->width - displayWidth) / 2;
+    windowPosY = (mode->height - displayHeight) / 2;
+    glfwSetWindowPos(window, windowPosX, windowPosY);
+}
+
+void ParticleSimulatorLauncher::toggleFullscreen() {
+#ifndef __EMSCRIPTEN__
+    if (isFullscreen)
+    {
+        glfwSetWindowMonitor(window, nullptr, 0, 0, windowWidth, windowHeight, 0);
+        displayWidth = windowWidth;
+        displayHeight = windowHeight;
+        glfwSetWindowPos(window, windowPosX, windowPosY);
+        isFullscreen = false;
+    }
+    else
+    {
+        glfwGetWindowPos(window, &windowPosX, &windowPosY);
+        GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+        const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+        glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
+        isFullscreen = true;
+    }
+#endif
+}
+
+
+void ParticleSimulatorLauncher::clearScreen() const {
+    glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w,
+        clear_color.w);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
+auto ParticleSimulatorLauncher::isMinimized() const -> bool {
+    return glfwGetWindowAttrib(window, GLFW_ICONIFIED) != 0;
+}
+
+void ParticleSimulatorLauncher::calculateMouseMovement(const double& xMouse, const double& yMouse, double& xMovement,
+    double& yMovement) {
     static double lastMouseX = 0.0;
     static double lastMouseY = 0.0;
 
@@ -427,52 +587,56 @@ void ParticleSimulatorLauncher::calculateMouseMovement(const double& xMouse, con
     lastMouseY = yMouse;
 }
 
-glm::vec3 ParticleSimulatorLauncher::projectMouse(const double& xMouse, const double& yMouse) {
+auto ParticleSimulatorLauncher::projectMouse(const double& xMouse, const double& yMouse) -> glm::vec3 {
     // Convert the mouse coordinates from screen space to NDC space
-    float normalized_x = (2.0f * xMouse) / displayWidth - 1.0f;
-    float normalized_y = 1.0f - (2.0f * yMouse) / displayHeight;
+    float const normalized_x = (2.0F * static_cast<float>(xMouse)) / static_cast<float>(displayWidth) - 1.0F;
+    float const normalized_y = 1.0F - (2.0F * static_cast<float>(yMouse)) / static_cast<float>(displayHeight);
 
     // Create a vector representing the mouse coordinates in NDC space
-    glm::vec4 mouse_ndc(normalized_x, normalized_y, -1.0f, 1.0f);
+    glm::vec4 const mouse_ndc(normalized_x, normalized_y, -1.0F, 1.0F);
 
     // Convert the mouse coordinates from NDC space to world space
-    glm::mat4 inverse_projection = glm::inverse(scene->camera.getProjectionMatrix());
-    glm::mat4 inverse_view = glm::inverse(scene->camera.getViewMatrix());
+    glm::mat4 const inverse_projection = glm::inverse(scene->camera.getProjectionMatrix());
+    glm::mat4 const inverse_view = glm::inverse(scene->camera.getViewMatrix());
     glm::vec4 mouse_world = inverse_projection * mouse_ndc;
     mouse_world = mouse_world / mouse_world.w;
     mouse_world = inverse_view * mouse_world;
 
     // Calculate the direction from the camera position to the mouse position
-    glm::vec3 camera_to_mouse = glm::normalize(glm::vec3(mouse_world) - scene->camera.position);
+    glm::vec3 const camera_to_mouse = glm::normalize(glm::vec3(mouse_world) - scene->camera.position);
 
     // Use the direction to update the position of an object in the 3D environment
-    return scene->camera.position + camera_to_mouse * targetDistance;
+    return scene->camera.position + camera_to_mouse * attractorDistance;
 }
 
-std::string_view ParticleSimulatorLauncher::getOpenGLVendor() {
+auto ParticleSimulatorLauncher::getOpenGLVendor() -> std::string_view {
     return reinterpret_cast<const char*>(glGetString(GL_RENDERER));
 }
 
-std::string_view ParticleSimulatorLauncher::getOpenGLVersion() {
+auto ParticleSimulatorLauncher::getOpenGLVersion() -> std::string_view {
     return reinterpret_cast<const char*>(glGetString(GL_VERSION));
 }
 
-std::string_view ParticleSimulatorLauncher::getGLSLVersion() {
+auto ParticleSimulatorLauncher::getGLSLVersion() -> std::string_view {
     return reinterpret_cast<const char*>(glGetString(GL_SHADING_LANGUAGE_VERSION));
 }
 
-std::string ParticleSimulatorLauncher::getGLFWVersion() {
-    return std::to_string(GLFW_VERSION_MAJOR) + "." + std::to_string(GLFW_VERSION_MINOR) + "." + std::to_string(GLFW_VERSION_REVISION);
+auto ParticleSimulatorLauncher::getGLFWVersion() -> std::string {
+    return std::to_string(GLFW_VERSION_MAJOR) + "." + std::to_string(GLFW_VERSION_MINOR) + "." +
+           std::to_string(GLFW_VERSION_REVISION);
 }
 
-std::string_view ParticleSimulatorLauncher::getGladVersion() {
+auto ParticleSimulatorLauncher::getGladVersion() -> std::string_view {
     return "0.1.36";
 }
 
-std::string ParticleSimulatorLauncher::getImGuiVersion() {
+auto ParticleSimulatorLauncher::getImGuiVersion() -> std::string {
     return IMGUI_VERSION;
 }
 
-std::string ParticleSimulatorLauncher::getGLMVersion() {
-    return std::to_string(GLM_VERSION_MAJOR) + "." + std::to_string(GLM_VERSION_MINOR) + "." + std::to_string(GLM_VERSION_PATCH);
+auto ParticleSimulatorLauncher::getGLMVersion() -> std::string {
+    return std::to_string(GLM_VERSION_MAJOR) + "." + std::to_string(GLM_VERSION_MINOR) + "." +
+           std::to_string(GLM_VERSION_PATCH);
 }
+
+#pragma clang diagnostic pop

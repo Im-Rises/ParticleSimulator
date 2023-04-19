@@ -12,41 +12,44 @@ private:
 public:
     Shader(const char *vertexPath, const char *fragmentPath);
 
-    void create(const char *vertexCode, const char *fragmentCode);
+    Shader(const Shader &) = delete;
+    auto operator=(const Shader &) -> Shader & = delete;
+    Shader(Shader &&) = delete;
+    auto operator=(Shader &&) -> Shader & = delete;
 
-    ~Shader();
+    virtual ~Shader();
 
-    void destroy();
-
-    void checkCompileErrors(unsigned int shader, std::string type);
-
-public:
-    void use();
+    static void checkCompileErrors(unsigned int shader, const std::string &type);
 
 public:
-    void setBool(const std::string &name, bool value) const;
+    void use() const;
 
-    void setInt(const std::string &name, int value) const;
+    [[maybe_unused]] [[nodiscard]] auto getID() const -> unsigned int;
 
-    void setFloat(const std::string &name, float value) const;
+public:
+    [[maybe_unused]] void setBool(const std::string &name, bool value) const;
 
-    void setVec2(const std::string &name, float x, float y) const;
+    [[maybe_unused]] void setInt(const std::string &name, int value) const;
 
-    void setVec3(const std::string &name, float x, float y, float z) const;
+    [[maybe_unused]] void setFloat(const std::string &name, float value) const;
 
-    void setVec4(const std::string &name, float x, float y, float z, float w) const;
+    [[maybe_unused]] void setVec2(const std::string &name, float x, float y) const;
 
-    void setVec2(const std::string &name, const glm::vec2 &value) const;
+    [[maybe_unused]] void setVec3(const std::string &name, float x, float y, float z) const;
 
-    void setVec3(const std::string &name, const glm::vec3 &value) const;
+    [[maybe_unused]] void setVec4(const std::string &name, float x, float y, float z, float w) const;
 
-    void setVec4(const std::string &name, const glm::vec4 &value) const;
+    [[maybe_unused]] void setVec2(const std::string &name, const glm::vec2 &value) const;
 
-    void setMat2(const std::string &name, const glm::mat2 &mat) const;
+    [[maybe_unused]] void setVec3(const std::string &name, const glm::vec3 &value) const;
 
-    void setMat3(const std::string &name, const glm::mat3 &mat) const;
+    [[maybe_unused]] void setVec4(const std::string &name, const glm::vec4 &value) const;
 
-    void setMat4(const std::string &name, const glm::mat4 &mat) const;
+    [[maybe_unused]] void setMat2(const std::string &name, const glm::mat2 &mat) const;
+
+    [[maybe_unused]] void setMat3(const std::string &name, const glm::mat3 &mat) const;
+
+    [[maybe_unused]] void setMat4(const std::string &name, const glm::mat4 &mat) const;
 };
 
 

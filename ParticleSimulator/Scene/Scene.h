@@ -2,7 +2,7 @@
 #define SCENE_H
 
 #include "Camera/Camera.h"
-#include "Entity/ParticleSimulator/ParticleSimulator.h"
+#include "Entity/ParticleSimulatorSSBO/ParticleSimulatorSSBO.h"
 
 class Scene {
 private:
@@ -10,21 +10,26 @@ private:
 
 public:
     Camera camera;
-    ParticleSimulator particleSimulator;
+    ParticleSimulatorSSBO particleSimulatorSsbo;
+
+    //    std::vector<Entity*> entities;
 
 public:
     Scene(int display_w, int display_h);
-    ~Scene();
+
     void update(float deltaTime);
+
     void render();
 
 public:
     void updateProjectionMatrix(int display_w, int display_h);
+
     void togglePause();
+
     void reset();
 
 public:
-    [[nodiscard]] bool getIsPaused() const { return isPaused; }
+    [[nodiscard]] auto getIsPaused() const -> bool;
 };
 
 #endif // SCENE_H
