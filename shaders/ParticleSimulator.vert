@@ -14,48 +14,38 @@ layout (std430, binding = 0) buffer ParticlesSsbo {
 
 uniform mat4 u_mvp;
 uniform float u_deltaTime;
-uniform vec3 u_pointOfGravity;
-// Use float instead of bool as boolean condition in shader can produce unexpected results, the float is 0.0f or 1.0f
-// and used to multiply the force to apply or not
-uniform float u_isTargeting;
+uniform vec3 u_attractorPosition;
+uniform float u_damping;
+uniform float u_attractorMass;
+uniform float u_particleMass;
+uniform float u_gravity;
+uniform float u_distanceOffset;
+uniform float u_isAttracting;
 uniform float u_isRunning;
 
-out vec3 v_velocity;
-
-const float G = 1000.0f;// Gravitational constant
-const float m1 = 1000.0f;// Mass of the particle
-const float m2 = 1.0f;// Mass of the point of gravity
-const float distanceOffset = 100.0f;
-//const float friction = 0.99f;
+out vec3 v_vel;
 
 void main()
 {
-    Particle particle = particlesSsboData.particles[gl_VertexID];// Get the particle data
+    Particle particle = particlesSsboData.particles[gl_VertexID];
 
-    // Newton's law of gravity F = G * m1 * m2 / r^2 (F = force, G = gravitational constant,
-    // m1 = mass of the particle, m2 = mass of the point of gravity, r = distance between the
-    // particle and the point of gravity)
-    vec3 r = u_pointOfGravity - particle.position;
-    float rSquared = dot(r, r) + distanceOffset;// (dot(toMass, toMass)) gives the square of the magnitude (length) of the vector
-    vec3 force = (G * m1 * m2 * normalize(r) / rSquared) * u_isTargeting * u_isRunning;// normalize(r) gives the direction of the vector
+    vec3 r = u_attractorPosition - particle.position;
+    float rSquared = dot(r, r) + u_distanceOffset;
+    vec3 force = (u_gravity * u_attractorMass * u_particleMass * normalize(r) / rSquared) * u_isAttracting * u_isRunning;
 
-    // F = ma
-    vec3 acceleration = force / m1;// a = F / m
+    vec3 acceleration = force / u_particleMass;
+    vec3 position = a_pos + (a_vel * u_deltaTime + 0.5f * acceleration * u_deltaTime * u_deltaTime) * u_isRunning;
+    vec3 velocity = a_vel + acceleration * u_deltaTime;
 
-    // p = p0 + v * t + 1/2 * a * t^2
-    particle.position += (particle.velocity * u_deltaTime + 0.5f * acceleration * u_deltaTime * u_deltaTime) * u_isRunning;
+    particle.position = position;
 
-    // v = v0 + at
-    particle.velocity += acceleration * u_deltaTime;
+//    particle.velocity = velocity * u_damping;
+//    particle.velocity = velocity * (u_isRunning == 1.0 ? 1.0 : u_damping);
+    particle.velocity = mix(velocity, velocity * u_damping, u_isRunning);
 
-    // Friction
-    //        particle.velocity *= friction;
-
-    // Set the new particle data
     particlesSsboData.particles[gl_VertexID] = particle;
 
-    // Set the output
     gl_Position = u_mvp * vec4(particle.position, 1.0);
 
-    v_velocity = particle.velocity;
+    v_vel = particle.velocity;
 }
