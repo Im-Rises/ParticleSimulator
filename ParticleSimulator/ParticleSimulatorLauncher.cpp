@@ -279,6 +279,7 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
             ImGui::End();
         }
 
+        // NOT WORKING
         //        {
         //            ImGui::Begin("View settings");
         // #ifndef __EMSCRIPTEN__
@@ -302,12 +303,10 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
         //            {
         //                if (useVsync)
         //                {
-        //                    std::cout << "VSync enabled" << std::endl;
         //                    glfwSwapInterval(1); // Enable vsync
         //                }
         //                else
         //                {
-        //                    std::cout << "VSync disabled" << std::endl;
         //                    glfwSwapInterval(0); // Disable vsync
         //                    glfwWindowHint(GLFW_REFRESH_RATE, fps);
         //                }

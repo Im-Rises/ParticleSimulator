@@ -1,6 +1,6 @@
 #include "Scene.h"
 
-Scene::Scene(int display_w, int display_h) : camera(display_w, display_h), particleSimulatorSsbo(4000000) {
+Scene::Scene(int display_w, int display_h) : camera(display_w, display_h), particleSimulatorSsbo(1000000) {
 }
 
 void Scene::update(float deltaTime) {
