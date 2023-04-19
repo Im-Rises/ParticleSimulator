@@ -22,8 +22,7 @@ The source code of the WebGL can be found at the following link:
 
 TODO:
 
-- [ ] Correct toggle fullscreen particles drag bug
-- [ ] Correct particles count change issues
+- [ ] Correct toggle fullscreen particles drag bug that change delta time
 
 ## Images
 

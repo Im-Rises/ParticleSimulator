@@ -5,7 +5,7 @@
 #include <random>
 
 ParticleSimulatorSSBO::ParticleSimulatorSSBO(int particlesCount) : Entity("shaders/ParticleSimulator.vert",
-                                                                          "shaders/ParticleSimulator.frag") {
+                                                                       "shaders/ParticleSimulator.frag") {
     // Set the particles count
     this->particlesCount = particlesCount;
     std::vector<Particle> particles(particlesCount);
@@ -35,7 +35,7 @@ ParticleSimulatorSSBO::~ParticleSimulatorSSBO() {
     glDeleteBuffers(1, &ssbo);
 }
 
-void ParticleSimulatorSSBO::update(const float &deltaTime) {
+void ParticleSimulatorSSBO::update(const float& deltaTime) {
     this->deltaTime = deltaTime;
 }
 
@@ -81,19 +81,19 @@ void ParticleSimulatorSSBO::reset() {
 
     // Resend to the GPU
     glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssbo);
-    glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, particles.size() * sizeof(Particle),
-                    particles.data()); // We use glBufferSubData because the buffer is already allocated, and we want to update it
+    glBufferData(GL_SHADER_STORAGE_BUFFER, particles.size() * sizeof(Particle), particles.data(), GL_DYNAMIC_DRAW);
     glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
-void ParticleSimulatorSSBO::randomizeParticles(std::vector<Particle> &particles) {
+void ParticleSimulatorSSBO::randomizeParticles(std::vector<Particle>& particles) {
     // Init the random engine
     std::mt19937 randomEngine;
-    std::uniform_real_distribution<float> randomFloats(0.0F, 2.0F * M_PI);
+    std::uniform_real_distribution<float> randomFloats(0.0F, static_cast<float>(2.0F) * M_PI);
     const std::uniform_real_distribution<float> randomFloats2(-1.0F, 1.0F);
 
     // Init the particles as a sphere
-    for (auto &particle: particles) {
+    for (auto& particle : particles)
+    {
         const float angle1 = randomFloats(randomEngine);
         const float angle2 = randomFloats(randomEngine);
         const float x = spawnRadius * std::sin(angle1) * std::cos(angle2);
@@ -104,11 +104,11 @@ void ParticleSimulatorSSBO::randomizeParticles(std::vector<Particle> &particles)
     }
 }
 
-void ParticleSimulatorSSBO::setAttractorPosition(const glm::vec3 &pos) {
+void ParticleSimulatorSSBO::setAttractorPosition(const glm::vec3& pos) {
     attractorPosition = pos;
 }
 
-void ParticleSimulatorSSBO::setIsAttracting(const bool &value) {
+void ParticleSimulatorSSBO::setIsAttracting(const bool& value) {
     isAttracting = static_cast<float>(value);
 }
 
@@ -116,7 +116,7 @@ auto ParticleSimulatorSSBO::getIsAttracting() const -> bool {
     return isAttracting != 0.0F;
 }
 
-void ParticleSimulatorSSBO::setParticlesCount(const int &value) {
+void ParticleSimulatorSSBO::setParticlesCount(const int& value) {
     particlesCount = value;
     reset();
 }
