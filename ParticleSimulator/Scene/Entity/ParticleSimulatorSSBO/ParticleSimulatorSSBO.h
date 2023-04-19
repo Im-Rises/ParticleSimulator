@@ -5,8 +5,8 @@
 
 #include <glad/glad.h>
 #include <vector>
-
 #include "../Entity.h"
+
 
 class ParticleSimulatorSSBO : public Entity {
 private:
@@ -42,31 +42,31 @@ public:
 public:
     explicit ParticleSimulatorSSBO(int particlesCount = 1000000);
 
-    ParticleSimulatorSSBO(const ParticleSimulatorSSBO &) = delete;
-    auto operator=(const ParticleSimulatorSSBO &) -> ParticleSimulatorSSBO & = delete;
-    ParticleSimulatorSSBO(ParticleSimulatorSSBO &&) = delete;
-    auto operator=(ParticleSimulatorSSBO &&) -> ParticleSimulatorSSBO & = delete;
+    ParticleSimulatorSSBO(const ParticleSimulatorSSBO&) = delete;
+    auto operator=(const ParticleSimulatorSSBO&) -> ParticleSimulatorSSBO& = delete;
+    ParticleSimulatorSSBO(ParticleSimulatorSSBO&&) = delete;
+    auto operator=(ParticleSimulatorSSBO&&) -> ParticleSimulatorSSBO& = delete;
 
     ~ParticleSimulatorSSBO() override;
 
 public:
-    void update(const float &deltaTime) override;
+    void update(const float& deltaTime) override;
 
     void render(glm::mat4 cameraViewMatrix, glm::mat4 cameraProjectionMatrix) override;
 
     void reset();
 
 private:
-    void randomizeParticles(std::vector<Particle> &particles);
+    void randomizeParticles(std::vector<Particle>& particles);
 
 public:
-    void setAttractorPosition(const glm::vec3 &pos);
+    void setAttractorPosition(const glm::vec3& pos);
 
-    void setIsAttracting(const bool &value);
+    void setIsAttracting(const bool& value);
 
     [[nodiscard]] auto getIsAttracting() const -> bool;
 
-    void setParticlesCount(const int &value);
+    void setParticlesCount(const int& value);
 
     [[nodiscard]] auto getParticlesCount() const -> size_t;
 };
