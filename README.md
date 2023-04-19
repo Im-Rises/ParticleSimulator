@@ -1,4 +1,4 @@
-# ParticleSimulator
+# ParticleSimulatorSSBO
 
 <p align="center">
       <img src="https://user-images.githubusercontent.com/59691442/183268126-b3d19e66-8f2d-463a-805e-ae6ef7cc6c01.png" alt="cmakeLogo" style="height:60px;"/>
@@ -22,9 +22,11 @@ The source code of the WebGL can be found at the following link:
 
 ## Images
 
-![screenshot1](https://user-images.githubusercontent.com/59691442/221967878-52c06fd3-2de1-4362-873a-5ae69c62d618.png)
-![screenshot2](https://user-images.githubusercontent.com/59691442/221967884-f74d32e2-1bf2-4382-839b-83b85433e7a8.png)
-![screenshot4](https://user-images.githubusercontent.com/59691442/222615096-59948508-7a2e-408f-9d6a-62cbcd5f7e43.png)
+[//]: # (![screenshot1]&#40;https://user-images.githubusercontent.com/59691442/221967878-52c06fd3-2de1-4362-873a-5ae69c62d618.png&#41;)
+
+[//]: # (![screenshot2]&#40;https://user-images.githubusercontent.com/59691442/221967884-f74d32e2-1bf2-4382-839b-83b85433e7a8.png&#41;)
+
+[//]: # (![screenshot4]&#40;https://user-images.githubusercontent.com/59691442/222615096-59948508-7a2e-408f-9d6a-62cbcd5f7e43.png&#41;)
 
 [//]: # (![screenshot3]&#40;https://user-images.githubusercontent.com/59691442/221970097-cbd13fe8-dfe2-4a5a-9c8b-e7723349f232.png&#41;)
 
@@ -34,9 +36,16 @@ The source code of the WebGL can be found at the following link:
 
 [//]: # (![screenshot &#40;3&#41;]&#40;https://user-images.githubusercontent.com/59691442/220508258-c45c4877-e884-4ad7-b544-3a22945e0e0e.png&#41;)
 
-## Video
+[//]: # (## Video)
 
-https://user-images.githubusercontent.com/59691442/221977239-01ca5be8-0c4e-4a83-98c0-533cbf30c083.mp4
+[//]: # (https://user-images.githubusercontent.com/59691442/221977239-01ca5be8-0c4e-4a83-98c0-533cbf30c083.mp4)
+
+![Screenshot 1](https://user-images.githubusercontent.com/59691442/225486502-770ec82b-562a-452b-9ef2-f2a68c6fef18.png)
+![Screenshot 2](https://user-images.githubusercontent.com/59691442/225486505-e8ccd756-056a-4507-917a-6be6bd8decb9.png)
+
+## Videos
+
+https://user-images.githubusercontent.com/59691442/225486109-9fb793d5-878f-430b-b418-938535038aed.mp4
 
 ## Features
 
@@ -51,7 +60,7 @@ https://user-images.githubusercontent.com/59691442/221977239-01ca5be8-0c4e-4a83-
 
 Major:
 
-- [ ] Correct fixed updated linked to the render function in the ParticleSimulator
+- [ ] Correct fixed updated linked to the render function in the ParticleSimulatorSSBO
 - [ ] Adjust the particles movement settings
 - [ ] Correct mouse drag of the particles (add lerp function ?)
 - [ ] Copy a lot of code from the webgl version to the desktop version
@@ -83,17 +92,17 @@ The controls are described in the section `Controls`.
 
 ### Windows
 
-<a href="https://github.com/Im-Rises/ParticleSimulator/releases/latest"><img src="https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white" alt="cmakeLogo" style="height:40px;"/></a>
+<a href="https://github.com/Im-Rises/ParticleSimulatorSSBO/releases/latest"><img src="https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white" alt="cmakeLogo" style="height:40px;"/></a>
 
 For Windows users you don't need to install the libs. You can just download the app and run it.
 
 ```bash
-.\ParticleSimulator.exe
+.\ParticleSimulatorSSBO.exe
 ```
 
 ### Linux
 
-<a href="https://github.com/Im-Rises/ParticleSimulator/releases/latest"><img src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" alt="cmakeLogo" style="height:40px;"/></a>
+<a href="https://github.com/Im-Rises/ParticleSimulatorSSBO/releases/latest"><img src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" alt="cmakeLogo" style="height:40px;"/></a>
 
 For Linux users, you need to install the GLFW lib, to do so type one of the following commands:
 
@@ -110,12 +119,12 @@ sudo apt-get install libglfw3-dev
 Then you can start by double-clicking the executable of typing the following command next to it:
 
 ```bash
-./ParticleSimulator
+./ParticleSimulatorSSBO
 ```
 
 ### MacOs
 
-<a href="https://github.com/Im-Rises/ParticleSimulator/releases/latest"><img src="https://img.shields.io/badge/mac%20os-000000?style=for-the-badge&logo=apple&logoColor=white" alt="cmakeLogo" style="height:40px;"/></a>
+<a href="https://github.com/Im-Rises/ParticleSimulatorSSBO/releases/latest"><img src="https://img.shields.io/badge/mac%20os-000000?style=for-the-badge&logo=apple&logoColor=white" alt="cmakeLogo" style="height:40px;"/></a>
 
 For macOS users you will need to install Brew, please follow the instruction in the link below:  
 <https://brew.sh>
@@ -129,7 +138,7 @@ brew install glfw
 Then you can start by double-clicking the executable of typing the following command next to it:
 
 ```bash
-./ParticleSimulator
+./ParticleSimulatorSSBO
 ```
 
 ## Controls
@@ -246,12 +255,12 @@ cmake --build . --config Release
 
 ## Github-Actions
 
-[![CodeQL](https://github.com/Im-Rises/ParticleSimulator/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/Im-Rises/ParticleSimulator/actions/workflows/codeql.yml)
-[![CMake](https://github.com/Im-Rises/ParticleSimulator/actions/workflows/cmake.yml/badge.svg?branch=main)](https://github.com/Im-Rises/ParticleSimulator/actions/workflows/cmake.yml)
-[![Cpp Cmake Publish](https://github.com/Im-Rises/ParticleSimulator/actions/workflows/cpp-cmake-publish.yml/badge.svg?branch=main)](https://github.com/Im-Rises/ParticleSimulator/actions/workflows/cpp-cmake-publish.yml)
-[![flawfinder](https://github.com/Im-Rises/ParticleSimulator/actions/workflows/flawfinder.yml/badge.svg?branch=main)](https://github.com/Im-Rises/ParticleSimulator/actions/workflows/flawfinder.yml)
-[![Microsoft C++ Code Analysis](https://github.com/Im-Rises/ParticleSimulator/actions/workflows/msvc.yml/badge.svg?branch=main)](https://github.com/Im-Rises/ParticleSimulator/actions/workflows/msvc.yml)
-[![cpp-linter](https://github.com/Im-Rises/ParticleSimulator/actions/workflows/cpp-linter.yml/badge.svg?branch=main)](https://github.com/Im-Rises/ParticleSimulator/actions/workflows/cpp-linter.yml)
+[![CodeQL](https://github.com/Im-Rises/ParticleSimulatorSSBO/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/Im-Rises/ParticleSimulatorSSBO/actions/workflows/codeql.yml)
+[![CMake](https://github.com/Im-Rises/ParticleSimulatorSSBO/actions/workflows/cmake.yml/badge.svg?branch=main)](https://github.com/Im-Rises/ParticleSimulatorSSBO/actions/workflows/cmake.yml)
+[![Cpp Cmake Publish](https://github.com/Im-Rises/ParticleSimulatorSSBO/actions/workflows/cpp-cmake-publish.yml/badge.svg?branch=main)](https://github.com/Im-Rises/ParticleSimulatorSSBO/actions/workflows/cpp-cmake-publish.yml)
+[![flawfinder](https://github.com/Im-Rises/ParticleSimulatorSSBO/actions/workflows/flawfinder.yml/badge.svg?branch=main)](https://github.com/Im-Rises/ParticleSimulatorSSBO/actions/workflows/flawfinder.yml)
+[![Microsoft C++ Code Analysis](https://github.com/Im-Rises/ParticleSimulatorSSBO/actions/workflows/msvc.yml/badge.svg?branch=main)](https://github.com/Im-Rises/ParticleSimulatorSSBO/actions/workflows/msvc.yml)
+[![cpp-linter](https://github.com/Im-Rises/ParticleSimulatorSSBO/actions/workflows/cpp-linter.yml/badge.svg?branch=main)](https://github.com/Im-Rises/ParticleSimulatorSSBO/actions/workflows/cpp-linter.yml)
 
 The project is set with a set of different scripts:
 
@@ -300,4 +309,4 @@ Quentin MOREL:
 - @Im-Rises
 - <https://github.com/Im-Rises>
 
-[![GitHub contributors](https://contrib.rocks/image?repo=Im-Rises/ParticleSimulator)](https://github.com/Im-Rises/ParticleSimulator/graphs/contributors)
+[![GitHub contributors](https://contrib.rocks/image?repo=Im-Rises/ParticleSimulatorSSBO)](https://github.com/Im-Rises/ParticleSimulatorSSBO/graphs/contributors)

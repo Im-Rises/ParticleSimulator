@@ -1,9 +1,9 @@
 # Visual Studio generated .clang-format file
 
-# The style options in this file are a best effort attempt to replicate the
+# The style options in this file are the best effort attempt to replicate the
 # current IDE formatting configuration from Tools > Options. The following
 # style options, however, should be verified:
-# AfterClass; AfterControlStatement; AfterEnum; AfterFunction; AfterNamespace; 
+# AfterClass; AfterControlStatement; AfterEnum; AfterFunction; AfterNamespace;
 # AfterStruct; AfterUnion
 
 AccessModifierOffset: -4
