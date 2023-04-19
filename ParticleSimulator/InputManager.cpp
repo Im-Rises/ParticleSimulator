@@ -54,12 +54,11 @@ auto InputManager::isRightKeyPressed(GLFWwindow* window) -> bool {
 }
 
 auto InputManager::isUpKeyPressed(GLFWwindow* window) -> bool {
-    return glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_PAGE_UP) == GLFW_PRESS;
+    return glfwGetKey(window, GLFW_KEY_PAGE_UP) == GLFW_PRESS;
 }
 
 auto InputManager::isDownKeyPressed(GLFWwindow* window) -> bool {
-    return glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS ||
-           glfwGetKey(window, GLFW_KEY_PAGE_DOWN) == GLFW_PRESS;
+    return glfwGetKey(window, GLFW_KEY_PAGE_DOWN) == GLFW_PRESS;
 }
 
 auto InputManager::isKeyMouseMovementPressed(GLFWwindow* window) -> bool {

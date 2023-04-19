@@ -17,10 +17,11 @@ public:
     static constexpr std::string_view PROJECT_AUTHOR = "Im-Rises (Quentin Morel)";
 
 private:
-    GLFWwindow *window;
+    GLFWwindow* window;
     int windowWidth = 1280;
     int windowHeight = 720;
     int displayWidth, displayHeight;
+    int windowPosX, windowPosY;
 
     std::unique_ptr<Scene> scene;
 
@@ -41,13 +42,13 @@ private:
 public:
     ParticleSimulatorLauncher();
 
-    ParticleSimulatorLauncher(const ParticleSimulatorLauncher &) = delete;
+    ParticleSimulatorLauncher(const ParticleSimulatorLauncher&) = delete;
 
-    auto operator=(const ParticleSimulatorLauncher &) -> ParticleSimulatorLauncher & = delete;
+    auto operator=(const ParticleSimulatorLauncher&) -> ParticleSimulatorLauncher& = delete;
 
-    ParticleSimulatorLauncher(ParticleSimulatorLauncher &&) = delete;
+    ParticleSimulatorLauncher(ParticleSimulatorLauncher&&) = delete;
 
-    auto operator=(ParticleSimulatorLauncher &&) -> ParticleSimulatorLauncher & = delete;
+    auto operator=(ParticleSimulatorLauncher&&) -> ParticleSimulatorLauncher& = delete;
 
     ~ParticleSimulatorLauncher();
 
@@ -68,14 +69,18 @@ public:
 
     void toggleScenePause();
 
+    void updateViewport();
+
     void centerWindow();
 
     void toggleFullscreen();
 
-private:
-    static void calculateMouseMovement(const double &xMouse, const double &yMouse, double &xMovement, double &yMovement);
+    [[nodiscard]] auto isMinimized() const -> bool;
 
-    auto projectMouse(const double &xMouse, const double &yMouse) -> glm::vec3;
+private:
+    static void calculateMouseMovement(const double& xMouse, const double& yMouse, double& xMovement, double& yMovement);
+
+    auto projectMouse(const double& xMouse, const double& yMouse) -> glm::vec3;
 
 private:
     static auto getOpenGLVendor() -> std::string_view;

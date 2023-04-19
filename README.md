@@ -21,8 +21,10 @@ The source code of the WebGL can be found at the following link:
 > The tests are running at 144Hz with 10 000 000 particles on a Windows 11 machine with an Nvidia RTX 2070 6GB.
 
 TODO:
-- [ ] Correct toggle fullscreen bugs
+
+- [ ] Correct toggle fullscreen particles drag bug
 - [ ] Correct minimization crash
+- [ ] Correct particles count change issues
 
 ## Images
 
