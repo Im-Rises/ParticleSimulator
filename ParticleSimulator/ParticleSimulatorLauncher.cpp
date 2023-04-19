@@ -19,6 +19,8 @@
 #include <GLFW/glfw3.h> // Will drag system OpenGL headers
 #include "Scene/Scene.h"
 #include <iostream>
+#include <chrono>
+#include <thread>
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1900) && !defined(IMGUI_DISABLE_WIN32_FUNCTIONS)
 #pragma comment(lib, "legacy_stdio_definitions")
@@ -186,6 +188,10 @@ void ParticleSimulatorLauncher::start() {
         updateGame(deltaTime);
 
         updateScreen();
+
+        //        // if delta time is too low, wait a bit
+        //        if (deltaTime < frameTime)
+        //            std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>((frameTime - deltaTime) * 1000.0F)));
     }
 #ifdef __EMSCRIPTEN__
     EMSCRIPTEN_MAINLOOP_END;
@@ -283,6 +289,7 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
             ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
 #endif
             ImGui::Begin("Camera settings");
+            //        #ifndef __EMSCRIPTEN__
             //        ImGui::TextColored(ImVec4(1.0F, 0.0F, 1.0F, 1.0F), "View settings");
             //        static bool wireframe = false;
             //        ImGui::Checkbox("Wireframe", &wireframe);
@@ -295,6 +302,7 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
             //            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
             //        }
             //        ImGui::NewLine();
+            //        #endif
 
             ImGui::Text("Position:");
             ImGui::DragFloat3("##position", reinterpret_cast<float*>(&scene->camera.position));
@@ -492,6 +500,7 @@ void ParticleSimulatorLauncher::centerWindow() {
 }
 
 void ParticleSimulatorLauncher::toggleFullscreen() {
+#ifndef __EMSCRIPTEN__
     if (isFullscreen)
     {
         glfwSetWindowMonitor(window, nullptr, 0, 0, windowWidth, windowHeight, 0);
@@ -508,6 +517,7 @@ void ParticleSimulatorLauncher::toggleFullscreen() {
         glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
         isFullscreen = true;
     }
+#endif
 }
 
 

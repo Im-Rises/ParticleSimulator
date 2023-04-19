@@ -37,7 +37,12 @@ private:
 
     constexpr static int MAX_PARTICLES_COUNT = 10000000;
 
+#ifndef __EMSCRIPTEN__
     bool isFullscreen = false;
+#endif
+
+    const float framePerSecond = 60.0F;
+    const float frameTime = 1.0F / framePerSecond;
 
 public:
     ParticleSimulatorLauncher();
