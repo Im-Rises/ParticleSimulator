@@ -75,7 +75,8 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
     if (window == nullptr)
         exit(1);
     glfwMakeContextCurrent(window);
-    glfwSwapInterval(1); // Enable vsync
+    //    glfwSwapInterval(1); // Enable vsync
+    glfwWindowHint(GLFW_REFRESH_RATE, framePerSecond);
 
     // Callbacks
     glfwSetWindowUserPointer(window, this);
@@ -188,10 +189,6 @@ void ParticleSimulatorLauncher::start() {
         updateGame(deltaTime);
 
         updateScreen();
-
-        //        // if delta time is too low, wait a bit
-        //        if (deltaTime < frameTime)
-        //            std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>((frameTime - deltaTime) * 1000.0F)));
     }
 #ifdef __EMSCRIPTEN__
     EMSCRIPTEN_MAINLOOP_END;

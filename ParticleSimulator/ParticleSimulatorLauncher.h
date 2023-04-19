@@ -41,8 +41,7 @@ private:
     bool isFullscreen = false;
 #endif
 
-    const float framePerSecond = 60.0F;
-    const float frameTime = 1.0F / framePerSecond;
+    const int framePerSecond = 60;
 
 public:
     ParticleSimulatorLauncher();
