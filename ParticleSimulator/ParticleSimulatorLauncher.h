@@ -75,6 +75,8 @@ public:
 
     void toggleFullscreen();
 
+    void clearScreen();
+
     [[nodiscard]] auto isMinimized() const -> bool;
 
 private:

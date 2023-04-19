@@ -435,15 +435,10 @@ void ParticleSimulatorLauncher::updateGame(float deltaTime) {
 }
 
 void ParticleSimulatorLauncher::updateScreen() {
-    updateViewport();
+    if (!isMinimized())
+        updateViewport();
 
-    //    // If window is minimized, don't draw anything (to avoid draw in a 0x0 window)
-    //    if (!isMinimized())
-    //    {
-
-    glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w,
-        clear_color.w);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    clearScreen();
     scene->render();
 
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -456,7 +451,6 @@ void ParticleSimulatorLauncher::updateScreen() {
         ImGui::RenderPlatformWindowsDefault();
         glfwMakeContextCurrent(backup_current_context);
     }
-    //    }
 
     glfwSwapBuffers(window);
 }
@@ -481,6 +475,7 @@ void ParticleSimulatorLauncher::updateViewport() {
     }
 #endif
     scene->updateProjectionMatrix(displayWidth, displayHeight);
+
     glViewport(0, 0, displayWidth, displayHeight);
 }
 
@@ -510,9 +505,15 @@ void ParticleSimulatorLauncher::toggleFullscreen() {
     }
 }
 
+
+void ParticleSimulatorLauncher::clearScreen() {
+    glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w,
+        clear_color.w);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
 auto ParticleSimulatorLauncher::isMinimized() const -> bool {
-    return windowWidth == 0 || windowHeight == 0;
-    //    return displayWidth == 0 || displayHeight == 0;
+    return glfwGetWindowAttrib(window, GLFW_ICONIFIED) != 0;
 }
 
 void ParticleSimulatorLauncher::calculateMouseMovement(const double& xMouse, const double& yMouse, double& xMovement,
