@@ -35,13 +35,13 @@ private:
     float attractorDistance = 10.0F;
     glm::vec3 mousePositionWorld;
 
-    constexpr static int MAX_PARTICLES_COUNT = 10000000;
+    static constexpr int MAX_PARTICLES_COUNT = 10000000;
 
 #ifndef __EMSCRIPTEN__
     bool isFullscreen = false;
 #endif
 
-    const int framePerSecond = 60;
+    static constexpr int FRAME_PER_SECOND = 60;
 
 public:
     ParticleSimulatorLauncher();
@@ -79,7 +79,7 @@ public:
 
     void toggleFullscreen();
 
-    void clearScreen();
+    void clearScreen() const;
 
     [[nodiscard]] auto isMinimized() const -> bool;
 

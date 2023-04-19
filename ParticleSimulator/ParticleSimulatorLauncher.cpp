@@ -77,7 +77,7 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
     glfwMakeContextCurrent(window);
     //    glfwSwapInterval(1); // Enable vsync
     //    glfwSwapInterval(0); // Disable vsync
-    glfwWindowHint(GLFW_REFRESH_RATE, framePerSecond);
+    glfwWindowHint(GLFW_REFRESH_RATE, ParticleSimulatorLauncher::FRAME_PER_SECOND);
 
     // Callbacks
     glfwSetWindowUserPointer(window, this);
@@ -538,7 +538,9 @@ void ParticleSimulatorLauncher::updateViewport() {
 void ParticleSimulatorLauncher::centerWindow() {
     GLFWmonitor* monitor = glfwGetPrimaryMonitor();
     const GLFWvidmode* mode = glfwGetVideoMode(monitor);
-    glfwSetWindowPos(window, (mode->width - displayWidth) / 2, (mode->height - displayHeight) / 2);
+    windowPosX = (mode->width - displayWidth) / 2;
+    windowPosY = (mode->height - displayHeight) / 2;
+    glfwSetWindowPos(window, windowPosX, windowPosY);
 }
 
 void ParticleSimulatorLauncher::toggleFullscreen() {
@@ -563,7 +565,7 @@ void ParticleSimulatorLauncher::toggleFullscreen() {
 }
 
 
-void ParticleSimulatorLauncher::clearScreen() {
+void ParticleSimulatorLauncher::clearScreen() const {
     glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w,
         clear_color.w);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

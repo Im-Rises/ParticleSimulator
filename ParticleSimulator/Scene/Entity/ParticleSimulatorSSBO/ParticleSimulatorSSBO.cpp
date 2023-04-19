@@ -20,7 +20,7 @@ ParticleSimulatorSSBO::ParticleSimulatorSSBO(int particlesCount) : Entity("shade
     // Generate the SSBO
     glGenBuffers(1, &ssbo);
     glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssbo);
-    glBufferData(GL_SHADER_STORAGE_BUFFER, particles.size() * sizeof(Particle), particles.data(), GL_DYNAMIC_DRAW);
+    glBufferData(GL_SHADER_STORAGE_BUFFER, static_cast<GLsizei>(particles.size() * sizeof(Particle)), particles.data(), GL_DYNAMIC_DRAW);
     glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, ssbo);
 
     // Unbind the VAO
@@ -81,15 +81,14 @@ void ParticleSimulatorSSBO::reset() {
 
     // Resend to the GPU
     glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssbo);
-    glBufferData(GL_SHADER_STORAGE_BUFFER, particles.size() * sizeof(Particle), particles.data(), GL_DYNAMIC_DRAW);
+    glBufferData(GL_SHADER_STORAGE_BUFFER, static_cast<GLsizei>(particles.size() * sizeof(Particle)), particles.data(), GL_DYNAMIC_DRAW);
     glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
 void ParticleSimulatorSSBO::randomizeParticles(std::vector<Particle>& particles) {
     // Init the random engine
     std::mt19937 randomEngine;
-    std::uniform_real_distribution<float> randomFloats(0.0F, static_cast<float>(2.0F) * M_PI);
-    const std::uniform_real_distribution<float> randomFloats2(-1.0F, 1.0F);
+    std::uniform_real_distribution<float> randomFloats(0.0F, static_cast<float>(2.0F * M_PI));
 
     // Init the particles as a sphere
     for (auto& particle : particles)
