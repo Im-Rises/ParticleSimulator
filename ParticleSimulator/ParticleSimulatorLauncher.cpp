@@ -279,50 +279,50 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
             ImGui::End();
         }
 
-        {
-            //            ImGui::Begin("View settings");
-            //        #ifndef __EMSCRIPTEN__
-            //        static bool wireframe = false;
-            //        ImGui::Checkbox("Wireframe", &wireframe);
-            //        if (wireframe)
-            //        {
-            //            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-            //        }
-            //        else
-            //        {
-            //            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-            //        }
-            //        ImGui::NewLine();
-            //        #endif
-            //            ImGui::NewLine();
-            //            static bool useVsync = false;
-            //            ImGui::Checkbox("Use VSync", &useVsync);
-            //            if (useVsync)
-            //            {
-            //                glfwSwapInterval(1);
-            //            }
-            //            else
-            //            {
-            //                ImGui::DragFloat("Frame per second", &fps, 0.1F, 1.0F, 60.0F);
-            //                ImGui::Button("Validate");
-            //                if (ImGui::IsItemClicked())
-            //                {
-            //                    glfwWindowHint(GLFW_REFRESH_RATE, fps);
-            //                }
-            //            }
-            //            if (ImGui::IsItemClicked())
-            //            {
-            //                if (useVsync)
-            //                {
-            //                    glfwSwapInterval(1);
-            //                }
-            //                else
-            //                {
-            //                    glfwSwapInterval(0);
-            //                }
-            //            }
-            //            ImGui::End();
-        }
+        //        {
+        //            ImGui::Begin("View settings");
+        // #ifndef __EMSCRIPTEN__
+        //            static bool wireframe = false;
+        //            ImGui::Checkbox("Wireframe", &wireframe);
+        //            if (wireframe)
+        //            {
+        //                glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        //            }
+        //            else
+        //            {
+        //                glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        //            }
+        //            ImGui::NewLine();
+        // #endif
+        //            ImGui::NewLine();
+        //            static bool useVsync = false;
+        //            static float fps = 60.0F;
+        //            ImGui::Checkbox("Use VSync", &useVsync);
+        //            if (ImGui::IsItemClicked())
+        //            {
+        //                if (useVsync)
+        //                {
+        //                    std::cout << "VSync enabled" << std::endl;
+        //                    glfwSwapInterval(1); // Enable vsync
+        //                }
+        //                else
+        //                {
+        //                    std::cout << "VSync disabled" << std::endl;
+        //                    glfwSwapInterval(0); // Disable vsync
+        //                    glfwWindowHint(GLFW_REFRESH_RATE, fps);
+        //                }
+        //            }
+        //            if (!useVsync)
+        //            {
+        //                ImGui::DragFloat("Frame per second", &fps, 0.1F, 1.0F, 60.0F);
+        //                ImGui::Button("Validate");
+        //                if (ImGui::IsItemClicked())
+        //                {
+        //                    glfwWindowHint(GLFW_REFRESH_RATE, fps);
+        //                }
+        //            }
+        //            ImGui::End();
+        //        }
 
         {
 #ifdef __EMSCRIPTEN__
