@@ -34,8 +34,8 @@ void main()
     vec3 force = (u_gravity * u_attractorMass * u_particleMass * normalize(r) / rSquared) * u_isAttracting * u_isRunning;
 
     vec3 acceleration = force / u_particleMass;
-    vec3 position = a_pos + (a_vel * u_deltaTime + 0.5f * acceleration * u_deltaTime * u_deltaTime) * u_isRunning;
-    vec3 velocity = a_vel + acceleration * u_deltaTime;
+    vec3 position = particle.position + (particle.velocity * u_deltaTime + 0.5f * acceleration * u_deltaTime * u_deltaTime) * u_isRunning;
+    vec3 velocity = particle.velocity + acceleration * u_deltaTime;
 
     particle.position = position;
 

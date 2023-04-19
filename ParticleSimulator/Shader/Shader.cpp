@@ -30,15 +30,17 @@ Shader::Shader(const char *vertexPath, const char *fragmentPath) {
         fShaderFile.close();
 
         // convert stream into string and create shader
+        std::string vertexCodeStr = vShaderStream.str();
+        const char *vertexCode = vertexCodeStr.c_str();
         unsigned int const vertex = glCreateShader(GL_VERTEX_SHADER);
-        const char *vertexCode = vShaderStream.str().c_str();
         glShaderSource(vertex, 1, &vertexCode, nullptr);
         glCompileShader(vertex);
         checkCompileErrors(vertex, "VERTEX");
 
+        std::string fragmentCodeStr = fShaderStream.str();
+        const char *fragmentCode = fragmentCodeStr.c_str();
         unsigned int const fragment = glCreateShader(GL_FRAGMENT_SHADER);
-        const char *fragmentSource = fShaderStream.str().c_str();
-        glShaderSource(fragment, 1, &fragmentSource, nullptr);
+        glShaderSource(fragment, 1, &fragmentCode, nullptr);
         glCompileShader(fragment);
         checkCompileErrors(fragment, "FRAGMENT");
 
