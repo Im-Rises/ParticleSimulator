@@ -4,6 +4,7 @@
 #include <string>
 
 #include <glm/glm.hpp>
+#include <vector>
 
 class Shader {
 private:
@@ -12,7 +13,7 @@ private:
 public:
     Shader(const char* vertexPath, const char* fragmentPath, bool isPath = true);
 
-
+    Shader(const char* vertexSource, const char* fragmentSource, const std::vector<std::string>& varyings, bool isPath = true);
 
     Shader(const Shader&) = delete;
     auto operator=(const Shader&) -> Shader& = delete;
@@ -23,7 +24,11 @@ public:
 
     void compileFromFiles(const char* vertexPath, const char* fragmentPath);
 
+    void compileFromFiles(const char* vertexPath, const char* fragmentPath, const std::vector<std::string>& varyings);
+
     void compile(const char* vertexSource, const char* fragmentSource);
+
+    void compile(const char* vertexSource, const char* fragmentSource, const std::vector<std::string>& varyings);
 
     static void checkCompileErrors(unsigned int shader, const std::string& type);
 

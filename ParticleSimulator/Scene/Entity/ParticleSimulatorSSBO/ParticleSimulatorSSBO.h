@@ -1,12 +1,11 @@
-#ifndef PARTICLE_SIMULATOR_H
-#define PARTICLE_SIMULATOR_H
+#ifndef PARTICLE_SIMULATOR_SSBO_H
+#define PARTICLE_SIMULATOR_SSBO_H
 
 #include <array>
 
 #include <glad/glad.h>
 #include <vector>
 #include "../Entity.h"
-
 
 class ParticleSimulatorSSBO : public Entity {
 private:
@@ -73,4 +72,4 @@ public:
     [[nodiscard]] auto getParticlesCount() const -> size_t;
 };
 
-#endif // PARTICLE_SIMULATOR_H
+#endif // PARTICLE_SIMULATOR_SSBO_H

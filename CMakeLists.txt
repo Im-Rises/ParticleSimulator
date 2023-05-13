@@ -7,5 +7,3 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 project("ParticleSimulator" VERSION 1.0.0)
 
 add_subdirectory(${PROJECT_NAME})
-
-message(STATUS "Project: ${PROJECT_NAME}")
