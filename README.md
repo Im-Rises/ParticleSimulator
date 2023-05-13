@@ -255,12 +255,12 @@ cmake --build . --config Release
 
 ## Github-Actions
 
-[![CodeQL](https://github.com/Im-Rises/ParticleSimulatorSSBO/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/Im-Rises/ParticleSimulatorSSBO/actions/workflows/codeql.yml)
-[![CMake](https://github.com/Im-Rises/ParticleSimulatorSSBO/actions/workflows/cmake.yml/badge.svg?branch=main)](https://github.com/Im-Rises/ParticleSimulatorSSBO/actions/workflows/cmake.yml)
-[![Cpp Cmake Publish](https://github.com/Im-Rises/ParticleSimulatorSSBO/actions/workflows/cpp-cmake-publish.yml/badge.svg?branch=main)](https://github.com/Im-Rises/ParticleSimulatorSSBO/actions/workflows/cpp-cmake-publish.yml)
-[![flawfinder](https://github.com/Im-Rises/ParticleSimulatorSSBO/actions/workflows/flawfinder.yml/badge.svg?branch=main)](https://github.com/Im-Rises/ParticleSimulatorSSBO/actions/workflows/flawfinder.yml)
-[![Microsoft C++ Code Analysis](https://github.com/Im-Rises/ParticleSimulatorSSBO/actions/workflows/msvc.yml/badge.svg?branch=main)](https://github.com/Im-Rises/ParticleSimulatorSSBO/actions/workflows/msvc.yml)
-[![cpp-linter](https://github.com/Im-Rises/ParticleSimulatorSSBO/actions/workflows/cpp-linter.yml/badge.svg?branch=main)](https://github.com/Im-Rises/ParticleSimulatorSSBO/actions/workflows/cpp-linter.yml)
+[![CodeQL](https://github.com/Im-Rises/ParticleSimulator/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/Im-Rises/ParticleSimulator/actions/workflows/codeql.yml)
+[![CMake](https://github.com/Im-Rises/ParticleSimulator/actions/workflows/cmake.yml/badge.svg?branch=main)](https://github.com/Im-Rises/ParticleSimulator/actions/workflows/cmake.yml)
+[![Cpp Cmake Publish](https://github.com/Im-Rises/ParticleSimulator/actions/workflows/cpp-cmake-publish.yml/badge.svg?branch=main)](https://github.com/Im-Rises/ParticleSimulator/actions/workflows/cpp-cmake-publish.yml)
+[![flawfinder](https://github.com/Im-Rises/ParticleSimulator/actions/workflows/flawfinder.yml/badge.svg?branch=main)](https://github.com/Im-Rises/ParticleSimulator/actions/workflows/flawfinder.yml)
+[![Microsoft C++ Code Analysis](https://github.com/Im-Rises/ParticleSimulator/actions/workflows/msvc.yml/badge.svg?branch=main)](https://github.com/Im-Rises/ParticleSimulator/actions/workflows/msvc.yml)
+[![cpp-linter](https://github.com/Im-Rises/ParticleSimulator/actions/workflows/cpp-linter.yml/badge.svg?branch=main)](https://github.com/Im-Rises/ParticleSimulator/actions/workflows/cpp-linter.yml)
 
 The project is set with a set of different scripts:
 
@@ -309,4 +309,4 @@ Quentin MOREL:
 - @Im-Rises
 - <https://github.com/Im-Rises>
 
-[![GitHub contributors](https://contrib.rocks/image?repo=Im-Rises/ParticleSimulatorSSBO)](https://github.com/Im-Rises/ParticleSimulatorSSBO/graphs/contributors)
+[![GitHub contributors](https://contrib.rocks/image?repo=Im-Rises/ParticleSimulator)](https://github.com/Im-Rises/ParticleSimulator/graphs/contributors)

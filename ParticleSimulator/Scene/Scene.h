@@ -10,7 +10,11 @@ private:
 
 public:
     Camera camera;
-    ParticleSimulatorSSBO particleSimulatorSsbo;
+#ifdef __EMSCRIPTEN__
+    ParticleSimulatorTF particleSimulator;
+#else
+    ParticleSimulatorSSBO particleSimulator;
+#endif
 
     //    std::vector<Entity*> entities;
 

@@ -1,6 +1,6 @@
 #include "Scene.h"
 
-Scene::Scene(int display_w, int display_h) : camera(display_w, display_h), particleSimulatorSsbo(1000000) {
+Scene::Scene(int display_w, int display_h) : camera(display_w, display_h), particleSimulator(1000000) {
 }
 
 void Scene::update(float deltaTime) {
@@ -9,11 +9,11 @@ void Scene::update(float deltaTime) {
     {
         return;
     }
-    particleSimulatorSsbo.update(deltaTime);
+    particleSimulator.update(deltaTime);
 }
 
 void Scene::render() {
-    particleSimulatorSsbo.render(camera.getViewMatrix(), camera.getProjectionMatrix());
+    particleSimulator.render(camera.getViewMatrix(), camera.getProjectionMatrix());
 }
 
 void Scene::updateProjectionMatrix(int display_w, int display_h) {
@@ -22,12 +22,12 @@ void Scene::updateProjectionMatrix(int display_w, int display_h) {
 
 void Scene::togglePause() {
     isPaused = !isPaused;
-    particleSimulatorSsbo.setIsPaused(isPaused);
+    particleSimulator.setIsPaused(isPaused);
 }
 
 void Scene::reset() {
     camera.reset();
-    particleSimulatorSsbo.reset();
+    particleSimulator.reset();
 }
 
 auto Scene::getIsPaused() const -> bool {
