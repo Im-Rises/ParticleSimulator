@@ -11,6 +11,8 @@ private:
     static const char* const VertexShaderSource;
     static const char* const FragmentShaderSource;
 
+    Shader shader;
+
     GLuint VAO, VBO;
 
     struct Particle {

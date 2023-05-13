@@ -16,6 +16,8 @@ private:
 
     GLuint VAO, VBO;
 
+    Shader shader;
+
 public:
     Cube();
 

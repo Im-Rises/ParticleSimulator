@@ -13,6 +13,8 @@ private:
     GLuint VAO;
     GLuint ssbo;
 
+    Shader shader;
+
     // Can't use directly vec3 in SSBO (indexed by 4 bytes not 3): https://computergraphics.stackexchange.com/questions/5810/shader-storage-buffer-indexing-by-4-bytes-instead-of-3
     struct Particle {
         glm::vec3 position;

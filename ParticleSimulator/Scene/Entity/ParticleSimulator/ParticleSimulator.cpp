@@ -40,7 +40,7 @@ void main() {
 }
 )";
 
-ParticleSimulator::ParticleSimulator(int particleCount) : Entity(VertexShaderSource, FragmentShaderSource) {
+ParticleSimulator::ParticleSimulator(int particleCount) : shader(VertexShaderSource, FragmentShaderSource, false) {
     position = glm::vec3(6.0F, 0.0F, 0.0F);
 
     // Resize the particles vector

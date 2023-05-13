@@ -2,12 +2,17 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
-Entity::Entity(const std::string& vertexSource, const std::string& fragmentSource) : shader(
-                                                                                         vertexSource.c_str(),
-                                                                                         fragmentSource.c_str()) {
-    // Should be called in the constructor of the derived class
-    //    updateModelMatrix();
-}
+// Entity::Entity() {
+//     // Should be called in the constructor of the derived class
+//     //    updateModelMatrix();
+// }
+
+// Entity::Entity(const std::string& vertexSource, const std::string& fragmentSource) : shader(
+//                                                                                          vertexSource.c_str(),
+//                                                                                          fragmentSource.c_str()) {
+//     // Should be called in the constructor of the derived class
+//     //    updateModelMatrix();
+// }
 
 // Entity::~Entity() {
 // }

@@ -148,7 +148,7 @@ void main()
 }
 )";
 
-Cube::Cube() : Entity(VertexShaderSource, FragmentShaderSource) {
+Cube::Cube() : shader(VertexShaderSource, FragmentShaderSource, false) {
     // Set initial position
     position = glm::vec3(-6.0F, 0.0F, 0.0F);
     updateModelMatrix();
