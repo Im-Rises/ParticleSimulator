@@ -19,13 +19,8 @@ public:
 private:
     GLFWwindow* window;
 
-#ifdef __EMSCRIPTEN__
-    int windowWidth = 1920;
-    int windowHeight = 1080;
-#else
     int windowWidth = 1280;
     int windowHeight = 720;
-#endif
 
     int displayWidth, displayHeight;
     int windowPosX, windowPosY;

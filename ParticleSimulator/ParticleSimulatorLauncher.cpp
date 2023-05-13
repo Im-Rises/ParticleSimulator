@@ -258,8 +258,10 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
+#ifndef __EMSCRIPTEN__
     if (!isFullscreen)
     {
+#endif
         {
 #ifdef __EMSCRIPTEN__
             static bool isCollapsed = true;
@@ -472,7 +474,9 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
 
             ImGui::End();
         }
+#ifndef __EMSCRIPTEN__
     }
+#endif
 
     ImGui::Render();
 
