@@ -150,7 +150,6 @@ void main()
 
 Cube::Cube() : shader(VertexShaderSource, FragmentShaderSource, false) {
     // Set initial position
-    position = glm::vec3(-6.0F, 0.0F, 0.0F);
     updateModelMatrix();
 
     // Create VAO and bind it

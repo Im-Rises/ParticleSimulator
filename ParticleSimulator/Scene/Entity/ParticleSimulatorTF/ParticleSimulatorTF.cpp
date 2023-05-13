@@ -66,7 +66,7 @@ const char* const ParticleSimulatorTF::FragmentShaderSource =
 }
 )";
 
-ParticleSimulatorTF::ParticleSimulatorTF(int particlesCount) : shader(VertexShaderSource, FragmentShaderSource, { "out_pos", "out_vel" }) {
+ParticleSimulatorTF::ParticleSimulatorTF(int particlesCount) : shader(VertexShaderSource, FragmentShaderSource, { "out_pos", "out_vel" }, false) {
     // Set the particles count
     this->particlesCount = particlesCount;
     std::vector<Particle> particles(particlesCount);
