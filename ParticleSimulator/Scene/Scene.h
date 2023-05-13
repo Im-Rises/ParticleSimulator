@@ -15,6 +15,7 @@ private:
 
 public:
     Camera camera;
+
 #ifdef __EMSCRIPTEN__
     ParticleSimulatorTF particleSimulator;
 #else
