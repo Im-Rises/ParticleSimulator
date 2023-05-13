@@ -247,9 +247,9 @@ void ParticleSimulatorLauncher::handleInputs() {
 
     // Update particle simulator attractor if mouse is pressed or dragging
     bool const isAttracting = InputManager::isKeyMouseSetAttractorPressed(window);
-    scene->particleSimulatorSsbo.setIsAttracting(isAttracting);
+    scene->particleSimulator.setIsAttracting(isAttracting);
     mousePositionWorld = projectMouse(posX, posY);
-    scene->particleSimulatorSsbo.setAttractorPosition(mousePositionWorld);
+    scene->particleSimulator.setAttractorPosition(mousePositionWorld);
 }
 
 void ParticleSimulatorLauncher::handleUi(float deltaTime) {
@@ -258,8 +258,10 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
+#ifndef __EMSCRIPTEN__
     if (!isFullscreen)
     {
+#endif
         {
 #ifdef __EMSCRIPTEN__
             static bool isCollapsed = true;
@@ -394,13 +396,13 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
 #endif
             ImGui::Begin("Particle simulator settings");
 
-            ImGui::Text("Particle count: %s", std::to_string(scene->particleSimulatorSsbo.getParticlesCount()).c_str());
-            static int particlesCount = static_cast<int>(scene->particleSimulatorSsbo.getParticlesCount());
+            ImGui::Text("Particle count: %s", std::to_string(scene->particleSimulator.getParticlesCount()).c_str());
+            static int particlesCount = static_cast<int>(scene->particleSimulator.getParticlesCount());
             ImGui::DragInt("##particlesCount", &particlesCount, 1, 1, MAX_PARTICLES_COUNT);
             ImGui::Button("Validate##ParticlesCountSetterButton");
             if (ImGui::IsItemClicked())
             {
-                scene->particleSimulatorSsbo.setParticlesCount(particlesCount);
+                scene->particleSimulator.setParticlesCount(particlesCount);
             }
             ImGui::NewLine();
 
@@ -421,31 +423,31 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
             ImGui::NewLine();
 
             ImGui::Text("Spawn position:");
-            ImGui::DragFloat3("##spawnPosition", reinterpret_cast<float*>(&scene->particleSimulatorSsbo.position));
+            ImGui::DragFloat3("##spawnPosition", reinterpret_cast<float*>(&scene->particleSimulator.position));
             ImGui::NewLine();
 
             ImGui::Text("Spawn radius:");
-            ImGui::DragFloat("##spawnRadius", &scene->particleSimulatorSsbo.spawnRadius, 0.1F, 0.1F, 100.0F);
+            ImGui::DragFloat("##spawnRadius", &scene->particleSimulator.spawnRadius, 0.1F, 0.1F, 100.0F);
             ImGui::NewLine();
 
             ImGui::Text("Particle mass:");
-            ImGui::DragFloat("##particleMass", &scene->particleSimulatorSsbo.particleMass, 0.1F, 0.1F, 100.0F);
+            ImGui::DragFloat("##particleMass", &scene->particleSimulator.particleMass, 0.1F, 0.1F, 100.0F);
             ImGui::NewLine();
 
             ImGui::Text("Attractor mass:");
-            ImGui::DragFloat("##attractorMass", &scene->particleSimulatorSsbo.attractorMass, 0.1F, 0.1F, 100.0F);
+            ImGui::DragFloat("##attractorMass", &scene->particleSimulator.attractorMass, 0.1F, 0.1F, 100.0F);
             ImGui::NewLine();
 
             ImGui::Text("Gravity:");
-            ImGui::DragFloat("##gravity", &scene->particleSimulatorSsbo.gravity, 0.1F, 0.1F, 100.0F);
+            ImGui::DragFloat("##gravity", &scene->particleSimulator.gravity, 0.1F, 0.1F, 100.0F);
             ImGui::NewLine();
 
             ImGui::Text("Distance offset:");
-            ImGui::DragFloat("##distanceOffset", &scene->particleSimulatorSsbo.distanceOffset, 0.1F, 0.1F, 100.0F);
+            ImGui::DragFloat("##distanceOffset", &scene->particleSimulator.distanceOffset, 0.1F, 0.1F, 100.0F);
             ImGui::NewLine();
 
             ImGui::Text("Damping:");
-            ImGui::DragFloat("##damping", &scene->particleSimulatorSsbo.damping, 0.0F, 0.0F, 1.0F);
+            ImGui::DragFloat("##damping", &scene->particleSimulator.damping, 0.0F, 0.0F, 1.0F);
 
             ImGui::End();
         }
@@ -458,7 +460,7 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
 #endif
             ImGui::Begin("Mouse controls");
 
-            ImGui::Text("Is attracting: %s", scene->particleSimulatorSsbo.getIsAttracting() ? "true" : "false");
+            ImGui::Text("Is attracting: %s", scene->particleSimulator.getIsAttracting() ? "true" : "false");
 
             ImGui::Text("Mouse position world:");
             ImGui::Text("X: %f", mousePositionWorld.x);
@@ -472,7 +474,9 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
 
             ImGui::End();
         }
+#ifndef __EMSCRIPTEN__
     }
+#endif
 
     ImGui::Render();
 

@@ -12,14 +12,16 @@ struct GLFWwindow;
 class ParticleSimulatorLauncher {
 public:
     static constexpr std::string_view PROJECT_NAME = "Particle Simulator 3D";
-    static constexpr std::string_view PROJECT_VERSION = "2.0.0";
+    static constexpr std::string_view PROJECT_VERSION = "2.1.1";
     static constexpr std::string_view PROJECT_LINK = "https://github.com/Im-Rises/ParticleSimulator";
     static constexpr std::string_view PROJECT_AUTHOR = "Im-Rises (Quentin Morel)";
 
 private:
     GLFWwindow* window;
+
     int windowWidth = 1280;
     int windowHeight = 720;
+
     int displayWidth, displayHeight;
     int windowPosX, windowPosY;
 

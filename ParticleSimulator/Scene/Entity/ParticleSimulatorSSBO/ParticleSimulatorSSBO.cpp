@@ -4,7 +4,7 @@
 
 #include <random>
 
-ParticleSimulatorSSBO::ParticleSimulatorSSBO(int particlesCount) : Entity("shaders/ParticleSimulator.vert",
+ParticleSimulatorSSBO::ParticleSimulatorSSBO(int particlesCount) : shader("shaders/ParticleSimulator.vert",
                                                                        "shaders/ParticleSimulator.frag") {
     // Set the particles count
     this->particlesCount = particlesCount;

@@ -13,13 +13,15 @@ public:
 
 protected:
     glm::mat4 modelMatrix;
-    Shader shader;
+    //    Shader shader;
 
 protected:
     bool isPaused = false;
 
 public:
-    Entity(const std::string& vertexSource, const std::string& fragmentSource);
+    //    Entity(const std::string& vertexSource, const std::string& fragmentSource);
+    Entity() = default;
+    //    Entity();
 
     Entity(const Entity&) = delete;
     auto operator=(const Entity&) -> Entity& = delete;
