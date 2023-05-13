@@ -7,36 +7,36 @@
 const char* const ParticleSimulator::VertexShaderSource =
     R"(#version 300 es
 
-precision highp float;
+        precision highp float;
 
-layout(location = 0) in vec3 a_position;
-layout(location = 1) in vec3 a_velocity;
+        layout(location = 0) in vec3 a_position;
+        layout(location = 1) in vec3 a_velocity;
 
-uniform mat4 u_mvp;
+        uniform mat4 u_mvp;
 
-out vec3 v_velocity;
+        out vec3 v_velocity;
 
-void main()
-{
-    gl_Position = u_mvp * vec4(a_position, 1.0);
-    v_velocity = a_velocity;
-    gl_PointSize = 1.0f;
-}
+        void main()
+        {
+            gl_Position = u_mvp * vec4(a_position, 1.0);
+            v_velocity = a_velocity;
+            gl_PointSize = 1.0f;
+        }
 )";
 
 const char* const ParticleSimulator::FragmentShaderSource =
     R"(#version 300 es
 
-precision highp float;
+        precision highp float;
 
-in vec3 v_velocity;
+        in vec3 v_velocity;
 
-out vec4 o_fragColor;
+        out vec4 o_fragColor;
 
-void main() {
-    vec3 v_color = vec3(min(v_velocity.y, 0.8f), max(v_velocity.x, 0.5f), min(v_velocity.z, 0.5f));
-    o_fragColor = vec4(v_color, 1.0f);
-}
+        void main() {
+            vec3 v_color = vec3(min(v_velocity.y, 0.8f), max(v_velocity.x, 0.5f), min(v_velocity.z, 0.5f));
+            o_fragColor = vec4(v_color, 1.0f);
+        }
 )";
 
 ParticleSimulator::ParticleSimulator(int particleCount) : shader(VertexShaderSource, FragmentShaderSource, false) {
