@@ -7,6 +7,8 @@
 #include "Entity/ParticleSimulatorTF/ParticleSimulatorTF.h"
 #else
 #include "Entity/ParticleSimulatorSSBO/ParticleSimulatorSSBO.h"
+#include "Entity/ParticleSimulatorTF/ParticleSimulatorTF.h"
+
 #endif
 
 class Scene {
@@ -19,7 +21,7 @@ public:
 #ifdef __EMSCRIPTEN__
     ParticleSimulatorTF particleSimulator;
 #else
-    ParticleSimulatorSSBO particleSimulator;
+    ParticleSimulatorTF particleSimulator;
 #endif
 
     //    std::vector<Entity*> entities;
