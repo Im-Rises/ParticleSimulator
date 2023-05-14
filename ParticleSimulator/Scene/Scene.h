@@ -21,7 +21,7 @@ public:
 #ifdef __EMSCRIPTEN__
     ParticleSimulatorTF particleSimulator;
 #else
-    ParticleSimulatorTF particleSimulator;
+    ParticleSimulatorSSBO particleSimulator;
 #endif
 
     //    std::vector<Entity*> entities;
