@@ -1,4 +1,4 @@
-# ParticleSimulatorSSBO
+# ParticleSimulator
 
 <p align="center">
       <img src="https://user-images.githubusercontent.com/59691442/183268126-b3d19e66-8f2d-463a-805e-ae6ef7cc6c01.png" alt="cmakeLogo" style="height:60px;"/>
@@ -17,7 +17,6 @@ The source code of the WebGL can be found at the following link:
 <https://github.com/Im-Rises/particle-simulator-webgl>
 
 > **Note:**   
-> This project is still in development.
 > The tests are running at 144Hz with 10 000 000 particles on a Windows 11 machine with an Nvidia RTX 2070 6GB.
 
 ## Images
