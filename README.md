@@ -55,15 +55,7 @@ https://user-images.githubusercontent.com/59691442/225486109-9fb793d5-878f-430b-
 - [x] Mouse drag of the particles
 - [x] Fullscreen toggle
 - [x] Pause simulation
-
-## Todo
-
-Major:
-
-- [ ] Correct fixed updated linked to the render function in the ParticleSimulatorSSBO
-- [ ] Adjust the particles movement settings
-- [ ] Correct mouse drag of the particles (add lerp function ?)
-- [ ] Copy a lot of code from the webgl version to the desktop version
+- [x] Change the number of particles
 
 ## Dependencies
 
@@ -97,7 +89,7 @@ The controls are described in the section `Controls`.
 For Windows users you don't need to install the libs. You can just download the app and run it.
 
 ```bash
-.\ParticleSimulatorSSBO.exe
+.\ParticleSimulator.exe
 ```
 
 ### Linux
@@ -119,7 +111,7 @@ sudo apt-get install libglfw3-dev
 Then you can start by double-clicking the executable of typing the following command next to it:
 
 ```bash
-./ParticleSimulatorSSBO
+./ParticleSimulatorLauncher
 ```
 
 ### MacOs
@@ -138,7 +130,7 @@ brew install glfw
 Then you can start by double-clicking the executable of typing the following command next to it:
 
 ```bash
-./ParticleSimulatorSSBO
+./ParticleSimulatorLauncher
 ```
 
 ## Controls
