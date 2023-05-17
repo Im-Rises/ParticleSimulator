@@ -24,14 +24,14 @@ const char* const ParticleSimulatorTF::VertexShaderSource =
       uniform float u_attractorMass;
       uniform float u_particleMass;
       uniform float u_gravity;
-      uniform float u_distanceOffset;
+      uniform float u_softening;
       uniform float u_isAttracting;
       uniform float u_isRunning;
 
     void main()
     {
         vec3 r = u_attractorPosition - a_pos;
-        float rSquared = dot(r, r) + u_distanceOffset;
+        float rSquared = dot(r, r) + u_softening;
         vec3 force = (u_gravity * u_attractorMass * u_particleMass * normalize(r) / rSquared) * u_isAttracting * u_isRunning;
 
         vec3 acceleration = force / u_particleMass;
@@ -124,7 +124,7 @@ void ParticleSimulatorTF::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraPro
     shader.setFloat("u_attractorMass", attractorMass);
     shader.setFloat("u_particleMass", particleMass);
     shader.setFloat("u_gravity", gravity);
-    shader.setFloat("u_distanceOffset", distanceOffset);
+    shader.setFloat("u_softening", softening);
 
     glBindVertexArray(currentVAO);
     glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, currentTFBO);

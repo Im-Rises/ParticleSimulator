@@ -87,7 +87,7 @@ void ParticleSimulator::update(const float& deltaTime) {
     {
         // Calculate the distance between the particle and the point of gravity
         const glm::vec3 r = attractorPosition - particle.position;
-        const float rSquared = glm::dot(r, r) + distanceOffset;
+        const float rSquared = glm::dot(r, r) + softening;
 
         // Calculate the force
         const glm::vec3 force = ((gravity * particleMass * attractorMass * glm::normalize(r)) / rSquared) * isAttracting;

@@ -442,8 +442,8 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
             ImGui::DragFloat("##gravity", &scene->particleSimulator.gravity, 0.1F, 0.1F, 100.0F);
             ImGui::NewLine();
 
-            ImGui::Text("Distance offset:");
-            ImGui::DragFloat("##distanceOffset", &scene->particleSimulator.distanceOffset, 0.1F, 0.1F, 100.0F);
+            ImGui::Text("Softening:");
+            ImGui::DragFloat("##softening", &scene->particleSimulator.softening, 0.1F, 0.1F, 100.0F);
             ImGui::NewLine();
 
             ImGui::Text("Damping:");
