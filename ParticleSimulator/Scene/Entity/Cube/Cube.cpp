@@ -123,29 +123,29 @@ const std::array<float, 108> Cube::Vertices = {
 const char* const Cube::VertexShaderSource =
     R"(#version 300 es
 
-precision highp float;
+        precision highp float;
 
-layout (location = 0) in vec3 a_vertex;
+        layout (location = 0) in vec3 a_vertex;
 
-uniform mat4 u_mvp;
+        uniform mat4 u_mvp;
 
-void main()
-{
-    gl_Position = u_mvp * vec4(a_vertex, 1.0);
-}
+        void main()
+        {
+            gl_Position = u_mvp * vec4(a_vertex, 1.0);
+        }
 )";
 
 const char* const Cube::FragmentShaderSource =
     R"(#version 300 es
 
-precision highp float;
+        precision highp float;
 
-out vec4 o_fragColor;
+        out vec4 o_fragColor;
 
-void main()
-{
-    o_fragColor = vec4(1.0, 0.5, 0.2, 1.0);
-}
+        void main()
+        {
+            o_fragColor = vec4(1.0, 0.5, 0.2, 1.0);
+        }
 )";
 
 Cube::Cube() : shader(VertexShaderSource, FragmentShaderSource, false) {

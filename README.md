@@ -1,4 +1,4 @@
-# ParticleSimulatorSSBO
+# ParticleSimulator
 
 <p align="center">
       <img src="https://user-images.githubusercontent.com/59691442/183268126-b3d19e66-8f2d-463a-805e-ae6ef7cc6c01.png" alt="cmakeLogo" style="height:60px;"/>
@@ -17,7 +17,6 @@ The source code of the WebGL can be found at the following link:
 <https://github.com/Im-Rises/particle-simulator-webgl>
 
 > **Note:**   
-> This project is still in development.
 > The tests are running at 144Hz with 10 000 000 particles on a Windows 11 machine with an Nvidia RTX 2070 6GB.
 
 ## Images
@@ -55,15 +54,7 @@ https://user-images.githubusercontent.com/59691442/225486109-9fb793d5-878f-430b-
 - [x] Mouse drag of the particles
 - [x] Fullscreen toggle
 - [x] Pause simulation
-
-## Todo
-
-Major:
-
-- [ ] Correct fixed updated linked to the render function in the ParticleSimulatorSSBO
-- [ ] Adjust the particles movement settings
-- [ ] Correct mouse drag of the particles (add lerp function ?)
-- [ ] Copy a lot of code from the webgl version to the desktop version
+- [x] Change the number of particles
 
 ## Dependencies
 
@@ -71,8 +62,9 @@ Major:
 - GLSL version: 4.60
 - GLFW version: 3.3.8
 - Glad version: 0.1.36
-- ImGui version: 1.89.4 WIP
+- ImGui version: 1.89.6 WIP
 - GLM version: 0.9.8
+- Emscripten: 3.1.37
 
 ## Quickstart
 
@@ -97,7 +89,7 @@ The controls are described in the section `Controls`.
 For Windows users you don't need to install the libs. You can just download the app and run it.
 
 ```bash
-.\ParticleSimulatorSSBO.exe
+.\ParticleSimulator.exe
 ```
 
 ### Linux
@@ -119,7 +111,7 @@ sudo apt-get install libglfw3-dev
 Then you can start by double-clicking the executable of typing the following command next to it:
 
 ```bash
-./ParticleSimulatorSSBO
+./ParticleSimulatorLauncher
 ```
 
 ### MacOs
@@ -138,7 +130,7 @@ brew install glfw
 Then you can start by double-clicking the executable of typing the following command next to it:
 
 ```bash
-./ParticleSimulatorSSBO
+./ParticleSimulatorLauncher
 ```
 
 ## Controls

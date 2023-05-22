@@ -19,7 +19,7 @@ uniform float u_damping;
 uniform float u_attractorMass;
 uniform float u_particleMass;
 uniform float u_gravity;
-uniform float u_distanceOffset;
+uniform float u_softening;
 uniform float u_isAttracting;
 uniform float u_isRunning;
 
@@ -30,7 +30,7 @@ void main()
     Particle particle = particlesSsboData.particles[gl_VertexID];
 
     vec3 r = u_attractorPosition - particle.position;
-    float rSquared = dot(r, r) + u_distanceOffset;
+    float rSquared = dot(r, r) + u_softening;
     vec3 force = (u_gravity * u_attractorMass * u_particleMass * normalize(r) / rSquared) * u_isAttracting * u_isRunning;
 
     vec3 acceleration = force / u_particleMass;
@@ -39,8 +39,8 @@ void main()
 
     particle.position = position;
 
-//    particle.velocity = velocity * u_damping;
-//    particle.velocity = velocity * (u_isRunning == 1.0 ? 1.0 : u_damping);
+    //    particle.velocity = velocity * u_damping;
+    //    particle.velocity = velocity * (u_isRunning == 1.0 ? 1.0 : u_damping);
     particle.velocity = mix(velocity, velocity * u_damping, u_isRunning);
 
     particlesSsboData.particles[gl_VertexID] = particle;

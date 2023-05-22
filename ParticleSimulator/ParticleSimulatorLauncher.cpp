@@ -42,9 +42,9 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
 
 // Decide GL+GLSL versions
 #if defined(IMGUI_IMPL_OPENGL_ES2)
-    const char* glsl_version = "#version 310 es";
+    const char* glsl_version = "#version 300 es";
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
     glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
 #elif defined(__APPLE__)
     const char* glsl_version = "#version 430";
@@ -442,8 +442,8 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
             ImGui::DragFloat("##gravity", &scene->particleSimulator.gravity, 0.1F, 0.1F, 100.0F);
             ImGui::NewLine();
 
-            ImGui::Text("Distance offset:");
-            ImGui::DragFloat("##distanceOffset", &scene->particleSimulator.distanceOffset, 0.1F, 0.1F, 100.0F);
+            ImGui::Text("Softening:");
+            ImGui::DragFloat("##softening", &scene->particleSimulator.softening, 0.1F, 0.1F, 100.0F);
             ImGui::NewLine();
 
             ImGui::Text("Damping:");

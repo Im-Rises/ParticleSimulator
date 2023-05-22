@@ -51,7 +51,7 @@ void ParticleSimulatorSSBO::render(glm::mat4 cameraViewMatrix, glm::mat4 cameraP
     shader.setFloat("u_attractorMass", attractorMass);
     shader.setFloat("u_particleMass", particleMass);
     shader.setFloat("u_gravity", gravity);
-    shader.setFloat("u_distanceOffset", distanceOffset);
+    shader.setFloat("u_softening", softening);
 
     // Bind the VAO
     glBindVertexArray(VAO);

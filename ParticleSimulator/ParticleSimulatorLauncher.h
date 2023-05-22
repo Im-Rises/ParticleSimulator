@@ -1,5 +1,5 @@
-#ifndef PARTICLE_EMISSION_H
-#define PARTICLE_EMISSION_H
+#ifndef PARTICLE_SIMULATOR_LAUNCHER_H
+#define PARTICLE_SIMULATOR_LAUNCHER_H
 
 #include <memory>
 #include <string_view>
@@ -106,4 +106,4 @@ private:
     static auto getGLMVersion() -> std::string;
 };
 
-#endif // PARTICLE_EMISSION_H
+#endif // PARTICLE_SIMULATOR_LAUNCHER_H

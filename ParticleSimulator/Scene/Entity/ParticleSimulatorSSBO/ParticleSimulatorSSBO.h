@@ -37,7 +37,7 @@ public:
     float particleMass = 50.0F;
     float attractorMass = 250.0F;
     float gravity = 1.0F;
-    float distanceOffset = 10.0F;
+    float softening = 10.0F;
 
 
 public:
