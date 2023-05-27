@@ -75,9 +75,9 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
     if (window == nullptr)
         exit(1);
     glfwMakeContextCurrent(window);
-    //    glfwSwapInterval(1); // Enable vsync
+    glfwSwapInterval(1); // Enable vsync
     //    glfwSwapInterval(0); // Disable vsync
-    glfwWindowHint(GLFW_REFRESH_RATE, ParticleSimulatorLauncher::FRAME_PER_SECOND);
+    //    glfwWindowHint(GLFW_REFRESH_RATE, ParticleSimulatorLauncher::FRAME_PER_SECOND);
 
     // Callbacks
     glfwSetWindowUserPointer(window, this);
