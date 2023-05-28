@@ -76,8 +76,6 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
         exit(1);
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1); // Enable vsync
-    //    glfwSwapInterval(0); // Disable vsync
-    //    glfwWindowHint(GLFW_REFRESH_RATE, ParticleSimulatorLauncher::FRAME_PER_SECOND);
 
     // Callbacks
     glfwSetWindowUserPointer(window, this);
@@ -169,6 +167,7 @@ void ParticleSimulatorLauncher::start() {
 
     // Variables for the main loop
     float deltaTime = NAN;
+    float accumulator = 0.0F;
 
 #ifdef __EMSCRIPTEN__
     // For an Emscripten build we are disabling file-system access, so let's not attempt to do a fopen() of the imgui.ini file.
@@ -188,6 +187,13 @@ void ParticleSimulatorLauncher::start() {
         handleUi(deltaTime);
 
         updateGame(deltaTime);
+
+        while (accumulator >= fixedDeltaTime)
+        {
+            fixedUpdateGame(fixedDeltaTime);
+            accumulator -= fixedDeltaTime;
+        }
+        accumulator += deltaTime;
 
         updateScreen();
     }
@@ -487,6 +493,10 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
         ImGui::SetWindowFocus(nullptr);
         disableImGuiFocusOnStart = false;
     }
+}
+
+void ParticleSimulatorLauncher::fixedUpdateGame(float deltaTime) {
+    scene->fixedUpdate(deltaTime);
 }
 
 void ParticleSimulatorLauncher::updateGame(float deltaTime) {
