@@ -161,13 +161,54 @@ ParticleSimulatorLauncher::~ParticleSimulatorLauncher() {
     glfwTerminate();
 }
 
+// void ParticleSimulatorLauncher::start() {
+//     // Create the scene
+//     scene = std::make_unique<Scene>(displayWidth, displayHeight);
+//
+//     // Variables for the main loop
+//     float deltaTime = NAN;
+//     float accumulator = 0.0F;
+//
+// #ifdef __EMSCRIPTEN__
+//     // For an Emscripten build we are disabling file-system access, so let's not attempt to do a fopen() of the imgui.ini file.
+//     // You may manually call LoadIniSettingsFromMemory() to load settings from your own storage.
+//     ImGuiIO& io = ImGui::GetIO();
+//     (void)io;
+//     io.IniFilename = nullptr;
+//     EMSCRIPTEN_MAINLOOP_BEGIN
+// #else
+//     while (glfwWindowShouldClose(window) == 0)
+// #endif
+//     {
+//         deltaTime = ImGui::GetIO().DeltaTime;
+//
+//         handleInputs();
+//
+//         handleUi(deltaTime);
+//
+//         updateGame(deltaTime);
+//
+//         while (accumulator >= fixedDeltaTime)
+//         {
+//             fixedUpdateGame(fixedDeltaTime);
+//             accumulator -= fixedDeltaTime;
+//         }
+//         accumulator += deltaTime;
+//
+//         updateScreen();
+//     }
+// #ifdef __EMSCRIPTEN__
+//     EMSCRIPTEN_MAINLOOP_END;
+// #endif
+// }
+
 void ParticleSimulatorLauncher::start() {
     // Create the scene
     scene = std::make_unique<Scene>(displayWidth, displayHeight);
 
     // Variables for the main loop
-    float deltaTime = NAN;
-    //    float accumulator = 0.0F;
+    std::chrono::high_resolution_clock::time_point previousTime = std::chrono::high_resolution_clock::now();
+    float deltaTime = 0.0F;
 
 #ifdef __EMSCRIPTEN__
     // For an Emscripten build we are disabling file-system access, so let's not attempt to do a fopen() of the imgui.ini file.
@@ -180,20 +221,15 @@ void ParticleSimulatorLauncher::start() {
     while (glfwWindowShouldClose(window) == 0)
 #endif
     {
-        deltaTime = ImGui::GetIO().DeltaTime;
+        auto currentTime = std::chrono::high_resolution_clock::now();
+
+        //        const std::chrono::duration<float> duration = currentTime - previousTime;
+        //        deltaTime = duration.count();
+        deltaTime = std::chrono::duration<float>(currentTime - previousTime).count();
 
         handleInputs();
 
         handleUi(deltaTime);
-
-        //        updateGame(deltaTime);
-        //
-        //        while (accumulator >= fixedDeltaTime)
-        //        {
-        //            fixedUpdateGame(fixedDeltaTime);
-        //            accumulator -= fixedDeltaTime;
-        //        }
-        //        accumulator += deltaTime;
 
         updateGame(fixedDeltaTime);
 
@@ -201,7 +237,11 @@ void ParticleSimulatorLauncher::start() {
 
         float const delay = fixedDeltaTime - deltaTime;
         if (delay > 0.0F)
+        {
             std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(delay * 1000.0F)));
+        }
+
+        previousTime = currentTime;
     }
 #ifdef __EMSCRIPTEN__
     EMSCRIPTEN_MAINLOOP_END;
@@ -501,9 +541,9 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
     }
 }
 
-void ParticleSimulatorLauncher::fixedUpdateGame(float deltaTime) {
-    scene->fixedUpdate(deltaTime);
-}
+// void ParticleSimulatorLauncher::fixedUpdateGame(float deltaTime) {
+//     scene->fixedUpdate(deltaTime);
+// }
 
 void ParticleSimulatorLauncher::updateGame(float deltaTime) {
     scene->update(deltaTime);

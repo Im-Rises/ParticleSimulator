@@ -3,13 +3,8 @@
 Scene::Scene(int display_w, int display_h) : camera(display_w, display_h), particleSimulator(1000000) {
 }
 
-void Scene::fixedUpdate(float deltaTime) {
-    //    if (isPaused)
-    //    {
-    //        return;
-    //    }
-    //    particleSimulator.update(deltaTime);
-}
+// void Scene::fixedUpdate(float deltaTime) {
+// }
 
 void Scene::update(float deltaTime) {
     camera.update(deltaTime);
