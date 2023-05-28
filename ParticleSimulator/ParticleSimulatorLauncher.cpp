@@ -167,7 +167,7 @@ void ParticleSimulatorLauncher::start() {
 
     // Variables for the main loop
     float deltaTime = NAN;
-    float accumulator = 0.0F;
+    //    float accumulator = 0.0F;
 
 #ifdef __EMSCRIPTEN__
     // For an Emscripten build we are disabling file-system access, so let's not attempt to do a fopen() of the imgui.ini file.
@@ -186,16 +186,22 @@ void ParticleSimulatorLauncher::start() {
 
         handleUi(deltaTime);
 
-        updateGame(deltaTime);
+        //        updateGame(deltaTime);
+        //
+        //        while (accumulator >= fixedDeltaTime)
+        //        {
+        //            fixedUpdateGame(fixedDeltaTime);
+        //            accumulator -= fixedDeltaTime;
+        //        }
+        //        accumulator += deltaTime;
 
-        while (accumulator >= fixedDeltaTime)
-        {
-            fixedUpdateGame(fixedDeltaTime);
-            accumulator -= fixedDeltaTime;
-        }
-        accumulator += deltaTime;
+        updateGame(fixedDeltaTime);
 
         updateScreen();
+
+        float const delay = fixedDeltaTime - deltaTime;
+        if (delay > 0.0F)
+            std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(delay * 1000.0F)));
     }
 #ifdef __EMSCRIPTEN__
     EMSCRIPTEN_MAINLOOP_END;
