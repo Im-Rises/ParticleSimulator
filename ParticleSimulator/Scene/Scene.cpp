@@ -3,6 +3,9 @@
 Scene::Scene(int display_w, int display_h) : camera(display_w, display_h), particleSimulator(1000000) {
 }
 
+// void Scene::fixedUpdate(float deltaTime) {
+// }
+
 void Scene::update(float deltaTime) {
     camera.update(deltaTime);
     if (isPaused)
@@ -29,7 +32,6 @@ void Scene::reset() {
     camera.reset();
     particleSimulator.reset();
 }
-
 auto Scene::getIsPaused() const -> bool {
     return isPaused;
 }

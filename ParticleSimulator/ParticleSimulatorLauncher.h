@@ -25,6 +25,8 @@ private:
     int displayWidth, displayHeight;
     int windowPosX, windowPosY;
 
+    float fixedDeltaTime = 1.0F / 60.0F;
+
     std::unique_ptr<Scene> scene;
 
     struct {
@@ -42,8 +44,6 @@ private:
 #ifndef __EMSCRIPTEN__
     bool isFullscreen = false;
 #endif
-
-    static constexpr int FRAME_PER_SECOND = 60;
 
 public:
     ParticleSimulatorLauncher();
@@ -66,6 +66,7 @@ private:
 
     void handleUi(float deltaTime);
 
+    void fixedUpdateGame(float deltaTime);
     void updateGame(float deltaTime);
 
     void updateScreen();
