@@ -222,9 +222,7 @@ void ParticleSimulatorLauncher::start() {
 #endif
     {
         auto currentTime = std::chrono::high_resolution_clock::now();
-
-        //        const std::chrono::duration<float> duration = currentTime - previousTime;
-        //        deltaTime = duration.count();
+        
         deltaTime = std::chrono::duration<float>(currentTime - previousTime).count();
 
         handleInputs();
