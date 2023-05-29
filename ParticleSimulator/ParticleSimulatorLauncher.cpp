@@ -75,7 +75,11 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
     if (window == nullptr)
         exit(1);
     glfwMakeContextCurrent(window);
-    glfwSwapInterval(1); // Enable vsync
+    //    glfwSwapInterval(1); // Enable vsync
+    //    glfwSwapInterval(0); // Disable vsync
+    //    glfwWindowHint(GLFW_REFRESH_RATE, 0); // Disable refresh rate
+    //    glfwWindowHint(GLFW_REFRESH_RATE, GLFW_DONT_CARE); // Disable refresh rate
+    glfwWindowHint(GLFW_REFRESH_RATE, 60);
 
     // Callbacks
     glfwSetWindowUserPointer(window, this);
@@ -222,7 +226,7 @@ void ParticleSimulatorLauncher::start() {
 #endif
     {
         auto currentTime = std::chrono::high_resolution_clock::now();
-        
+
         deltaTime = std::chrono::duration<float>(currentTime - previousTime).count();
 
         handleInputs();
@@ -233,11 +237,11 @@ void ParticleSimulatorLauncher::start() {
 
         updateScreen();
 
-        float const delay = fixedDeltaTime - deltaTime;
-        if (delay > 0.0F)
-        {
-            std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(delay * 1000.0F)));
-        }
+        //        float const delay = fixedDeltaTime - deltaTime;
+        //        if (delay > 0.0F)
+        //        {
+        //            std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(delay * 1000.0F)));
+        //        }
 
         previousTime = currentTime;
     }
