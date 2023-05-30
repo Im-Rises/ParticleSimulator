@@ -16,6 +16,7 @@ add_executable(${PROJECT_NAME} ${SRCS} ${HEADERS} ${SRCS_HEADERS_IMGUI} ${SRCS_H
 target_link_libraries(${PROJECT_NAME} OpenGL::GL)
 
 if (WIN32)
+    target_link_libraries(${PROJECT_NAME} winmm.lib)
     if (MSVC)
         target_link_libraries(${PROJECT_NAME} "${CMAKE_SOURCE_DIR}/dependencies/glfw/lib-vc2019/glfw3.lib")
     elseif (MINGW)
