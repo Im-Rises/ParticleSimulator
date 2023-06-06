@@ -300,7 +300,6 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
             ImGui::Text("Author: %s", PROJECT_AUTHOR.data());
             ImGui::Text("Project: %s", PROJECT_NAME.data());
             ImGui::Text("Version: %s", PROJECT_VERSION.data());
-            ImGui::Text("Author: %s", PROJECT_AUTHOR.data());
             ImGui::Text("%.3f ms/frame (%.1f FPS)", deltaTime, 1.0F / deltaTime);
             ImGui::Text("Window width: %d", displayWidth);
             ImGui::Text("Window height: %d", displayHeight);
