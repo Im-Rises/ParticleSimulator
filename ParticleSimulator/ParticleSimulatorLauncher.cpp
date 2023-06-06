@@ -300,7 +300,6 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
             ImGui::Text("Author: %s", PROJECT_AUTHOR.data());
             ImGui::Text("Project: %s", PROJECT_NAME.data());
             ImGui::Text("Version: %s", PROJECT_VERSION.data());
-            ImGui::Text("Author: %s", PROJECT_AUTHOR.data());
             ImGui::Text("%.3f ms/frame (%.1f FPS)", deltaTime, 1.0F / deltaTime);
             ImGui::Text("Window width: %d", displayWidth);
             ImGui::Text("Window height: %d", displayHeight);
@@ -309,50 +308,6 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
             ImGui::Text("GLSL version: %s", getGLSLVersion().data());
             ImGui::End();
         }
-
-        // NOT WORKING
-        //        {
-        //            ImGui::Begin("View settings");
-        // #ifndef __EMSCRIPTEN__
-        //            static bool wireframe = false;
-        //            ImGui::Checkbox("Wireframe", &wireframe);
-        //            if (wireframe)
-        //            {
-        //                glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-        //            }
-        //            else
-        //            {
-        //                glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-        //            }
-        //            ImGui::NewLine();
-        // #endif
-        //            ImGui::NewLine();
-        //            static bool useVsync = false;
-        //            static float fps = 60.0F;
-        //            ImGui::Checkbox("Use VSync", &useVsync);
-        //            if (ImGui::IsItemClicked())
-        //            {
-        //                if (useVsync)
-        //                {
-        //                    glfwSwapInterval(1); // Enable vsync
-        //                }
-        //                else
-        //                {
-        //                    glfwSwapInterval(0); // Disable vsync
-        //                    glfwWindowHint(GLFW_REFRESH_RATE, fps);
-        //                }
-        //            }
-        //            if (!useVsync)
-        //            {
-        //                ImGui::DragFloat("Frame per second", &fps, 0.1F, 1.0F, 60.0F);
-        //                ImGui::Button("Validate");
-        //                if (ImGui::IsItemClicked())
-        //                {
-        //                    glfwWindowHint(GLFW_REFRESH_RATE, fps);
-        //                }
-        //            }
-        //            ImGui::End();
-        //        }
 
         {
 #ifdef __EMSCRIPTEN__
@@ -397,14 +352,14 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
 
             ImGui::NewLine();
             ImGui::Text("FOV:");
-            ImGui::DragFloat("##fov", &scene->camera.fov);
+            ImGui::DragFloat("##fov", &scene->camera.fov, 0.1F, 1.0F, 180.0F);
 
             ImGui::NewLine();
             ImGui::Text("Near plane:");
-            ImGui::DragFloat("##near", &scene->camera.nearPlane);
+            ImGui::DragFloat("##near", &scene->camera.nearPlane, 0.1F, 0.1F, 100.0F);
 
             ImGui::Text("Far plane:");
-            ImGui::DragFloat("##far", &scene->camera.farPlane);
+            ImGui::DragFloat("##far", &scene->camera.farPlane, 0.1F, 0.1F, 100.0F);
 
             ImGui::NewLine();
             ImGui::Text("Speed:");
