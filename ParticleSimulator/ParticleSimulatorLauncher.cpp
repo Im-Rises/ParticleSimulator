@@ -222,6 +222,8 @@ void ParticleSimulatorLauncher::start() {
 #ifdef _WIN32
     timeEndPeriod(1);
 #endif
+
+    scene.reset();
 }
 
 void ParticleSimulatorLauncher::handleInputs() {
