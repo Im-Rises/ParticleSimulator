@@ -35,14 +35,11 @@ const char* const ParticleSimulatorTF::VertexShaderSource =
         vec3 force = (u_gravity * u_attractorMass * u_particleMass * normalize(r) / rSquared) * u_isAttracting * u_isRunning;
 
         vec3 acceleration = force / u_particleMass;
+        vec3 velocity = (a_vel + acceleration * u_deltaTime) * u_damping;
         vec3 position = a_pos + (a_vel * u_deltaTime + 0.5f * acceleration * u_deltaTime * u_deltaTime) * u_isRunning;
-        vec3 velocity = a_vel + acceleration * u_deltaTime;
 
         out_pos = position;
-
-        //    out_vel = velocity * u_damping;
-        //    out_vel = velocity * (u_isRunning == 1.0 ? 1.0 : u_damping);
-        out_vel = mix(velocity, velocity * u_damping, u_isRunning);
+        out_vel = mix(velocity, a_vel, u_isRunning);
 
         gl_Position = u_mvp * vec4(position, 1.0);
 
