@@ -19,6 +19,8 @@ jobs:
 
       - name: Install libs
         run: |
+          sudo apt update
+          sudo apt upgrade
           sudo apt-get install libglfw3-dev
 
       - name: Configure CMake
