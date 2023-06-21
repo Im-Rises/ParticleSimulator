@@ -358,10 +358,10 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
 
             ImGui::NewLine();
             ImGui::Text("Near plane:");
-            ImGui::DragFloat("##near", &scene->camera.nearPlane, 0.1F, 0.1F, 100.0F);
+            ImGui::DragFloat("##near", &scene->camera.nearPlane, 0.1F);
 
             ImGui::Text("Far plane:");
-            ImGui::DragFloat("##far", &scene->camera.farPlane, 0.1F, 0.1F, 100.0F);
+            ImGui::DragFloat("##far", &scene->camera.farPlane, 0.1F);
 
             ImGui::NewLine();
             ImGui::Text("Speed:");
