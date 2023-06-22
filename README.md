@@ -137,15 +137,16 @@ Then you can start by double-clicking the executable of typing the following com
 
 The speed and some parameters can be modified directly in the ImGui windows.
 
-| Action              | Key                                 |
-|---------------------|-------------------------------------|
-| Translate camera    | WASD (← → ↑ ↓)                      |
-| Pause/Resume        | P                                   |
-| Move up/down camera | SPACE/SHIFT                         |
-| Rotate camera       | Right Mouse Button + Mouse movement |
-| Fullscreen          | F11                                 |
-| Exit app            | ESC                                 |
-| Drag particles      | Left Mouse Button + Mouse movement  |
+| Action                   | Key                                 |
+|--------------------------|-------------------------------------|
+| Translate camera         | WASD (← → ↑ ↓)                      |
+| Pause/Resume             | P                                   |
+| Move up/down camera      | SPACE/SHIFT                         |
+| Rotate camera            | Right Mouse Button + Mouse movement |
+| Toggle UI visible/hidden | F1                                  |
+| Fullscreen               | F11                                 |
+| Exit app                 | ESC                                 |
+| Drag particles           | Left Mouse Button + Mouse movement  |
 
 > **Note**
 > You can the inputs by changing their attribution in the `InputManager.cpp` file,

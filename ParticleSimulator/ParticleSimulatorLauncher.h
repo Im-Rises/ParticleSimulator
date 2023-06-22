@@ -41,9 +41,12 @@ private:
 
     static constexpr int MAX_PARTICLES_COUNT = 10000000;
 
+
 #ifndef __EMSCRIPTEN__
+    float pointSize = 1.0F;
     bool isFullscreen = false;
 #endif
+    bool isUiVisible = true;
 
 public:
     ParticleSimulatorLauncher();
@@ -66,7 +69,6 @@ private:
 
     void handleUi(float deltaTime);
 
-    void fixedUpdateGame(float deltaTime);
     void updateGame(float deltaTime);
 
     void updateScreen();
@@ -81,6 +83,8 @@ public:
     void centerWindow();
 
     void toggleFullscreen();
+
+    void toggleUiVisibility();
 
     void clearScreen() const;
 
