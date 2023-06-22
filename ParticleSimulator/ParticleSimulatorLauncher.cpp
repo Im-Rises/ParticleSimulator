@@ -147,7 +147,9 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+#ifndef __EMSCRIPTEN
     glPointSize(pointSize);
+#endif
 
     // Same line as above but with C++ string
     std::cout << "OpenGL vendor: " << getOpenGLVendor() << std::endl
@@ -290,11 +292,11 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
     if (isUiVisible)
     {
         {
-#ifdef __EMSCRIPTEN__
-            static bool isCollapsed = true;
-            ImGui::SetNextWindowPos(ImVec2(5, 5), ImGuiCond_Once);
-            ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
-#endif
+//#ifdef __EMSCRIPTEN__
+//            static bool isCollapsed = true;
+//            ImGui::SetNextWindowPos(ImVec2(5, 5), ImGuiCond_Once);
+//            ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
+//#endif
             ImGui::Begin("Information");
             ImGui::Text("Author: %s", PROJECT_AUTHOR.data());
             ImGui::Text("Project: %s", PROJECT_NAME.data());
@@ -309,11 +311,11 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
         }
 
         {
-#ifdef __EMSCRIPTEN__
-            static bool isCollapsed = true;
-            ImGui::SetNextWindowPos(ImVec2(5, 25), ImGuiCond_Once);
-            ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
-#endif
+//#ifdef __EMSCRIPTEN__
+//            static bool isCollapsed = true;
+//            ImGui::SetNextWindowPos(ImVec2(5, 25), ImGuiCond_Once);
+//            ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
+//#endif
             ImGui::Begin("Camera settings");
 
             ImGui::Text("Position:");
@@ -357,11 +359,11 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
         }
 
         {
-#ifdef __EMSCRIPTEN__
-            static bool isCollapsed = true;
-            ImGui::SetNextWindowPos(ImVec2(5, 45), ImGuiCond_Once);
-            ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
-#endif
+//#ifdef __EMSCRIPTEN__
+//            static bool isCollapsed = true;
+//            ImGui::SetNextWindowPos(ImVec2(5, 45), ImGuiCond_Once);
+//            ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
+//#endif
             ImGui::Begin("Particle simulator settings");
 
             ImGui::Text("Particle count: %s", std::to_string(scene->particleSimulator.getParticlesCount()).c_str());
@@ -432,11 +434,11 @@ void ParticleSimulatorLauncher::handleUi(float deltaTime) {
         }
 
         {
-#ifdef __EMSCRIPTEN__
-            static bool isCollapsed = true;
-            ImGui::SetNextWindowPos(ImVec2(5, 65), ImGuiCond_Once);
-            ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
-#endif
+//#ifdef __EMSCRIPTEN__
+//            static bool isCollapsed = true;
+//            ImGui::SetNextWindowPos(ImVec2(5, 65), ImGuiCond_Once);
+//            ImGui::SetNextWindowCollapsed(isCollapsed, ImGuiCond_Once);
+//#endif
             ImGui::Begin("Mouse controls");
 
             ImGui::Text("Is attracting: %s", scene->particleSimulator.getIsAttracting() ? "true" : "false");
