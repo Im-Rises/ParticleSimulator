@@ -40,8 +40,6 @@ const char* const ParticleSimulatorTF::VertexShaderSource =
 
         out_pos = position;
 
-        //    out_vel = velocity * u_damping;
-        //    out_vel = velocity * (u_isRunning == 1.0 ? 1.0 : u_damping);
         out_vel = mix(velocity, velocity * u_damping, u_isRunning);
 
         gl_Position = u_mvp * vec4(position, 1.0);
