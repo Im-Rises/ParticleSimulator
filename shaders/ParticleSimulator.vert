@@ -39,8 +39,6 @@ void main()
 
     particle.position = position;
 
-    //    particle.velocity = velocity * u_damping;
-    //    particle.velocity = velocity * (u_isRunning == 1.0 ? 1.0 : u_damping);
     particle.velocity = mix(velocity, velocity * u_damping, u_isRunning);
 
     particlesSsboData.particles[gl_VertexID] = particle;
