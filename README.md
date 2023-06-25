@@ -143,7 +143,7 @@ The speed and some parameters can be modified directly in the ImGui windows.
 | Pause/Resume             | P                                   |
 | Move up/down camera      | SPACE/SHIFT                         |
 | Rotate camera            | Right Mouse Button + Mouse movement |
-| Toggle UI visible/hidden | F1                                  |
+| Toggle UI visible/hidden | U                                   |
 | Fullscreen               | F11                                 |
 | Exit app                 | ESC                                 |
 | Drag particles           | Left Mouse Button + Mouse movement  |
