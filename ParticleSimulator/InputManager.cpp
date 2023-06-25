@@ -22,7 +22,7 @@ void InputManager::key_callback(GLFWwindow* window, int key, int scancode, int a
             engine->toggleFullscreen();
         }
         break;
-    case GLFW_KEY_F1:
+    case GLFW_KEY_U:
         if (action == GLFW_PRESS)
         {
             engine->toggleUiVisibility();
