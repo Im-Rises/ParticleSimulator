@@ -76,7 +76,7 @@ ParticleSimulatorLauncher::ParticleSimulatorLauncher() {
 
     // Create window with graphics context
     std::string windowTitle = PROJECT_NAME.data();
-    windowTitle += " (F1 to show/hide UI)";
+    windowTitle += " (U to show/hide UI)";
     window = glfwCreateWindow(displayWidth, displayHeight, windowTitle.c_str(), nullptr, nullptr);
     if (window == nullptr)
         exit(1);
